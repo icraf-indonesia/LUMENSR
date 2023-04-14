@@ -1,11 +1,20 @@
 Package: LUMENSR
-Title: An R package for land use planning and management of multiple environmental services.
+Title: An R package for land use planning and management of multiple environmental services
 Version: 0.0.0.9000
 Authors@R: 
     person("Dony", "Indiarto", , "d.indiarto@cifor-icraf.org", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9546-8201"))
 Description: This proposal suggests an experiment to package the core functions of LUMENS as an R package. By packaging the functions, LUMENS developers could benefit from improved code organization, version control, and testing capabilities.
 License: MIT + file LICENSE
+Imports:
+    ggplot2,
+    tidyterra,
+    scales,
+    sf,
+    terra
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
