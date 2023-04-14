@@ -20,11 +20,9 @@
 #' @importFrom tidyterra geom_spatraster scale_fill_whitebox_c
 #'
 #' @examples
-#' library(terra)
-#' library(sf)
-#' temp_data <- rast("inst/extdata/east_nusa_tenggara/climate/wc2.1_30s_bio_1.tif")
-#' boundary_data <- st_read("inst/extdata/east_nusa_tenggara/admin/batas_adm.shp")
-#' vis_map_temperature(temperature_data = temp_data, boundary_data = boundary_data)
+#' ntt_temp_path <- LUMENSR_example("ntt_temp.tif")
+#' ntt_temp <-  terra::rast(ntt_temp_path)
+#' vis_map_temperature(temperature_data = ntt_temp, boundary_data = ntt_admin)
 
 vis_map_temperature <- function(temperature_data,
                                 boundary_data,

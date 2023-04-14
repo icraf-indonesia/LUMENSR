@@ -29,9 +29,7 @@ and boundary polygon data on a map. The color scale of the temperature data is
 customized and the legend is labeled in degrees Celsius.
 }
 \examples{
-library(terra)
-library(sf)
-temp_data <- rast("inst/extdata/east_nusa_tenggara/climate/wc2.1_30s_bio_1.tif")
-boundary_data <- st_read("inst/extdata/east_nusa_tenggara/admin/batas_adm.shp")
-vis_map_temperature(temperature_data = temp_data, boundary_data = boundary_data)
+ntt_temp_path <- LUMENSR_example("ntt_temp.tif")
+ntt_temp <-  rast(ntt_temp_path)
+vis_map_temperature(temperature_data = ntt_temp, boundary_data = ntt_admin)
 }
