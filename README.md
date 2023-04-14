@@ -1,4 +1,4 @@
-# LUMENS-R: A proposal
+# LUMENSR: A proposal
 
 **This proposal suggests an experiment to package the core functions of LUMENS as an R package.** By packaging the functions, LUMENS developers could benefit from improved code organization, version control, and testing capabilities. The proposed exercise will primarily rely on the [devtools](https://github.com/r-lib/devtools).
 
