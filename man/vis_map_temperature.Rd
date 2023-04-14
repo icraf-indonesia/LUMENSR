@@ -30,6 +30,6 @@ customized and the legend is labeled in degrees Celsius.
 }
 \examples{
 ntt_temp_path <- LUMENSR_example("ntt_temp.tif")
-ntt_temp <-  rast(ntt_temp_path)
+ntt_temp <-  terra::rast(ntt_temp_path)
 vis_map_temperature(temperature_data = ntt_temp, boundary_data = ntt_admin)
 }
