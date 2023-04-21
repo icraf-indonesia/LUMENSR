@@ -3,9 +3,14 @@
 \docType{data}
 \name{ntt_admin}
 \alias{ntt_admin}
-\title{a clipped raster dataset of the BIO1 = Annual Mean Temperature over East Nusa Tenggara
-District boundaries of East Nusa Ternggara}
+\title{Historical Temperature data for East Nusa Tenggara}
 \format{
+\subsection{\code{ntt_temp}}{
+}
+
+\subsection{\code{wc2.1_30s_bio_1_indo}}{
+}
+
 \subsection{\code{ntt_admin}}{
 
 A polygon 22 features and 2 fields:
@@ -17,11 +22,21 @@ A polygon 22 features and 2 fields:
 #' @source \url{https://data.humdata.org/dataset/cod-ab-idn}
 }
 }
+\source{
+\url{https://www.worldclim.org/data/worldclim21.html}
+Historical Temperature data for Indonesia
+
+\url{https://www.worldclim.org/data/worldclim21.html}
+District boundaries of East Nusa Tenggara
+}
 \usage{
 ntt_admin
 }
 \description{
-a clipped raster dataset of the BIO1 = Annual Mean Temperature over East Nusa Tenggara
-District boundaries of East Nusa Ternggara
+A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution
+A clipped raster dataset of the BIO1 = Annual Mean Temperature over East Nusa Tenggara.
+
+A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution
+a clipped raster dataset of the BIO1 = Annual Mean Temperature over Indonesia
 }
 \keyword{datasets}
