@@ -1,15 +1,25 @@
-# Historical Temperature data for East Nusa Tenggara
-#
-# A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020.
-# 30 seconds (~1 km2) spatial resolution
-#
-# @format ## `ntt_temp`
-#'a clipped raster dataset of the BIO1 = Annual Mean Temperature over East Nusa Tenggara
-# @source <https://www.worldclim.org/data/worldclim21.html>
+#' Historical Temperature data for East Nusa Tenggara
+#'
+#' @description
+#'  A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution
+#' A clipped raster dataset of the BIO1 = Annual Mean Temperature over East Nusa Tenggara.
+#'
+#' @format ## `ntt_temp`
+#' @source <https://www.worldclim.org/data/worldclim21.html>
 #"ntt_temp"
 
+#' Historical Temperature data for Indonesia
+#'
+#' @description
+#' A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution
+#'a clipped raster dataset of the BIO1 = Annual Mean Temperature over Indonesia
+#'
+#' @format ## `wc2.1_30s_bio_1_indo`
+#' @source <https://www.worldclim.org/data/worldclim21.html>
+#"wc2.1_30s_bio_1_indo"
 
-#' District boundaries of East Nusa Ternggara
+
+#' District boundaries of East Nusa Tenggara
 #'
 #'
 #' @format ## `ntt_admin`
