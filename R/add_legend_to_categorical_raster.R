@@ -13,6 +13,9 @@
 #' add_legend_to_categorical_raster(raster_file = kalbar_11, lookup_table = lc_lookup_klhk) %>% plot()
 #' }
 add_legend_to_categorical_raster <- function(raster_file, lookup_table){
+  name_rast <-names(raster_file)
+
   levels(raster_file) <- lookup_table
+  raster_file <- setNames(raster_file,name_rast)
   raster_file
 }
