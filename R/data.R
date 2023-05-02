@@ -31,3 +31,12 @@
 #' }
 #' #' @source <https://data.humdata.org/dataset/cod-ab-idn>
 "ntt_admin"
+
+#' Land cover data of West Kalimantan of 2011
+#'
+#' @description
+#' KLHK land cover map of West Kalimantan province, year 2011
+#'
+#' @format ## `kalbar_LC11`
+#' @source Ministry of Forestry and Environment of Indonesia
+#"kalbar_LC11"
