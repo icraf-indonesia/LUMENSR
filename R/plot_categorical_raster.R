@@ -10,7 +10,7 @@
 #' @examples
 #' \dontrun{
 #' kalbar_LC11 <- LUMENSR_example("kalbar_LC11.tif")
-#' kalbar_LC11 <-   erra::rast(kalbar_LC11)
+#' kalbar_LC11 <-   terra::rast(kalbar_LC11)
 #' kalbar_LC11_att <- add_legend_to_categorical_raster(
 #'   raster_file = kalbar_LC11,
 #'   lookup_table = lc_lookup_klhk)

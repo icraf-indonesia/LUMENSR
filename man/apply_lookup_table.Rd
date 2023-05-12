@@ -26,7 +26,7 @@ library(terra)
 # Load the 2011 land cover raster for the Kalbar region
 kalbar_2011 <- rast(LUMENSR_example("kalbar_LC11.tif"))
 
-# Classify the raster and apply the lookup table
+# apply a lookup table into a table
 kalbar_2011_legend <- apply_lookup_table(kalbar_2011, lc_lookup_klhk)
 
 # Plot the classified raster
