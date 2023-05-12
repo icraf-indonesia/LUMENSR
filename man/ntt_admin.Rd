@@ -5,21 +5,28 @@
 \alias{ntt_admin}
 \title{Historical Temperature data for East Nusa Tenggara}
 \format{
-\subsection{\code{ntt_temp}}{
+A RasterLayer object with:
+\describe{
+\item{dimensions}{number of rows, columns, and layers}
+\item{resolution}{x and y resolution}
+\item{extent}{geographical extent}
+\item{crs}{coordinate reference system}
+\item{values}{raster values, in this case representing annual mean temperature}
 }
 
-\subsection{\code{wc2.1_30s_bio_1_indo}}{
+A RasterLayer object with:
+\describe{
+\item{dimensions}{number of rows, columns, and layers}
+\item{resolution}{x and y resolution}
+\item{extent}{geographical extent}
+\item{crs}{coordinate reference system}
+\item{values}{raster values, in this case representing annual mean temperature}
 }
 
-\subsection{\code{ntt_admin}}{
-
-A polygon 22 features and 2 fields:
+A SpatialPolygonsDataFrame object with 22 features and 2 fields:
 \describe{
 \item{ID}{Country name}
 \item{Kabupaten}{District names of East Nusa Tenggara}
-...
-}
-#' @source \url{https://data.humdata.org/dataset/cod-ab-idn}
 }
 }
 \source{
@@ -28,15 +35,19 @@ Historical Temperature data for Indonesia
 
 \url{https://www.worldclim.org/data/worldclim21.html}
 District boundaries of East Nusa Tenggara
+
+\url{https://data.humdata.org/dataset/cod-ab-idn}
 }
 \usage{
 ntt_admin
 }
 \description{
-A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution
+A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution.
 A clipped raster dataset of the BIO1 = Annual Mean Temperature over East Nusa Tenggara.
 
-A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution
-a clipped raster dataset of the BIO1 = Annual Mean Temperature over Indonesia
+A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution.
+A clipped raster dataset of the BIO1 = Annual Mean Temperature over Indonesia.
+
+A spatial dataset containing the district boundaries of East Nusa Tenggara.
 }
 \keyword{datasets}

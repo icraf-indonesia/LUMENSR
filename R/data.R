@@ -1,42 +1,95 @@
 #' Historical Temperature data for East Nusa Tenggara
 #'
 #' @description
-#'  A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution
+#'  A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution.
 #' A clipped raster dataset of the BIO1 = Annual Mean Temperature over East Nusa Tenggara.
 #'
-#' @format ## `ntt_temp`
+#' @format A RasterLayer object with:
+#' \describe{
+#'   \item{dimensions}{number of rows, columns, and layers}
+#'   \item{resolution}{x and y resolution}
+#'   \item{extent}{geographical extent}
+#'   \item{crs}{coordinate reference system}
+#'   \item{values}{raster values, in this case representing annual mean temperature}
+#' }
 #' @source <https://www.worldclim.org/data/worldclim21.html>
 #"ntt_temp"
+
 
 #' Historical Temperature data for Indonesia
 #'
 #' @description
-#' A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution
-#'a clipped raster dataset of the BIO1 = Annual Mean Temperature over Indonesia
+#' A subset of WorldClim version 2.1 climate data for 1970-2000. This version was released in January 2020; 30 seconds (~1 km2) spatial resolution.
+#' A clipped raster dataset of the BIO1 = Annual Mean Temperature over Indonesia.
 #'
-#' @format ## `wc2.1_30s_bio_1_indo`
+#' @format A RasterLayer object with:
+#' \describe{
+#'   \item{dimensions}{number of rows, columns, and layers}
+#'   \item{resolution}{x and y resolution}
+#'   \item{extent}{geographical extent}
+#'   \item{crs}{coordinate reference system}
+#'   \item{values}{raster values, in this case representing annual mean temperature}
+#' }
 #' @source <https://www.worldclim.org/data/worldclim21.html>
 #"wc2.1_30s_bio_1_indo"
 
 
+
 #' District boundaries of East Nusa Tenggara
 #'
+#' @description
+#' A spatial dataset containing the district boundaries of East Nusa Tenggara.
 #'
-#' @format ## `ntt_admin`
-#' A polygon 22 features and 2 fields:
+#' @format A SpatialPolygonsDataFrame object with 22 features and 2 fields:
 #' \describe{
 #'   \item{ID}{Country name}
 #'   \item{Kabupaten}{District names of East Nusa Tenggara}
-#'   ...
 #' }
-#' #' @source <https://data.humdata.org/dataset/cod-ab-idn>
+#' @source <https://data.humdata.org/dataset/cod-ab-idn>
 "ntt_admin"
+
 
 #' Land cover data of West Kalimantan of 2011
 #'
 #' @description
-#' KLHK land cover map of West Kalimantan province, year 2011
+#' KLHK land cover map of West Kalimantan province for the year 2011.
 #'
-#' @format ## `kalbar_LC11`
+#' @format A RasterLayer object of the land cover map.
 #' @source Ministry of Forestry and Environment of Indonesia
 #"kalbar_LC11"
+
+#' Land cover data of West Kalimantan of 2015
+#'
+#' @description
+#' KLHK land cover map of West Kalimantan province for the year 2015.
+#'
+#' @format A RasterLayer object of the land cover map.
+#' @source Ministry of Forestry and Environment of Indonesia
+#"kalbar_LC15"
+
+#' Land cover data of West Kalimantan of 2020
+#'
+#' @description
+#' KLHK land cover map of West Kalimantan province for the year 2020.
+#'
+#' @format A RasterLayer object of the land cover map.
+#' @source Ministry of Forestry and Environment of Indonesia
+#"kalbar_LC20"
+
+#' The Indonesian Ministry of Environment and Forestry (KLHK) Land Cover Lookup Table
+#'
+#' @description
+#' A lookup table that maps land cover codes to land cover descriptions for the Indonesian Ministry of Environment and Forestry (KLHK).
+#'
+#' @format
+#' A data frame with 23 rows and 2 columns:
+#' \describe{
+#'   \item{Value}{The land cover code}
+#'   \item{PL20}{The land cover description}
+#' }
+#' @source The data was obtained from the Indonesian Ministry of Environment and Forestry (KLHK).
+#'
+#' @examples
+#' data(lc_lookup_klhk)
+#' head(lc_lookup_klhk)
+"lc_lookup_klhk"
