@@ -16,4 +16,108 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(LUMENSR)
+library(magrittr)
+library(dplyr)
+library(purrr)
+library(networkD3)
 ```
+
+# 1. Data yang digunakan
+
+```{r}
+
+kalbar_LC11 <- LUMENSR_example("kalbar_LC11.tif") %>%
+									 terra::rast() %>%
+									 add_legend_to_categorical_raster(
+									 raster_file = .,
+									 lookup_table = lc_lookup_klhk)
+
+plot_categorical_raster(kalbar_LC11)
+```
+
+```{r}
+
+kalbar_LC20 <- LUMENSR_example("kalbar_LC20.tif") %>%
+									 terra::rast() %>%
+									 add_legend_to_categorical_raster(
+									 raster_file = .,
+									 lookup_table = lc_lookup_klhk)
+
+plot_categorical_raster(kalbar_LC20)
+```
+
+## Tabel deskripsi singkatan
+
+# 2. Hasil analisis pada tingkat bentang lahan
+
+## Alur perubahan lahan dominan
+
+```{r}
+raster_files <- c("kalbar_LC11.tif", "kalbar_LC20.tif") %>%
+    map(LUMENSR_example) %>%
+    map(rast)
+
+# Loop through raster files
+raster_list <- 
+  map(raster_files, ~apply_lookup_table(raster_file = .x, lookup_lc = lc_lookup_klhk))
+
+# Turn raster files into a frequency table
+crosstab_result <- create_crosstab(raster_list)
+```
+
+### Kondisi tutupan lahan keseluruhan
+```{r}
+# Input
+create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = FALSE)
+```
+
+### Potret perubahan tutupan lahan
+Tanpa mempertimbangkan tutupan lahan yang tidak berubah/ tetap.
+```{r}
+create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = TRUE)
+```
+
+
+## 10 jenis perubahan dominan
+
+### Dalam Tabel
+```{r}
+luc_top_10 <- crosstab_result %>% 
+ mutate_if(is.factor, as.character) %>%
+      rowwise() %>%
+      filter(n_distinct(c_across(-length(crosstab_result))) > 1) %>%
+      ungroup() %>% 
+      top_n(10)
+
+print_frequency_table(luc_top_10)
+```
+### Dalam grafik
+
+```{r}
+library(stringr)
+library(viridis)
+library(scales)
+
+# Get all column names except "Freq"
+non_freq_cols <- colnames(luc_top_10)[!colnames(luc_top_10) %in% "Freq"]
+
+# Create a new combined label by concatenating all other columns
+luc_top_10$label <- apply(luc_top_10[non_freq_cols], 1, paste, collapse = " to ")
+
+# Wrap the text to a maximum width of 20 characters
+luc_top_10$label <- str_wrap(luc_top_10$label, width = 5)
+
+# Plot the data
+ggplot(luc_top_10, aes(x=reorder(label, Freq), y=Freq, fill=Freq)) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  labs(x="Land Cover Change", y="Frequency", 
+       #title="Frequency of Land Cover Change", 
+       fill="Frequency") +
+  theme_minimal() +
+  scale_y_continuous(labels = comma) +
+  scale_fill_viridis(discrete = FALSE, direction = -1, guide = "none", labels = comma)
+
+```
+
+# Hasil analisis pada unit perencanaan
