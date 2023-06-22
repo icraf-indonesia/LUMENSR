@@ -7,7 +7,7 @@
 create_crosstab(raster_list)
 }
 \arguments{
-\item{raster_list}{A list of raster files to be processed.}
+\item{raster_list}{A list of 'SpatRaster' objects.}
 }
 \value{
 A data frame representing the crosstab of the input rasters.

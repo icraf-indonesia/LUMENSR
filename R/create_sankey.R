@@ -1,67 +1,65 @@
 #' Create a Sankey Diagram
 #'
-#' This function takes a frequency table (crosstab) as input, filters the table to only include
-#' rows where the frequency is greater than the average frequency, and creates a Sankey diagram
-#' from the filtered table.
+#' This function takes a frequency table (crosstab) as input and creates a Sankey diagram
 #'
-#' @param crosstab_ A frequency table to be processed.
-#' @param max_categories The maximum number of categories. Default is 15.
-#' @param font_size The font size. Default is 10.
-#' @param sinks_right If TRUE, sinks are on the right. Default is TRUE.
-#' @param label_show_varname If FALSE, variable names are not shown. Default is FALSE.
-#' @param node_position_automatic If TRUE, node position is automatic. Default is TRUE.
-#' @param hovertext_show_percentages If FALSE, hover text does not show percentages. Default is FALSE.
-#' @param label_show_percentages If FALSE, labels do not show percentages. Default is FALSE.
-#' @param label_show_counts If FALSE, labels do not show counts. Default is FALSE.
-#' @param link_color The color of the link. Default is "Source".
-#' @param variables_share_values If TRUE, variables share values. Default is TRUE.
-#'
-#' @return A Sankey diagram.
-#'
-#' @importFrom dplyr mutate_if filter select
-#' @importFrom flipPlots SankeyDiagram
-#'
+#' @author Dony Indiarto
+#' @param freq_table A frequency table containing land cover T1, T2, T3, etc.. (character) and a Frequency column (numeric).
+#' @param area_cutoff Minimum number of pixels of land use land cover frequency to include.
+#' @param change_only Logical flag, if TRUE exclude persistent land cover.
+#' @return A Sankey plot.
+#' @importFrom dplyr mutate_if rowwise filter ungroup mutate across
+#' @importFrom networkD3 sankeyNetwork
 #' @examples
-#' \dontrun{
-#'   # Assume you have a crosstab_
-#'   sankey_diagram <- create_sankey(crosstab_)
-#' }
-#'
-#' @export
-#'
-create_sankey <- function(crosstab_, max_categories = 15, font_size = 10, sinks_right = TRUE,
-                          label_show_varname = FALSE, node_position_automatic = TRUE,
-                          hovertext_show_percentages = FALSE, label_show_percentages = FALSE,
-                          label_show_counts = FALSE, link_color = "Source",
-                          variables_share_values = TRUE) {
+#' library("LUMENSR")
+#' raster_files <- c("kalbar_LC11.tif", "kalbar_LC15.tif", "kalbar_LC20.tif") %>%
+#' map(LUMENSR_example) %>% map(rast)
+#' raster_list <- map(raster_files, ~apply_lookup_table(raster_file = .x, lookup_lc = lc_lookup_klhk))
+#' crosstab_result <- create_crosstab(raster_list)
+#' create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = FALSE)
+create_sankey <- function(freq_table, area_cutoff = 10000, change_only = FALSE, color_scale = NULL) {
 
-  if (!requireNamespace("flipPlots", quietly = TRUE)) {
-    stop("Package 'flipPlots' is required. \n",
-         "Please install it with: devtools::install_github('Displayr/flipPlots')")
+  # Check if "Freq" column exists and is numeric
+  if (!"Freq" %in% colnames(freq_table)) {
+    stop("The 'Freq' column does not exist in the data frame.")
   }
 
-  # Create input for Sankey diagram
-  input_sankey <- crosstab_ %>%
-    mutate_if(is.character, as.factor) %>%
-    filter(Freq>mean(Freq))
+  if (!is.numeric(freq_table$Freq)) {
+    stop("The 'Freq' column should contain numeric values.")
+  }
 
-  # Generate Sankey diagram
-  sankey_diagram <- input_sankey %>%
-    select(-Freq) %>%
-    flipPlots::SankeyDiagram(
-      max.categories = max_categories,
-      font.size = font_size,
-      sinks.right = sinks_right,
-      label.show.varname = label_show_varname,
-      weights = input_sankey[["Freq"]],
-      node.position.automatic = node_position_automatic,
-      hovertext.show.percentages = hovertext_show_percentages,
-      label.show.percentages = label_show_percentages,
-      label.show.counts = label_show_counts,
-      link.color = link_color,
-      variables.share.values = variables_share_values
-    )
+  if(change_only){
+    df_filtered <- freq_table %>%
+      mutate_if(is.factor, as.character) %>%
+      rowwise() %>%
+      filter(n_distinct(c_across(-length(freq_table))) > 1) %>%
+      ungroup() %>%
+      filter(Freq > area_cutoff)
+  } else {
+    df_filtered <- freq_table %>%
+      filter(Freq > area_cutoff)
+  }
 
-  # Return the Sankey diagram
-  return(sankey_diagram)
+  # Error handling: if dataframe is empty after filtering
+  if(nrow(df_filtered) == 0){
+    stop("No data left after filtering, please check your inputs.")
+  }
+
+  # Apply the suffixes to the selected columns
+  df_filtered <- df_filtered %>%
+    mutate(across(-length(df_filtered), ~paste(., paste0("_T", which(names(df_filtered) == cur_column())), sep = "")))
+
+  sankey_data <- df_filtered %>%
+    prepare_sankey(col_order = setdiff(colnames(df_filtered), "Freq"), value_col = "Freq")
+
+  # Add a 'group' column to the 'links' and 'nodes' data frames
+  sankey_data$links <- sankey_data$links %>% mutate(group = sankey_data$nodes$name[source + 1])
+  sankey_data$nodes <- sankey_data$nodes %>% mutate(group = name)
+
+  # Create the Sankey plot
+  sankey_plot <- sankeyNetwork(Links = sankey_data$links, Nodes = sankey_data$nodes, Source = "source",
+                               Target = "target", Value = "value", NodeID = "name",
+                               fontSize = 20, nodeWidth = 30, LinkGroup = "group", NodeGroup = "group"#,colourScale = color_scale
+                               )
+
+  return(sankey_plot)
 }

@@ -5,54 +5,33 @@
 \title{Create a Sankey Diagram}
 \usage{
 create_sankey(
-  crosstab_,
-  max_categories = 15,
-  font_size = 10,
-  sinks_right = TRUE,
-  label_show_varname = FALSE,
-  node_position_automatic = TRUE,
-  hovertext_show_percentages = FALSE,
-  label_show_percentages = FALSE,
-  label_show_counts = FALSE,
-  link_color = "Source",
-  variables_share_values = TRUE
+  freq_table,
+  area_cutoff = 10000,
+  change_only = FALSE,
+  color_scale = NULL
 )
 }
 \arguments{
-\item{crosstab_}{A frequency table to be processed.}
+\item{freq_table}{A frequency table containing land cover T1, T2, T3, etc.. (character) and a Frequency column (numeric).}
 
-\item{max_categories}{The maximum number of categories. Default is 15.}
+\item{area_cutoff}{Minimum number of pixels of land use land cover frequency to include.}
 
-\item{font_size}{The font size. Default is 10.}
-
-\item{sinks_right}{If TRUE, sinks are on the right. Default is TRUE.}
-
-\item{label_show_varname}{If FALSE, variable names are not shown. Default is FALSE.}
-
-\item{node_position_automatic}{If TRUE, node position is automatic. Default is TRUE.}
-
-\item{hovertext_show_percentages}{If FALSE, hover text does not show percentages. Default is FALSE.}
-
-\item{label_show_percentages}{If FALSE, labels do not show percentages. Default is FALSE.}
-
-\item{label_show_counts}{If FALSE, labels do not show counts. Default is FALSE.}
-
-\item{link_color}{The color of the link. Default is "Source".}
-
-\item{variables_share_values}{If TRUE, variables share values. Default is TRUE.}
+\item{change_only}{Logical flag, if TRUE exclude persistent land cover.}
 }
 \value{
-A Sankey diagram.
+A Sankey plot.
 }
 \description{
-This function takes a frequency table (crosstab) as input, filters the table to only include
-rows where the frequency is greater than the average frequency, and creates a Sankey diagram
-from the filtered table.
+This function takes a frequency table (crosstab) as input and creates a Sankey diagram
 }
 \examples{
-\dontrun{
-  # Assume you have a crosstab_
-  sankey_diagram <- create_sankey(crosstab_)
+library("LUMENSR")
+raster_files <- c("kalbar_LC11.tif", "kalbar_LC15.tif", "kalbar_LC20.tif") \%>\%
+map(LUMENSR_example) \%>\% map(rast)
+raster_list <- map(raster_files, ~apply_lookup_table(raster_file = .x, lookup_lc = lc_lookup_klhk))
+crosstab_result <- create_crosstab(raster_list)
+create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = FALSE)
 }
-
+\author{
+Dony Indiarto
 }
