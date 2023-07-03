@@ -9,7 +9,7 @@
 #' @param table_width The width of the table in pixels. Default: 700.
 #' @param font_size The font size in pixels. Default: 12.
 #' @return A gt table object.
-#' @importFrom gt gt tab_header cols_label fmt_number tab_options
+#' @importFrom gt gt tab_header cols_label fmt_number tab_options px
 #' @importFrom magrittr %>%
 #' @export
 print_frequency_table <- function(df, title = "Top 10 Type of Land Cover Change", labels = NULL, freq_col = "Freq",
