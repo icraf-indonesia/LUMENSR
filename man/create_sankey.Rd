@@ -25,11 +25,6 @@ A Sankey plot.
 This function takes a frequency table (crosstab) as input and creates a Sankey diagram
 }
 \examples{
-library("LUMENSR")
-raster_files <- c("kalbar_LC11.tif", "kalbar_LC15.tif", "kalbar_LC20.tif") \%>\%
-map(LUMENSR_example) \%>\% map(rast)
-raster_list <- map(raster_files, ~apply_lookup_table(raster_file = .x, lookup_lc = lc_lookup_klhk))
-crosstab_result <- create_crosstab(raster_list)
 create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = FALSE)
 }
 \author{

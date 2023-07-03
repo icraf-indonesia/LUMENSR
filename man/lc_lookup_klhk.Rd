@@ -3,8 +3,12 @@
 \docType{data}
 \name{lc_lookup_klhk}
 \alias{lc_lookup_klhk}
-\title{Land cover data of West Kalimantan of 2011}
+\title{Land cover data of East Nusa Tenggara of 2020}
 \format{
+A RasterLayer object of the land cover map.
+
+A RasterLayer object of the land cover map.
+
 A RasterLayer object of the land cover map.
 
 A RasterLayer object of the land cover map.
@@ -18,6 +22,12 @@ A data frame with 23 rows and 2 columns:
 }
 }
 \source{
+Ministry of Forestry and Environment of Indonesia
+Land cover data of East Nusa Tenggara of 1990
+
+Ministry of Forestry and Environment of Indonesia
+Land cover data of West Kalimantan of 2011
+
 Ministry of Forestry and Environment of Indonesia
 Land cover data of West Kalimantan of 2015
 
@@ -33,6 +43,10 @@ The data was obtained from the Indonesian Ministry of Environment and Forestry (
 lc_lookup_klhk
 }
 \description{
+KLHK land cover map of East Nusa Tenggara province for the year 2020
+
+KLHK land cover map of East Nusa Tenggara province for the year 1990.
+
 KLHK land cover map of West Kalimantan province for the year 2011.
 
 KLHK land cover map of West Kalimantan province for the year 2015.
