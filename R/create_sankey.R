@@ -9,6 +9,7 @@
 #' @return A Sankey plot.
 #' @importFrom dplyr mutate_if rowwise filter ungroup mutate across
 #' @importFrom networkD3 sankeyNetwork
+#' @export
 #' @examples
 #' library("LUMENSR")
 #' raster_files <- c("kalbar_LC11.tif", "kalbar_LC15.tif", "kalbar_LC20.tif") %>%

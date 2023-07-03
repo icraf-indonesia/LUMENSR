@@ -7,7 +7,7 @@ test_that("create_sankey returns a ggplot object", {
   load("data/crosstab_kalbar_LC_11_20.rda")
 
   # Apply your functiony
-  result <- create_sankey(crosstab_ = crosstab_result)
+  result <- create_sankey(freq_table = crosstab_result)
 
   # Check the result
   expect_s3_class(result, "sankeyNetwork")
