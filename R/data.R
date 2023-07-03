@@ -111,6 +111,29 @@
 #' head(lc_lookup_klhk)
 "lc_lookup_klhk"
 
+#' Reclassified Land Cover Lookup Table from the Indonesian Ministry of Environment and Forestry (KLHK)
+#'
+#' @description
+#' This lookup table relates reclassified land cover codes to their respective descriptions,
+#' as defined by the Indonesian Ministry of Environment and Forestry (KLHK). The original land cover
+#' values have been replaced with a sequence of numbers from 1 to 23.
+#'
+#' @format
+#' A data frame with 23 rows and 2 columns:
+#' \describe{
+#'   \item{Value}{Reclassified land cover codes ranging from 1 to 23}
+#'   \item{PL20}{Descriptions for each corresponding land cover code}
+#' }
+#'
+#' @source
+#' The data was obtained and adapted from the Indonesian Ministry of Environment and Forestry (KLHK).
+#'
+#' @examples
+#' data(lc_lookup_klhk_sequence)
+#' head(lc_lookup_klhk_sequence)
+"lc_lookup_klhk_sequence"
+
+
 
 #' Cross Tabulation of Land Cover Classes
 #'
