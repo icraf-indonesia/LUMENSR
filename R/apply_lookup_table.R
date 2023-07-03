@@ -33,7 +33,7 @@ apply_lookup_table <- function(raster_file, lookup_lc) {
 
   # Generate a color table for the raster data
   # n_classes <- nrow(lookup_lc)
-  # coltb <- base::data.frame(t(col2rgb(rainbow(n_classes, end=.9), alpha=TRUE)))
+  # coltb <- data.frame(t(col2rgb(rainbow(n_classes, end=.9), alpha=TRUE)))
   # Apply the lookup table to the raster data
   raster_file <-as.factor(raster_file)
 
