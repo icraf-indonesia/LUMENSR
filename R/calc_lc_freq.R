@@ -35,7 +35,7 @@ calc_lc_freq <- function(raster_list) {
   # Check if input is a single raster layer
   if (class(raster_list)[1] == "SpatRaster") {
     raster_list <- list(raster_list)
-  } else if (class(raster_list) != "list") {
+  } else if (!is.list(raster_list)) {
     stop("Input must be a list of raster layers or a single raster layer")
   }
 
