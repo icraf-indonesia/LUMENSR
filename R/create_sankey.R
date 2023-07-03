@@ -7,15 +7,10 @@
 #' @param area_cutoff Minimum number of pixels of land use land cover frequency to include.
 #' @param change_only Logical flag, if TRUE exclude persistent land cover.
 #' @return A Sankey plot.
-#' @importFrom dplyr mutate_if rowwise filter ungroup mutate across
+#' @importFrom dplyr mutate_if rowwise filter ungroup mutate across cur_column
 #' @importFrom networkD3 sankeyNetwork
 #' @export
 #' @examples
-#' library("LUMENSR")
-#' raster_files <- c("kalbar_LC11.tif", "kalbar_LC15.tif", "kalbar_LC20.tif") %>%
-#' map(LUMENSR_example) %>% map(rast)
-#' raster_list <- map(raster_files, ~apply_lookup_table(raster_file = .x, lookup_lc = lc_lookup_klhk))
-#' crosstab_result <- create_crosstab(raster_list)
 #' create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = FALSE)
 create_sankey <- function(freq_table, area_cutoff = 10000, change_only = FALSE, color_scale = NULL) {
 
