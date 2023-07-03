@@ -58,6 +58,6 @@ print_frequency_table <- function(df, title = "Top 10 Type of Land Cover Change"
         .
       }
     } %>%
-    fmt_number(columns = vars(!!sym(freq_col)), decimals = 0, use_seps = TRUE) %>%
+    fmt_number(columns = c(!!sym(freq_col)), decimals = 0, use_seps = TRUE) %>%
     tab_options(table.width = px(table_width), table.font.size = px(font_size))
 }
