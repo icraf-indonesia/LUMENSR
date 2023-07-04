@@ -22,12 +22,20 @@ library(purrr)
 library(networkD3)
 library(terra)
 library(sf)
+library(ggplot2)
+library(ggrepel)
+library(stringr)
+library(viridis)
+library(scales)
 ```
 
 # 1. Data yang digunakan
 
 ```{r}
+lc_lookup_klhk_sequence %<>%  abbreviate_lookup()
+```
 
+```{r}
 NTT_LC90 <- LUMENSR_example("NTT_LC90.tif") %>%
 									 terra::rast() %>%
 									 add_legend_to_categorical_raster(
@@ -49,31 +57,13 @@ plot_categorical_raster(NTT_LC20)
 ```
 
 ```{r}
-ggplot() +
-  geom_sf(data = ntt_admin, fill = "lightblue", color = "black", size = 0.2) +
-   ggrepel::geom_text_repel(
-    data = ntt_admin,
-    aes(label = Kabupaten, geometry = geometry),
-    stat = "sf_coordinates",
-    color = "grey30",     # text color
-    bg.color = "white", # shadow color
-    bg.r = 0.15 ,
-    box.padding = 2,
-    force = 1,
-    max.overlaps = Inf) +      # shadow radius) +
-  theme_minimal() +
-  labs(
-    title = "Map of NTT Administrative Areas",
-    caption = "Source: Data Source"
-  )
-
+ plot_planning_unit(ntt_admin, "Kabupaten")
 ```
 
 ## Tabel deskripsi singkatan
 
 ```{r}
 tabel_singkatan <- lc_lookup_klhk_sequence %>% 
-  abbreviate_lookup() %>%
   dplyr::select(-color_pallette)
 
 print(tabel_singkatan)
@@ -116,24 +106,15 @@ create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = T
 ### Dalam Tabel
 
 ```{r}
-luc_top_10 <- crosstab_result %>% 
- mutate_if(is.factor, as.character) %>%
-      rowwise() %>%
-      filter(n_distinct(c_across(-length(crosstab_result))) > 1) %>%
-      ungroup() %>% 
-      top_n(10)
+luc_top_10 <- crosstab_result %>% calc_top_lcc(n_rows = 10)
 
-print_frequency_table(luc_top_10)
+
+print_frequency_table(luc_top_10) 
 ```
 
 ### Dalam grafik
 
 ```{r}
-library(stringr)
-library(viridis)
-library(scales)
-library(ggplot2)
-library(viridis)
 
 # Get all column names except "Freq"
 non_freq_cols <- colnames(luc_top_10)[!colnames(luc_top_10) %in% "Freq"]
@@ -153,7 +134,7 @@ ggplot(luc_top_10, aes(x=reorder(label, Freq), y=Freq, fill=Freq)) +
        fill="Frequency") +
   theme_minimal() +
   scale_y_continuous(labels = comma) +
-  scale_fill_viridis(discrete = FALSE, direction = -1, guide = "none", labels = comma)
+  viridis::scale_fill_viridis(discrete = FALSE, direction = -1, guide = "none", labels = comma)
 
 ```
 
