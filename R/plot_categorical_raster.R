@@ -9,8 +9,8 @@
 #'
 #' @return A ggplot object.
 #' @importFrom tidyterra scale_fill_hypso_d
-#' @importFrom ggplot2 ggplot geom_spatraster theme_bw labs theme
-#' @importFrom grid unit
+#' @importFrom ggplot2 ggplot theme_bw labs theme scale_fill_manual element_text unit element_blank
+#' @importFrom tidyterra geom_spatraster scale_fill_hypso_d
 #' @export
 plot_categorical_raster <- function(raster_object) {
 
@@ -18,7 +18,7 @@ plot_categorical_raster <- function(raster_object) {
   if ("color_pallette" %in% names(cats(raster_object)[[1]]) && all(grepl("^#[0-9A-Fa-f]{6}$", cats(raster_object)$color_pallete))) {
     fill_scale <- scale_fill_manual(values = cats(raster_object)[[1]]$color_pallette)
   } else {
-    fill_scale <- tidyterra::scale_fill_hypso_d()
+    fill_scale <- scale_fill_hypso_d()
   }
 
   # Generate the plot
