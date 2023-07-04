@@ -12,7 +12,7 @@
 #' @importFrom gt gt tab_header cols_label fmt_number tab_options px
 #' @importFrom magrittr %>%
 #' @export
-print_frequency_table <- function(df, title = "Top 10 Type of Land Cover Change", labels = NULL, freq_col = "Freq",
+print_frequency_table <- function(df, title = "Dominant Type of Land Cover Change", labels = NULL, freq_col = "Freq",
                                   table_width = 700, font_size = 12) {
 
   # Check that df is a data frame
