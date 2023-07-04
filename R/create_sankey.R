@@ -12,7 +12,7 @@
 #' @export
 #' @examples
 #' create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = FALSE)
-create_sankey <- function(freq_table, area_cutoff = 10000, change_only = FALSE, color_scale = NULL) {
+create_sankey <- function(freq_table, area_cutoff = 10000, change_only = FALSE) {
 
   # Check if "Freq" column exists and is numeric
   if (!"Freq" %in% colnames(freq_table)) {

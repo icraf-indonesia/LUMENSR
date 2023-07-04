@@ -2,26 +2,19 @@
 % Please edit documentation in R/plot_categorical_raster.R
 \name{plot_categorical_raster}
 \alias{plot_categorical_raster}
-\title{Plot categorical raster}
+\title{Plots a categorical raster map}
 \usage{
 plot_categorical_raster(raster_object)
 }
 \arguments{
-\item{raster_object}{A categorical raster file (an object of class SpatRaster)}
+\item{raster_object}{A raster object.}
 }
 \value{
-A ggplot map
+A ggplot object.
 }
 \description{
-This function plots a categorical raster file using ggplot2.
-}
-\examples{
-\dontrun{
-kalbar_LC11 <- LUMENSR_example("kalbar_LC11.tif")
-kalbar_LC11 <-   terra::rast(kalbar_LC11)
-kalbar_LC11_att <- add_legend_to_categorical_raster(
-  raster_file = kalbar_LC11,
-  lookup_table = lc_lookup_klhk)
-plot_categorical_raster(kalbar_LC11_att)
-}
+This function takes a raster object as input and produces a ggplot. If the raster
+object includes a "color_pallete" column with hex color codes, these colors are
+used for the fill scale. Otherwise, the default \code{scale_fill_hypso_d()} fill scale
+from the tidyterra package is used.
 }

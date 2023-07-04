@@ -4,12 +4,7 @@
 \alias{create_sankey}
 \title{Create a Sankey Diagram}
 \usage{
-create_sankey(
-  freq_table,
-  area_cutoff = 10000,
-  change_only = FALSE,
-  color_scale = NULL
-)
+create_sankey(freq_table, area_cutoff = 10000, change_only = FALSE)
 }
 \arguments{
 \item{freq_table}{A frequency table containing land cover T1, T2, T3, etc.. (character) and a Frequency column (numeric).}

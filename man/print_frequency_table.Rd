@@ -6,7 +6,7 @@
 \usage{
 print_frequency_table(
   df,
-  title = "Top 10 Type of Land Cover Change",
+  title = "Dominant Type of Land Cover Change",
   labels = NULL,
   freq_col = "Freq",
   table_width = 700,

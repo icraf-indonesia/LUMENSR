@@ -12,7 +12,6 @@
 #' @return A data frame containing the top n rows (top n changes.
 #'
 #' @importFrom dplyr mutate_if rowwise filter ungroup top_n
-#' @importFrom purrr is.factor
 #' @export
 calc_top_lcc <- function(crosstab_result, n_rows) {
   # Check if crosstab_result is a data frame

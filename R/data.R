@@ -123,6 +123,7 @@
 #' \describe{
 #'   \item{Value}{Reclassified land cover codes ranging from 1 to 23}
 #'   \item{PL20}{Descriptions for each corresponding land cover code}
+#'   \item{color_pallette}{hex color codes of predefined colour for each land cover class}
 #' }
 #'
 #' @source

@@ -10,7 +10,7 @@
 #' @importFrom terra rast crosstab
 #' @importFrom dplyr arrange desc
 #' @importFrom purrr is_vector
-#' @importFrom dplyr %>%
+#' @importFrom magrittr %>%
 #'
 #' @examples
 #' \dontrun{
