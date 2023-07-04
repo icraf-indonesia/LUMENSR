@@ -17,5 +17,5 @@ add_legend_to_categorical_raster <- function(raster_file, lookup_table){
 
   levels(raster_file) <- lookup_table
   raster_file <- setNames(raster_file,name_rast)
-  raster_file
+  return(raster_file)
 }
