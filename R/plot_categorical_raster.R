@@ -1,26 +1,42 @@
-#' Plot categorical raster
+#' Plots a categorical raster map
 #'
-#' This function plots a categorical raster file using ggplot2.
+#' This function takes a raster object as input and produces a ggplot. If the raster
+#' object includes a "color_pallete" column with hex color codes, these colors are
+#' used for the fill scale. Otherwise, the default `scale_fill_hypso_d()` fill scale
+#' from the tidyterra package is used.
 #'
-#' @param raster_object A categorical raster file (an object of class SpatRaster)
-#' @return A ggplot map
+#' @param raster_object A raster object.
+#'
+#' @return A ggplot object.
+#' @importFrom tidyterra scale_fill_hypso_d
+#' @importFrom ggplot2 ggplot geom_spatraster theme_bw labs theme
+#' @importFrom grid unit
 #' @export
-#' @importFrom tidyterra scale_fill_hypso_d geom_spatraster
-#' @importFrom ggplot2 ggplot theme_bw labs
-#' @examples
-#' \dontrun{
-#' kalbar_LC11 <- LUMENSR_example("kalbar_LC11.tif")
-#' kalbar_LC11 <-   terra::rast(kalbar_LC11)
-#' kalbar_LC11_att <- add_legend_to_categorical_raster(
-#'   raster_file = kalbar_LC11,
-#'   lookup_table = lc_lookup_klhk)
-#' plot_categorical_raster(kalbar_LC11_att)
-#' }
 plot_categorical_raster <- function(raster_object) {
-  ggplot() +
+
+  # Check if raster_object has a color_pallete column and it contains hex color codes
+  if ("color_pallette" %in% names(cats(raster_object)[[1]]) && all(grepl("^#[0-9A-Fa-f]{6}$", cats(raster_object)$color_pallete))) {
+    fill_scale <- scale_fill_manual(values = cats(raster_object)[[1]]$color_pallette)
+  } else {
+    fill_scale <- tidyterra::scale_fill_hypso_d()
+  }
+
+  # Generate the plot
+  plot_lc <- ggplot() +
     geom_spatraster(data = raster_object) +
-    tidyterra::scale_fill_hypso_d() +
+    fill_scale +
     theme_bw() +
-    labs(title = names(raster_object))
+    labs(title = names(raster_object)) +
+    theme(axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          legend.title = element_text(size = 8),
+          legend.text = element_text(size = 6),
+          legend.key.height = unit(0.25, "cm"),
+          legend.key.width = unit(0.25, "cm"),
+          legend.position = "bottom")
+
+  return(plot_lc)
 }
 
