@@ -12,6 +12,7 @@
 #' @importFrom ggplot2 ggplot geom_sf theme_minimal
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom sf st_is
+#' @importFrom rlang !! sym
 #' @export
 plot_planning_unit <- function(planning_unit, map_label) {
   # Check if planning_unit is a sf object
@@ -38,7 +39,7 @@ plot_planning_unit <- function(planning_unit, map_label) {
     geom_sf(data = planning_unit, fill = "lightgreen", color = "black", size = 0.2) +
     ggrepel::geom_text_repel(
       data = planning_unit,
-      aes(label = map_label, geometry = geometry),
+      aes(label = !!sym(map_label), geometry = geometry),
       stat = "sf_coordinates",
       color = "grey30",     # text color
       bg.color = "white", # shadow color
