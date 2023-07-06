@@ -9,7 +9,7 @@
 #' @return A dataframe of frequency tables.
 #'
 #' @importFrom terra compareGeom freq levels
-#' @importFrom dplyr left_join select arrange desc
+#' @importFrom dplyr left_join select arrange desc rename
 #' @importFrom purrr map
 #'
 #' @examples
@@ -79,6 +79,7 @@ calc_lc_freq <- function(raster_list) {
 
   # Sort by the count of the last raster layer in descending order
   freq_df <- dplyr::arrange(freq_df, dplyr::desc(freq_df[[ncol(freq_df)]]))
+  freq_df <- dplyr::rename(freq_df, `Jenis tutupan lahan` = value)
 
   return(freq_df)
 }
