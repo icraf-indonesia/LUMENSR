@@ -79,7 +79,7 @@ lc_freq_table
 
 ## Komposisi tutupan lahan
 ```{r}
-lc_freq_table %>% 
+lc_freq_table %>% abbreviate_by_column( "Jenis tutupan lahan", remove_vowels = FALSE) %>% 
   plot_lc_freq(column_lc_type = "Jenis tutupan lahan", 
                column_T1 = "NTT_LC90_count", 
                column_T2 = "NTT_LC20_count")

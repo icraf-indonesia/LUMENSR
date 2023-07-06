@@ -22,8 +22,10 @@ A ggplot object representing the side by side bar plot.
 This function generates a side by side bar plot comparing the frequency of land cover types in two different years.
 }
 \examples{
+ \dontrun{
 plot_lc_freq(lc_table = lc_tbl,
              column_lc_type = "Jenis tutupan lahan",
              column_T1 = "NTT_LC90_count",
              column_T2 = "NTT_LC20_count")
+}
 }

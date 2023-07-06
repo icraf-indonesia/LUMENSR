@@ -18,10 +18,12 @@
 #' @importFrom tidyr replace_na pivot_longer
 #'
 #' @examples
+#'  \dontrun{
 #' plot_lc_freq(lc_table = lc_tbl,
 #'              column_lc_type = "Jenis tutupan lahan",
 #'              column_T1 = "NTT_LC90_count",
 #'              column_T2 = "NTT_LC20_count")
+#' }
 
 plot_lc_freq <- function(lc_table, column_lc_type, column_T1, column_T2) {
   # Validate inputs
