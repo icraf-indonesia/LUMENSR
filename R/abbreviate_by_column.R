@@ -10,6 +10,7 @@
 #' @param remove_vowels A logical value indicating whether to remove vowels from column values after the first character. Default is FALSE.
 #' @importFrom textclean replace_non_ascii
 #' @return A data frame with specified columns abbreviated.
+#' @export
 #'
 #' @examples
 #' df <- data.frame(

@@ -11,6 +11,7 @@
 #' @importFrom terra compareGeom freq levels
 #' @importFrom dplyr left_join select arrange desc rename
 #' @importFrom purrr map
+#' @export
 #'
 #' @examples
 #' \dontrun{

@@ -10,7 +10,6 @@
 #'
 #' @param df A data frame that is used as a lookup table. Must have at least one column.
 #' @param col_name The name of the column to abbreviate. If NULL, the first character column is used.
-#' @param remove_vowels Remove vowels from words to make it shorter, TRUE/FALSE
 #'
 #' @return A tibble with an additional `abbr` column containing the abbreviated versions of the text
 #' in the specified column.
@@ -19,7 +18,7 @@
 #' @importFrom stringr str_detect
 #' @importFrom textclean replace_non_ascii
 #' @export
-abbreviate_lookup <- function(df, col_name = NULL, remove_vowels = FALSE) {
+abbreviate_lookup <- function(df, col_name = NULL) {
 
   # Check if df is a data frame
   if(!is.data.frame(df)) {
@@ -47,14 +46,12 @@ abbreviate_lookup <- function(df, col_name = NULL, remove_vowels = FALSE) {
   }
 
   # Define the abbreviation function
-  abbreviate_string <- function(input_string, remove_vowels = remove_vowels) {
+  abbreviate_string <- function(input_string) {
 
     # Remove characters after the slash, if any
     string <- textclean::replace_non_ascii(input_string)
     string <- strsplit(string," / ")[[1]][1]
 
-
-    if(remove_vowels == TRUE){
     # Replace spaces with underscores
     string <- gsub(" ", "_", string)
 
@@ -71,7 +68,6 @@ abbreviate_lookup <- function(df, col_name = NULL, remove_vowels = FALSE) {
 
     # Combine words back into a single string
     string <- paste(words, collapse = "_")
-    }
 
     return(string)
   }

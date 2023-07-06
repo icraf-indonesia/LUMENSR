@@ -6,7 +6,7 @@
 #' @importFrom stringr str_wrap
 #' @importFrom scales comma
 #' @importFrom viridis scale_fill_viridis
-#' @importFrom dplyr select_if is.numeric is.character
+#' @importFrom dplyr select_if
 #'
 #' @param lcc_table A data frame containing at least two columns of characters and one column of numeric values.
 #' @param col_T1 First column of characters. If NULL, the function will assign the first column containing characters.

@@ -19,7 +19,11 @@ Imports:
     networkD3,
     textclean,
     stringr,
-    ggrepel
+    ggrepel,
+    tidyr,
+    forcats,
+    viridis,
+    cowplot
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

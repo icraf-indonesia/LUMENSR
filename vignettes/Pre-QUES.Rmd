@@ -32,7 +32,7 @@ library(scales)
 # 1. Data yang digunakan
 
 ```{r}
-abbr <- lc_lookup_klhk %>%  abbreviate_lookup()
+lc_lookup_klhk %>%  abbreviate_lookup()
 ```
 
 ```{r}

@@ -10,12 +10,12 @@
 #' @return A ggplot object representing the side by side bar plot.
 #' @export
 #'
-#' @importFrom dplyr pivot_longer mutate
+#' @importFrom dplyr mutate
 #' @importFrom ggplot2 ggplot aes geom_bar scale_x_reverse coord_cartesian labs theme_minimal theme
 #' @importFrom forcats fct_reorder
 #' @importFrom cowplot plot_grid
 #' @importFrom stringr str_wrap
-#' @importFrom tidyr replace_na
+#' @importFrom tidyr replace_na pivot_longer
 #'
 #' @examples
 #' plot_lc_freq(lc_table = lc_tbl,
