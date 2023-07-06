@@ -32,7 +32,7 @@ library(scales)
 # 1. Data yang digunakan
 
 ```{r}
-lc_lookup_klhk_sequence %<>%  abbreviate_lookup()
+abbr <- lc_lookup_klhk %>%  abbreviate_lookup()
 ```
 
 ```{r}
@@ -71,6 +71,22 @@ print(tabel_singkatan)
 
 # 2. Hasil analisis pada tingkat bentang lahan
 
+## Tabel kondisi tutupan lahan
+```{r}
+lc_freq_table<- calc_lc_freq(raster_list = list(NTT_LC90, NTT_LC20))
+lc_freq_table
+```
+
+## Komposisi tutupan lahan
+```{r}
+lc_freq_table %>% 
+  plot_lc_freq(column_lc_type = "Jenis tutupan lahan", 
+               column_T1 = "NTT_LC90_count", 
+               column_T2 = "NTT_LC20_count")
+```
+
+
+
 ## Alur perubahan lahan dominan
 
 ```{r}
@@ -80,7 +96,7 @@ raster_files <- c("NTT_LC90.tif", "NTT_LC20.tif") %>%
 
 # Loop through raster files
 raster_list <- 
-  map(raster_files, ~apply_lookup_table(raster_file = .x, lookup_lc = lc_lookup_klhk_sequence))
+  map(raster_files, ~ apply_lookup_table(raster_file = .x, lookup_lc = lc_lookup_klhk_sequence))
 
 # Turn raster files into a frequency table
 crosstab_result <- create_crosstab(raster_list)
@@ -90,7 +106,8 @@ crosstab_result <- create_crosstab(raster_list)
 
 ```{r}
 # Input
-create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = FALSE)
+crosstab_result_abbreviated <- crosstab_result %>% abbreviate_by_column( c("NTT_LC90", "NTT_LC20"), remove_vowels = FALSE)
+create_sankey(freq_table = crosstab_result_abbreviated, area_cutoff = 10000, change_only = FALSE)
 ```
 
 ### Potret perubahan tutupan lahan
@@ -98,7 +115,7 @@ create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = F
 Tanpa mempertimbangkan tutupan lahan yang tidak berubah/ tetap.
 
 ```{r}
-create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = TRUE)
+create_sankey(freq_table = crosstab_result_abbreviated, area_cutoff = 10000, change_only = TRUE)
 ```
 
 ## 10 jenis perubahan dominan
@@ -106,35 +123,17 @@ create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = T
 ### Dalam Tabel
 
 ```{r}
-luc_top_10 <- crosstab_result %>% calc_top_lcc(n_rows = 10)
+luc_top_10 <- crosstab_result %>% calc_top_lcc(n_rows = 10) %>%
+  abbreviate_by_column( c("NTT_LC90", "NTT_LC20"), remove_vowels = FALSE)
 
 
-print_frequency_table(luc_top_10) 
+luc_top_10
 ```
 
 ### Dalam grafik
 
 ```{r}
-
-# Get all column names except "Freq"
-non_freq_cols <- colnames(luc_top_10)[!colnames(luc_top_10) %in% "Freq"]
-
-# Create a new combined label by concatenating all other columns
-luc_top_10$label <- apply(luc_top_10[non_freq_cols], 1, paste, collapse = " to ")
-
-# Wrap the text to a maximum width of 20 characters
-luc_top_10$label <- str_wrap(luc_top_10$label, width = 5)
-
-# Plot the data
-ggplot(luc_top_10, aes(x=reorder(label, Freq), y=Freq, fill=Freq)) +
-  geom_bar(stat="identity") +
-  coord_flip() +
-  labs(x="Land Cover Change", y="Frequency", 
-       #title="Frequency of Land Cover Change", 
-       fill="Frequency") +
-  theme_minimal() +
-  scale_y_continuous(labels = comma) +
-  viridis::scale_fill_viridis(discrete = FALSE, direction = -1, guide = "none", labels = comma)
+luc_top_10 %>% plot_lcc_freq_bar(col_T1 = "NTT_LC90" , col_T2 = "NTT_LC20",Freq = "Freq")
 
 ```
 
