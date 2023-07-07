@@ -7,6 +7,7 @@
 #' @importFrom scales comma
 #' @importFrom viridis scale_fill_viridis
 #' @importFrom dplyr select_if
+#' @importFrom stats reorder
 #'
 #' @param lcc_table A data frame containing at least two columns of characters and one column of numeric values.
 #' @param col_T1 First column of characters. If NULL, the function will assign the first column containing characters.
@@ -16,7 +17,9 @@
 #' @return A ggplot object showing the frequency of land cover changes as a bar chart.
 #'
 #' @examples
+#' \dontrun{
 #' plot_lcc_freq_bar(lcc_table = luc_top_10, col_T1 = NULL, col_T2 =NULL, Freq =NULL)
+#' }
 #' @export
 plot_lcc_freq_bar <- function(lcc_table, col_T1 = NULL, col_T2 = NULL, Freq = NULL) {
 

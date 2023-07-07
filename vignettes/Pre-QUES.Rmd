@@ -30,13 +30,15 @@ library(viridis)
 library(scales)
 ```
 
-# Bagaimana Analisis Ini Bekerja?
+# PreQUES-Land Use Change Analysis
+
+## Bagaimana Analisis Ini Bekerja?
 
 1.  **Peta tutupan lahan dari dua periode waktu**: Analisis perubahan lahan dimulai dengan membandingkan data peta tutupan lahan dari dua periode waktu yang berbeda. Ini memberikan gambaran tentang bagaimana lahan di suatu daerah berubah sepanjang waktu.
 
 2.  **Mengintegrasikan peta Unit Perencanaan**: Data unit perencanaan kemudian dimasukkan dalam proses ini. Ini memungkinkan kita untuk melihat kecenderungan perubahan tutupan lahan pada masing-masing kelas unit perencanaan.
 
-# **Mengapa Analisis Ini Penting?**
+## Mengapa Analisis Ini Penting?
 
 Hasil dari analisis ini berperan penting dalam proses perencanaan untuk berbagai aspek pembangunan. Berikut adalah beberapa aplikasinya:
 
