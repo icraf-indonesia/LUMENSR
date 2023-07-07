@@ -7,14 +7,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r setup}
 library(LUMENSR)
 library(magrittr)
 library(dplyr)
@@ -29,13 +28,35 @@ library(viridis)
 library(scales)
 ```
 
+# Bagaimana Analisis Ini Bekerja?
+
+1.  **Peta tutupan lahan dari dua periode waktu**: Analisis perubahan lahan dimulai dengan membandingkan data peta tutupan lahan dari dua periode waktu yang berbeda. Ini memberikan gambaran tentang bagaimana lahan di suatu daerah berubah sepanjang waktu.
+
+2.  **Mengintegrasikan peta Unit Perencanaan**: Data unit perencanaan kemudian dimasukkan dalam proses ini. Ini memungkinkan kita untuk melihat kecenderungan perubahan tutupan lahan pada masing-masing kelas unit perencanaan.
+
+# **Mengapa Analisis Ini Penting?**
+
+Hasil dari analisis ini berperan penting dalam proses perencanaan untuk berbagai aspek pembangunan. Berikut adalah beberapa aplikasinya:
+
+-   **Menentukan Prioritas Pembangunan**: Dengan memahami pola dan tren perubahan lahan, kita bisa menentukan area mana yang harus diberi prioritas dalam pembangunan.
+
+-   **Mengidentifikasi Faktor Pemicu**: Analisis ini membantu kita dalam mengidentifikasi faktor pemicu yang mempengaruhi perubahan penggunaan lahan.
+
+-   **Perencanaan Skenario Masa Depan**: Memahami perubahan masa lalu dan saat ini memungkinkan kita untuk merencanakan skenario pembangunan masa depan.
+
 # 1. Data yang digunakan
 
-```{r}
-lc_lookup_klhk %>%  abbreviate_lookup()
-```
+Berikut adalah komponen data yang digunakan dalam analisis perubahan lahan:
 
-```{r}
+-   **Peta Penggunaan Lahan**: Ini adalah sumber utama informasi yang menunjukkan pola dan distribusi penggunaan lahan di suatu area.
+
+-   **Peta Unit Perencanaan Daerah**: Sebagai petunjuk dari area perencanaan, peta ini digunakan untuk menunjukkan bagaimana lahan direncanakan untuk digunakan dan dikembangkan.
+
+-   **Tabel Acuan Tipe Penggunaan Lahan**: Tabel ini memberikan klasifikasi terperinci tentang berbagai tipe penggunaan lahan.
+
+-   **Tabel Acuan Kelas Unit Perencanaan**: Ini membantu kita memahami klasifikasi dan karakteristik dari unit-unit perencanaan yang berbeda.
+
+```{r echo=FALSE, fig.height=8, fig.width=12}
 NTT_LC90 <- LUMENSR_example("NTT_LC90.tif") %>%
 									 terra::rast() %>%
 									 add_legend_to_categorical_raster(
@@ -45,7 +66,7 @@ NTT_LC90 <- LUMENSR_example("NTT_LC90.tif") %>%
 plot_categorical_raster(NTT_LC90)
 ```
 
-```{r}
+```{r echo=FALSE, fig.height=8, fig.width=12}
 
 NTT_LC20 <- LUMENSR_example("NTT_LC20.tif") %>%
 									 terra::rast() %>%
@@ -56,40 +77,41 @@ NTT_LC20 <- LUMENSR_example("NTT_LC20.tif") %>%
 plot_categorical_raster(NTT_LC20)
 ```
 
-```{r}
+```{r echo=FALSE, fig.height=8, fig.width=12}
  plot_planning_unit(ntt_admin, "Kabupaten")
 ```
 
 ## Tabel deskripsi singkatan
 
-```{r}
+```{r echo=FALSE}
 tabel_singkatan <- lc_lookup_klhk_sequence %>% 
   dplyr::select(-color_pallette)
 
-print(tabel_singkatan)
+tabel_singkatan %>% rmarkdown::paged_table()
 ```
 
 # 2. Hasil analisis pada tingkat bentang lahan
 
 ## Tabel kondisi tutupan lahan
-```{r}
-lc_freq_table<- calc_lc_freq(raster_list = list(NTT_LC90, NTT_LC20))
-lc_freq_table
+
+```{r echo=FALSE}
+lc_freq_table <- calc_lc_freq(raster_list = list(NTT_LC90, NTT_LC20))
+lc_freq_table %>% rmarkdown::paged_table()
 ```
 
 ## Komposisi tutupan lahan
-```{r}
-lc_freq_table %>% abbreviate_by_column( "Jenis tutupan lahan", remove_vowels = FALSE) %>% 
+
+```{r echo=FALSE, fig.height=8, fig.width=12}
+lc_freq_table %>% 
+  abbreviate_by_column( "Jenis tutupan lahan", remove_vowels = FALSE) %>% 
   plot_lc_freq(column_lc_type = "Jenis tutupan lahan", 
                column_T1 = "NTT_LC90_count", 
                column_T2 = "NTT_LC20_count")
 ```
 
-
-
 ## Alur perubahan lahan dominan
 
-```{r}
+```{r echo=FALSE}
 raster_files <- c("NTT_LC90.tif", "NTT_LC20.tif") %>%
     map(LUMENSR_example) %>%
     map(rast)
@@ -102,11 +124,13 @@ raster_list <-
 crosstab_result <- create_crosstab(raster_list)
 ```
 
-### Kondisi tutupan lahan keseluruhan
+### Komposisi tutupan dan perubahan tutupan lahan
 
-```{r}
+```{r echo=FALSE, fig.height=8, fig.width=12}
 # Input
-crosstab_result_abbreviated <- crosstab_result %>% abbreviate_by_column( c("NTT_LC90", "NTT_LC20"), remove_vowels = FALSE)
+crosstab_result_abbreviated <- crosstab_result %>% 
+  abbreviate_by_column( c("NTT_LC90", "NTT_LC20"), remove_vowels = FALSE)
+
 create_sankey(freq_table = crosstab_result_abbreviated, area_cutoff = 10000, change_only = FALSE)
 ```
 
@@ -114,7 +138,7 @@ create_sankey(freq_table = crosstab_result_abbreviated, area_cutoff = 10000, cha
 
 Tanpa mempertimbangkan tutupan lahan yang tidak berubah/ tetap.
 
-```{r}
+```{r echo=FALSE, fig.height=8, fig.width=12}
 create_sankey(freq_table = crosstab_result_abbreviated, area_cutoff = 10000, change_only = TRUE)
 ```
 
@@ -122,19 +146,16 @@ create_sankey(freq_table = crosstab_result_abbreviated, area_cutoff = 10000, cha
 
 ### Dalam Tabel
 
-```{r}
+```{r echo=FALSE}
 luc_top_10 <- crosstab_result %>% calc_top_lcc(n_rows = 10) %>%
   abbreviate_by_column( c("NTT_LC90", "NTT_LC20"), remove_vowels = FALSE)
 
-
-luc_top_10
+luc_top_10 %>% rmarkdown::paged_table()
 ```
 
 ### Dalam grafik
 
-```{r}
+```{r echo=FALSE, fig.height=8, fig.width=12}
 luc_top_10 %>% plot_lcc_freq_bar(col_T1 = "NTT_LC90" , col_T2 = "NTT_LC20",Freq = "Freq")
 
 ```
-
-# Hasil analisis pada unit perencanaan
