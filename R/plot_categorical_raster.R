@@ -31,8 +31,8 @@ plot_categorical_raster <- function(raster_object) {
           axis.title.y = element_blank(),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
-          legend.title = element_text(size = 8),
-          legend.text = element_text(size = 6),
+          legend.title = element_text(size = 12),
+          legend.text = element_text(size = 10),
           legend.key.height = unit(0.25, "cm"),
           legend.key.width = unit(0.25, "cm"),
           legend.position = "bottom")
