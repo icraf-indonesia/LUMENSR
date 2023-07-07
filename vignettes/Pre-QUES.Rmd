@@ -1,6 +1,8 @@
 ---
 title: "Pre-QUES"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Pre-QUES}
   %\VignetteEngine{knitr::rmarkdown}
@@ -84,7 +86,8 @@ plot_categorical_raster(NTT_LC20)
 ## Tabel deskripsi singkatan
 
 ```{r echo=FALSE}
-tabel_singkatan <- lc_lookup_klhk_sequence %>% 
+tabel_singkatan <- lc_lookup_klhk %>%
+  abbreviate_lookup() %>% 
   dplyr::select(-color_pallette)
 
 tabel_singkatan %>% rmarkdown::paged_table()
@@ -96,7 +99,9 @@ tabel_singkatan %>% rmarkdown::paged_table()
 
 ```{r echo=FALSE}
 lc_freq_table <- calc_lc_freq(raster_list = list(NTT_LC90, NTT_LC20))
-lc_freq_table %>% rmarkdown::paged_table()
+lc_freq_table %>% 
+  abbreviate_by_column( "Jenis tutupan lahan", remove_vowels = FALSE) %>%
+  rmarkdown::paged_table(options = list(cols.min.print = 3))
 ```
 
 ## Komposisi tutupan lahan
