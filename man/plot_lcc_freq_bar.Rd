@@ -22,5 +22,7 @@ A ggplot object showing the frequency of land cover changes as a bar chart.
 This function takes in a data frame and plots the frequency of land cover changes as a bar chart.
 }
 \examples{
+\dontrun{
 plot_lcc_freq_bar(lcc_table = luc_top_10, col_T1 = NULL, col_T2 =NULL, Freq =NULL)
+}
 }

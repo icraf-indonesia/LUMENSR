@@ -8,6 +8,13 @@
 \description{
 This proposal suggests an experiment to package the core functions of LUMENS as an R package. By packaging the functions, LUMENS developers could benefit from improved code organization, version control, and testing capabilities.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://icraf-indonesia.github.io/LUMENSR/}
+}
+
+}
 \author{
 \strong{Maintainer}: Dony Indiarto \email{d.indiarto@cifor-icraf.org} (\href{https://orcid.org/0000-0001-9546-8201}{ORCID})
 
