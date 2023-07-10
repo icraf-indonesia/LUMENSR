@@ -11,7 +11,8 @@
 #' @importFrom sf st_drop_geometry st_geometry_type st_crs
 #' @importFrom terra vect ext rast rasterize levels
 #' @export
-#' @example rasterize_shapefile(ntt_admin, c(100,100), field = "ID")
+#' @example
+#' rasterize_shapefile(ntt_admin, c(100,100), field = "ID")
 rasterise_multipolygon <- function(sf_object, raster_res = c(100,100), field = "ID"){
 
   # Error checking

@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @importFrom dplyr mutate
-#' @importFrom ggplot2 ggplot aes geom_bar scale_x_reverse coord_cartesian labs theme_minimal theme
+#' @importFrom ggplot2 ggplot aes geom_bar scale_x_reverse coord_cartesian labs theme_minimal theme geom_blank theme_void scale_x_continuous
 #' @importFrom forcats fct_reorder
 #' @importFrom cowplot plot_grid
 #' @importFrom stringr str_wrap
