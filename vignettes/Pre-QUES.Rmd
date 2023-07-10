@@ -80,7 +80,8 @@ plot_categorical_raster(NTT_LC20)
 ```
 
 ```{r echo=FALSE, fig.height=8, fig.width=12}
- plot_planning_unit(ntt_admin, "Kabupaten")
+plot_planning_unit(ntt_admin, "Kabupaten")
+
 ```
 
 ## Tabel deskripsi singkatan
@@ -117,26 +118,43 @@ lc_freq_table %>%
 ## Alur perubahan lahan dominan
 
 ```{r echo=FALSE}
+# Get full paths of raster files and convert them to SpatRaster objects
 raster_files <- c("NTT_LC90.tif", "NTT_LC20.tif") %>%
     map(LUMENSR_example) %>%
     map(rast)
 
-# Loop through raster files
-raster_list <- 
-  map(raster_files, ~ apply_lookup_table(raster_file = .x, lookup_lc = lc_lookup_klhk_sequence))
+# Rasterize the sf MULTIPOLYGON object
+admin_map <- ntt_admin %>% 
+  rasterise_multipolygon()
 
-# Turn raster files into a frequency table
+# Apply lookup table to each raster file and store results in a list along with admin_map
+raster_list <- 
+  c(map(raster_files, ~ apply_lookup_table(raster_file = .x, lookup_lc = lc_lookup_klhk_sequence)),
+    list(admin_map))
+
+# Create a frequency table from the list of raster files
 crosstab_result <- create_crosstab(raster_list)
 ```
 
 ### Komposisi tutupan dan perubahan tutupan lahan
 
-```{r echo=FALSE, fig.height=8, fig.width=12}
-# Input
-crosstab_result_abbreviated <- crosstab_result %>% 
+```{r}
+#Crosstab at landscape level
+crosstab_landscape <- crosstab_result %>% 
+  select(-Kabupaten) %>% 
+  group_by_at(setdiff(names(.), "Freq")) %>%
+  summarise(Freq = sum(Freq), .groups = "drop") %>% 
   abbreviate_by_column( c("NTT_LC90", "NTT_LC20"), remove_vowels = FALSE)
 
-create_sankey(freq_table = crosstab_result_abbreviated, area_cutoff = 10000, change_only = FALSE)
+
+```
+
+
+```{r echo=FALSE, fig.height=8, fig.width=12}
+crosstab_landscape %>% 
+  create_sankey(
+              area_cutoff = 10000, 
+              change_only = FALSE)
 ```
 
 ### Potret perubahan tutupan lahan
@@ -144,7 +162,10 @@ create_sankey(freq_table = crosstab_result_abbreviated, area_cutoff = 10000, cha
 Tanpa mempertimbangkan tutupan lahan yang tidak berubah/ tetap.
 
 ```{r echo=FALSE, fig.height=8, fig.width=12}
-create_sankey(freq_table = crosstab_result_abbreviated, area_cutoff = 10000, change_only = TRUE)
+crosstab_landscape %>% 
+  create_sankey( 
+              area_cutoff = 10000, 
+              change_only = TRUE)
 ```
 
 ## 10 jenis perubahan dominan
@@ -152,8 +173,8 @@ create_sankey(freq_table = crosstab_result_abbreviated, area_cutoff = 10000, cha
 ### Dalam Tabel
 
 ```{r echo=FALSE}
-luc_top_10 <- crosstab_result %>% calc_top_lcc(n_rows = 10) %>%
-  abbreviate_by_column( c("NTT_LC90", "NTT_LC20"), remove_vowels = FALSE)
+luc_top_10 <- crosstab_landscape %>% 
+  calc_top_lcc(n_rows = 10)
 
 luc_top_10 %>% rmarkdown::paged_table()
 ```
@@ -161,6 +182,7 @@ luc_top_10 %>% rmarkdown::paged_table()
 ### Dalam grafik
 
 ```{r echo=FALSE, fig.height=8, fig.width=12}
-luc_top_10 %>% plot_lcc_freq_bar(col_T1 = "NTT_LC90" , col_T2 = "NTT_LC20",Freq = "Freq")
+luc_top_10 %>% 
+  plot_lcc_freq_bar(col_T1 = "NTT_LC90" , col_T2 = "NTT_LC20",Freq = "Freq")
 
 ```
