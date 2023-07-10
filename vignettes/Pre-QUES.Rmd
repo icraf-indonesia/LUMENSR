@@ -133,7 +133,8 @@ raster_list <-
     list(admin_map))
 
 # Create a frequency table from the list of raster files
-crosstab_result <- create_crosstab(raster_list)
+crosstab_result <- create_crosstab(raster_list)%>% 
+  abbreviate_by_column( c("NTT_LC90", "NTT_LC20"), remove_vowels = FALSE)
 ```
 
 ### Komposisi tutupan dan perubahan tutupan lahan
@@ -145,15 +146,12 @@ crosstab_landscape <- crosstab_result %>%
   group_by_at(setdiff(names(.), "Freq")) %>%
   summarise(Freq = sum(Freq), .groups = "drop") %>% 
   abbreviate_by_column( c("NTT_LC90", "NTT_LC20"), remove_vowels = FALSE)
-
-
 ```
 
 
 ```{r echo=FALSE, fig.height=8, fig.width=12}
 crosstab_landscape %>% 
-  create_sankey(
-              area_cutoff = 10000, 
+  create_sankey(area_cutoff = 10000, 
               change_only = FALSE)
 ```
 
@@ -186,3 +184,21 @@ luc_top_10 %>%
   plot_lcc_freq_bar(col_T1 = "NTT_LC90" , col_T2 = "NTT_LC20",Freq = "Freq")
 
 ```
+
+# 3. Hasil analisis pada tingkat unit perencanaan
+```{r}
+pu_names <- crosstab_result %>% 
+  pull(Kabupaten) %>% unique()
+
+results_list <- purrr::map(pu_names, 
+                           ~ lcc_summary_by_pu(crosstab_tbl = crosstab_result, 
+                                               pu_column = "Kabupaten", 
+                                               pu_name = .x, 
+                                               sankey_area_cutoff = 1000, 
+                                               n_top_lcc = 10))
+
+results_list <- set_names(results_list, pu_names)
+```
+
+
+
