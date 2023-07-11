@@ -157,3 +157,14 @@
 #' head(crosstab_result)
 "crosstab_result"
 
+#' District boundaries of East Nusa Tenggara in spatraster format
+#'
+#' @description
+#' A data frame containing the district boundaries of East Nusa Tenggara.
+#'
+#' @format A data frame with 22 features and 2 fields:
+#' \describe{
+#'   \item{ID}{Country name}
+#'   \item{Kabupaten}{District names of East Nusa Tenggara}
+#' }
+"ntt_admin_lookup"
