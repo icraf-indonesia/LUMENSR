@@ -21,3 +21,6 @@ This function rasterizes an sf MULTIPOLYGON object to a SpatRaster object. The f
 an attribute table from the sf object, by assigning categorical ID values to the raster values.
 The rasterized SpatRaster object will also contain a legend derived from the attribute table of the sf object.
 }
+\examples{
+rasterise_multipolygon(sf_object = ntt_admin, raster_res = c(100,100), field = "ID")
+}
