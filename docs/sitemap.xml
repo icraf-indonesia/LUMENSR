@@ -67,7 +67,13 @@
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/lc_lookup_klhk_sequence.html</loc>
   </url>
   <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/lcc_summary_by_pu.html</loc>
+  </url>
+  <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/ntt_admin.html</loc>
+  </url>
+  <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/ntt_admin_lookup.html</loc>
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/pipe.html</loc>
@@ -89,6 +95,12 @@
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/print_frequency_table.html</loc>
+  </url>
+  <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/ques_pre.html</loc>
+  </url>
+  <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/rasterise_multipolygon.html</loc>
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/vis_map_temperature.html</loc>
