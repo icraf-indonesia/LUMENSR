@@ -80,7 +80,7 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># Loop through raster files</span></span></span>
 <span class="r-in"><span>  <span class="va">raster_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">raster_files</span>,</span></span>
-<span class="r-in"><span>                            <span class="op">~</span><span class="fu"><a href="apply_lookup_table.html">apply_lookup_table</a></span><span class="op">(</span>raster_file <span class="op">=</span> <span class="va">.x</span>,</span></span>
+<span class="r-in"><span>                            <span class="op">~</span><span class="fu">apply_lookup_table</span><span class="op">(</span>raster_file <span class="op">=</span> <span class="va">.x</span>,</span></span>
 <span class="r-in"><span>                                                lookup_lc <span class="op">=</span> <span class="va">subset_legend</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># Turn raster files into a frequency table</span></span></span>
