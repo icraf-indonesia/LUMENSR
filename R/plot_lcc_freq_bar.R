@@ -39,10 +39,10 @@ plot_lcc_freq_bar <- function(lcc_table, col_T1 = NULL, col_T2 = NULL, Freq = NU
     Freq <- names(select_if(lcc_table, is.numeric))[1]
   }
   # Create a new combined label by concatenating the two character columns
-  lcc_table$label <- apply(lcc_table[c(col_T1, col_T2)], 1, paste, collapse = " to ")
+  lcc_table[["label"]] <- apply(lcc_table[c(col_T1, col_T2)], 1, paste, collapse = " to ")
 
   # Wrap the text to a maximum width of 30 characters
-  lcc_table$label <- str_wrap(lcc_table$label, width = 30)
+  lcc_table[["label"]] <- str_wrap( lcc_table[["label"]], width = 30)
 
   # Plot the data
   p <- ggplot(lcc_table, aes(x=reorder(label, !!sym(Freq)), y= Freq, fill= Freq)) +
