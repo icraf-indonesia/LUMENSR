@@ -33,6 +33,7 @@
 #' ques_pre(lc_t1_, lc_t2_, admin_z)
 #' }
 ques_pre <- function(lc_t1, lc_t2, admin_) {
+
   # Guardrails to check the input types
   stopifnot(is(lc_t1, "SpatRaster"), is(lc_t2, "SpatRaster"), is(admin_, "SpatRaster"))
 
@@ -64,6 +65,9 @@ ques_pre <- function(lc_t1, lc_t2, admin_) {
     plot_lc_t1 = plot_lc_t1,
     plot_lc_t2 = plot_lc_t2,
     plot_admin = plot_admin,
+    tbl_lookup_lc_t1 = cats(lc_t1)[[1]],
+    tbl_lookup_lc_t2 = cats(lc_t2)[[1]],
+    tbl_lookup_admin = cats(admin_)[[1]],
     lc_composition_tbl = lc_composition_tbl,
     lc_composition_barplot = lc_composition_barplot
   )
@@ -74,10 +78,18 @@ ques_pre <- function(lc_t1, lc_t2, admin_) {
     abbreviate_by_column( c(names(lc_t1), names(lc_t2)), remove_vowels = FALSE)
 
   # Summarize crosstabulation at landscape level
-  crosstab_landscape <- crosstab_result %>%
-    select(-names(admin_)) %>%
-    group_by_at(setdiff(names(crosstab_result), "Freq")) %>%
-    summarise(Freq = sum(Freq), .groups = "drop")
+  # Subsetting the crosstab_result data frame
+  selected_cols <- select(crosstab_result, -names(admin_))
+
+  # Getting the names of the columns to be grouped
+  group_cols <- setdiff(names(selected_cols), "Freq")
+
+  # Grouping the data frame by the columns selected above
+  grouped_df <- group_by_at(selected_cols, group_cols)
+
+  # Summarizing the grouped data
+  crosstab_landscape <- summarise(grouped_df, Freq = sum(Freq), .groups = "drop")
+
 
   # Create Sankey diagrams at landscape level
   ## Sankey diagram showing all changes
