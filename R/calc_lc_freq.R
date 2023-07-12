@@ -33,6 +33,7 @@
 #' print(freq_table)
 #' }
 calc_lc_freq <- function(raster_list) {
+
   # Check if input is a single raster layer
   if (class(raster_list)[1] == "SpatRaster") {
     raster_list <- list(raster_list)
@@ -43,7 +44,7 @@ calc_lc_freq <- function(raster_list) {
   # Check if all rasters have the same extent and CRS
   if (length(raster_list) > 1) {
     for (i in 2:length(raster_list)) {
-      if (!terra::compareGeom(raster_list[[1]], raster_list[[i]], stopiffalse = FALSE)) {
+      if (!terra::compareGeom(raster_list[[1]], raster_list[[i]])) {
         stop("All rasters must have the same extent and projection system")
       }
     }
