@@ -12,8 +12,8 @@ test_that("create_crosstab returns a data frame", {
 
   # Loop through raster files
   raster_list <- map(raster_files,
-                     ~apply_lookup_table(raster_file = .x,
-                                         lookup_lc = subset_legend))
+                     ~add_legend_to_categorical_raster(raster_file = .x,
+                                                       lookup_table = subset_legend))
 
   # Turn raster files into a frequency table
   crosstab_result <- create_crosstab(raster_list)
