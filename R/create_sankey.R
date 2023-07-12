@@ -7,7 +7,7 @@
 #' @param area_cutoff Minimum number of pixels of land use land cover frequency to include.
 #' @param change_only Logical flag, if TRUE exclude persistent land cover.
 #' @return A Sankey plot.
-#' @importFrom dplyr mutate_if rowwise filter ungroup mutate across cur_column n_distinct
+#' @importFrom dplyr mutate_if rowwise filter ungroup mutate across cur_column n_distinct c_across
 #' @importFrom networkD3 sankeyNetwork
 #' @export
 #' @examples
