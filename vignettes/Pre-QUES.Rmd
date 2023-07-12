@@ -129,7 +129,7 @@ admin_map <- ntt_admin %>%
 
 # Apply lookup table to each raster file and store results in a list along with admin_map
 raster_list <- 
-  c(map(raster_files, ~ apply_lookup_table(raster_file = .x, lookup_lc = lc_lookup_klhk_sequence)),
+  c(map(raster_files, ~ add_legend_to_categorical_raster(raster_file = .x, lookup_table = lc_lookup_klhk_sequence)),
     list(admin_map))
 
 # Create a frequency table from the list of raster files
