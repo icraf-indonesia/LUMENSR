@@ -1,0 +1,190 @@
+---
+title: "PreQUES-Land Use Change Analysis"
+format: 
+   html:
+     df-print: kable
+editor: visual
+editor_options: 
+  chunk_output_type: console
+execute:
+  cache: false
+---
+
+```{r include=FALSE}
+library(magrittr)
+library(LUMENSR)
+library(terra)
+
+lc_t1_ <- LUMENSR_example("NTT_LC90.tif") %>%
+  terra::rast() %>%
+  add_legend_to_categorical_raster(
+    raster_file = .,
+    lookup_table = lc_lookup_klhk_sequence
+  )
+## Load and annotate land cover data for period T2
+lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
+  terra::rast() %>%
+  add_legend_to_categorical_raster(
+    raster_file = .,
+    lookup_table = lc_lookup_klhk_sequence
+  )
+# Load planning unit data
+admin_z <- LUMENSR_example("ntt_admin_spatraster.tif") %>%
+  terra::rast()
+
+ques_pre_output <- ques_pre(lc_t1_, lc_t2_, admin_z)
+```
+
+## Bagaimana Analisis Ini Bekerja?
+
+1.  **Peta tutupan lahan dari dua periode waktu**: Analisis perubahan lahan dimulai dengan membandingkan data peta tutupan lahan dari dua periode waktu yang berbeda. Ini memberikan gambaran tentang bagaimana lahan di suatu daerah berubah sepanjang waktu.
+
+2.  **Mengintegrasikan peta Unit Perencanaan**: Data unit perencanaan kemudian dimasukkan dalam proses ini. Ini memungkinkan kita untuk melihat kecenderungan perubahan tutupan lahan pada masing-masing kelas unit perencanaan.
+
+## Mengapa Analisis Ini Penting?
+
+Hasil dari analisis ini berperan penting dalam proses perencanaan untuk berbagai aspek pembangunan. Berikut adalah beberapa aplikasinya:
+
+-   **Menentukan Prioritas Pembangunan**: Dengan memahami pola dan tren perubahan lahan, kita bisa menentukan area mana yang harus diberi prioritas dalam pembangunan.
+
+-   **Mengidentifikasi Faktor Pemicu**: Analisis ini membantu kita dalam mengidentifikasi faktor pemicu yang mempengaruhi perubahan penggunaan lahan.
+
+-   **Perencanaan Skenario Masa Depan**: Memahami perubahan masa lalu dan saat ini memungkinkan kita untuk merencanakan skenario pembangunan masa depan.
+
+# 1. Data yang digunakan
+
+Berikut adalah komponen data yang digunakan dalam analisis perubahan lahan:
+
+-   **Peta Penggunaan Lahan**: Ini adalah sumber utama informasi yang menunjukkan pola dan distribusi penggunaan lahan di suatu area.
+
+-   **Peta Unit Perencanaan Daerah**: Sebagai petunjuk dari area perencanaan, peta ini digunakan untuk menunjukkan bagaimana lahan direncanakan untuk digunakan dan dikembangkan.
+
+-   **Tabel Acuan Tipe Penggunaan Lahan**: Tabel ini memberikan klasifikasi terperinci tentang berbagai tipe penggunaan lahan.
+
+-   **Tabel Acuan Kelas Unit Perencanaan**: Ini membantu kita memahami klasifikasi dan karakteristik dari unit-unit perencanaan yang berbeda.
+
+::: panel-tabset
+## Peta Penggunaan Lahan T1
+
+```{r}
+#| echo: false
+ques_pre_output[["input_dataviz"]][["plot_lc_t1"]]
+```
+
+## Tabel Acuan Tipe Penggunaan Lahan T1
+
+```{r}
+#| echo: false
+ques_pre_output[["input_dataviz"]][["tbl_lookup_lc_t1"]]
+```
+:::
+
+::: panel-tabset
+## Peta Penggunaan Lahan T2
+
+```{r}
+#| echo: false
+ques_pre_output[["input_dataviz"]][["plot_lc_t2"]]
+```
+
+## Tabel Acuan Tipe Penggunaan Lahan T2
+
+```{r}
+#| echo: false
+ques_pre_output[["input_dataviz"]][["tbl_lookup_lc_t2"]]
+```
+:::
+
+::: panel-tabset
+## Peta Unit Perencanaan Daerah
+
+```{r}
+#| echo: false
+ques_pre_output[["input_dataviz"]][["plot_admin"]]
+```
+
+## Tabel Acuan Kelas Unit Perencanaan
+
+```{r}
+#| echo: false
+ques_pre_output[["input_dataviz"]][["tbl_lookup_admin"]]
+```
+:::
+
+# 2. Hasil analisis pada tingkat bentang lahan
+
+::: panel-tabset
+## Tabel kondisi tutupan lahan
+
+```{r}
+#| echo: false
+ques_pre_output[["input_dataviz"]][["lc_composition_tbl"]]
+```
+
+## Komposisi tutupan lahan
+
+```{r}
+#| echo: false
+ques_pre_output[["input_dataviz"]][["lc_composition_barplot"]]
+```
+:::
+
+## Dinamika tutupan lahan secara keseluruhan
+
+```{r}
+#| echo: false
+ques_pre_output[["landscape_level"]][["sankey_landscape"]]
+```
+
+~\*Hanya perubahan diatas 1000 pixel yang ditampilkan.~
+
+## Potret perubahan tutupan lahan
+~\*Tanpa\ mempertimbangkan\ tutupan\ lahan\ yang\ tidak\ berubah/\ tetap.~
+
+::: panel-tabset
+
+## Perubahan tutupan lahan
+```{r}
+#| echo: false
+ques_pre_output[["landscape_level"]][["sankey_landscape_chg_only"]]
+```
+~\*Hanya perubahan diatas 1000 pixel yang ditampilkan.~
+
+## Tabel 10 jenis perubahan tutupan lahan teratas
+
+```{r}
+#| echo: false
+ques_pre_output[["landscape_level"]][["luc_top_10_tbl"]]
+```
+
+## Grafik 10 jenis perubahan tutupan lahan teratas
+
+```{r}
+#| echo: false
+ques_pre_output[["landscape_level"]][["luc_top_10_barplot"]]
+```
+:::
+
+# 3. Hasil analisis pada tingkat unit perencanaan
+
+```{r}
+#| echo: false
+render_child <- function(results_list, i) {
+  res = knitr::knit_child(
+   text = xfun::read_utf8("quespre_by_pu.qmd"),
+   envir = rlang::env(results_list = results_list, i = i),
+   quiet = TRUE
+  )
+  cat(res, sep = '\n')
+  cat("\n")
+}
+```
+
+```{r}
+#| results: "asis"
+#| echo: false
+for (i in names(ques_pre_output[["pu_level"]])) {
+  render_child(results_list = ques_pre_output[["pu_level"]], i = i)
+}
+```
+
