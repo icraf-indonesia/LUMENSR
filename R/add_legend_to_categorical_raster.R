@@ -6,6 +6,7 @@
 #' @param lookup_table A corresponding lookup table of descriptions for each class category
 #' @return A raster file that contains descriptions for each class category
 #' @importFrom terra levels
+#' @importFrom stats setNames
 #' @export
 #'
 #' @examples
