@@ -1,5 +1,7 @@
 <!-- badges: start -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![R-CMD-check](https://github.com/icraf-indonesia/LUMENSR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/icraf-indonesia/LUMENSR/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/icraf-indonesia/LUMENSR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/icraf-indonesia/LUMENSR?branch=main)
 <!-- badges: end -->
 
 # LUMENSR: A Proposal <a href="https://icraf-indonesia.github.io/LUMENSR/"><img src="man/figures/logo.png" align="right" height="138" alt="LUMENSR website" /></a>
