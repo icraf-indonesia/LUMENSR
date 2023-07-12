@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-# LUMENSR: A proposal
+# LUMENSR: A Proposal <a href="https://icraf-indonesia.github.io/LUMENSR/"><img src="man/figures/logo.png" align="right" height="138" alt="LUMENSR website" /></a>
 
 **This is an experiment to package the core functions of LUMENS as an R package.** By packaging the functions, LUMENS developers could benefit from improved code organization, version control, and testing capabilities. The proposed exercise will primarily rely on the [devtools](https://github.com/r-lib/devtools).
 
