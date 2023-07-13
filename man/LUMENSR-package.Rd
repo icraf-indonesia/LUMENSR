@@ -6,6 +6,8 @@
 \alias{LUMENSR-package}
 \title{LUMENSR: An R package for land use planning and management of multiple environmental services}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 This proposal suggests an experiment to package the core functions of LUMENS as an R package. By packaging the functions, LUMENS developers could benefit from improved code organization, version control, and testing capabilities.
 }
 \seealso{
