@@ -5,7 +5,7 @@
 #' are added as text labels that repel each other to minimize overlap.
 #'
 #' @param planning_unit A sf object representing the planning units.
-#' @param map_label A string representing the column name to use for labels.
+#' @param map_label A string representing the column name to use for labels. If empty, the second column of planning_unit is used.
 #'
 #' @return A ggplot object.
 #'
@@ -14,7 +14,7 @@
 #' @importFrom sf st_is
 #' @importFrom rlang !! sym
 #' @export
-plot_planning_unit <- function(planning_unit, map_label) {
+plot_planning_unit <- function(planning_unit, map_label = NULL) {
   # Check if planning_unit is a sf object
   if(!inherits(planning_unit, "sf")) {
     stop("planning_unit must be an sf object")
@@ -28,6 +28,11 @@ plot_planning_unit <- function(planning_unit, map_label) {
   # Check if planning_unit has a column named "geometry"
   if(!"geometry" %in% names(planning_unit)) {
     stop("planning_unit must have a column named 'geometry'")
+  }
+
+  # If map_label is not provided, use the second column
+  if(is.null(map_label)) {
+    map_label <- names(planning_unit)[2]
   }
 
   # Check if map_label is a string that is present among the names of the sf polygon attribute table

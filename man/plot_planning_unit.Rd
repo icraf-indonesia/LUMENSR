@@ -4,12 +4,12 @@
 \alias{plot_planning_unit}
 \title{Create a plot of a spatial planning unit with labels.}
 \usage{
-plot_planning_unit(planning_unit, map_label)
+plot_planning_unit(planning_unit, map_label = NULL)
 }
 \arguments{
 \item{planning_unit}{A sf object representing the planning units.}
 
-\item{map_label}{A string representing the column name to use for labels.}
+\item{map_label}{A string representing the column name to use for labels. If empty, the second column of planning_unit is used.}
 }
 \value{
 A ggplot object.
