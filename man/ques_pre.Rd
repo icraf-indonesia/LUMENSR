@@ -4,7 +4,7 @@
 \alias{ques_pre}
 \title{Pre-QUES Land cover change analysis}
 \usage{
-ques_pre(lc_t1, lc_t2, admin_)
+ques_pre(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 100)
 }
 \arguments{
 \item{lc_t1}{A spatRaster object representing land cover data for period T1.}
@@ -12,6 +12,10 @@ ques_pre(lc_t1, lc_t2, admin_)
 \item{lc_t2}{A spatRaster object representing land cover data for period T2.}
 
 \item{admin_}{A spatRaster object representing planning unit data.}
+
+\item{cutoff_landscape}{minimum number of pixel/ area to be displayed in sankey plot at landscape level}
+
+\item{cutoff_pu}{minimum number of pixel/ area to be displayed in sankey plot at planing unit level}
 }
 \value{
 A list of results containing input data visualizations, landscape level results, and planning unit level results.

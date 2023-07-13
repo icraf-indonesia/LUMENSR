@@ -3,8 +3,10 @@
 #' @param lc_t1 A spatRaster object representing land cover data for period T1.
 #' @param lc_t2 A spatRaster object representing land cover data for period T2.
 #' @param admin_ A spatRaster object representing planning unit data.
+#' @param cutoff_landscape minimum number of pixel/ area to be displayed in sankey plot at landscape level
+#' @param cutoff_pu minimum number of pixel/ area to be displayed in sankey plot at planing unit level
 #' @return A list of results containing input data visualizations, landscape level results, and planning unit level results.
-#' @importFrom terra rast cats
+#' @importFrom terra rast cats compareGeom
 #' @importFrom dplyr select group_by_at summarise pull
 #' @importFrom purrr map
 #' @importFrom rlang set_names
@@ -32,21 +34,32 @@
 #'   terra::rast()
 #' ques_pre(lc_t1_, lc_t2_, admin_z)
 #' }
-ques_pre <- function(lc_t1, lc_t2, admin_) {
+ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 100) {
+
+  ## Plot planning unit
+  if (!is(admin_, "SpatRaster")) {
+    stopifnot(is(admin_, "sf")) # Ensure admin_ is either SpatRaster or sf (multipolygon)
+    plot_admin <- plot_planning_unit(admin_)
+    admin_ <- rasterise_multipolygon(admin_) # convert admin_ to a spatraster
+  } else {
+    plot_admin <- plot_categorical_raster(admin_)
+  }
 
   # Guardrails to check the input types
-  stopifnot(is(lc_t1, "SpatRaster"), is(lc_t2, "SpatRaster"), is(admin_, "SpatRaster"))
+  stopifnot(is(lc_t1, "SpatRaster"), is(lc_t2, "SpatRaster"))
 
   # Guardrails to check if the input rasters have attribute tables
-  stopifnot(!is.null(cats(lc_t1)[[1]]), !is.null(cats(lc_t2)[[1]]), !is.null(cats(admin_)[[1]]))
+  stopifnot(!is.null(cats(lc_t1)[[1]]), !is.null(cats(lc_t2)[[1]]))
+
+  # Guardrail to ensure identical extent and projection system
+  compareGeom(lc_t1, lc_t2, admin_, stopOnError = TRUE)
 
   # Plot land cover for both periods and the planning unit
   ## Plot land cover T1
   plot_lc_t1 <- plot_categorical_raster(lc_t1)
   ## Plot land cover T2
   plot_lc_t2 <- plot_categorical_raster(lc_t2)
-  ## Plot planning unit
-  plot_admin <- plot_categorical_raster(admin_)
+
 
   # Calculate and tabulate land cover composition
   lc_freq_table <- calc_lc_freq(raster_list = list(lc_t1, lc_t2)) %>%
@@ -94,10 +107,10 @@ ques_pre <- function(lc_t1, lc_t2, admin_) {
   # Create Sankey diagrams at landscape level
   ## Sankey diagram showing all changes
   sankey_landscape <- crosstab_landscape %>%
-    create_sankey(area_cutoff = 1000, change_only = FALSE)
+    create_sankey(area_cutoff = cutoff_landscape, change_only = FALSE)
   ## Sankey diagram showing only changes
   sankey_landscape_chg_only<- crosstab_landscape %>%
-    create_sankey(area_cutoff = 1000, change_only = TRUE)
+    create_sankey(area_cutoff = cutoff_landscape, change_only = TRUE)
 
   # Compute 10 dominant land use changes
   luc_top_10 <- crosstab_landscape %>% calc_top_lcc(n_rows = 10)
@@ -116,7 +129,7 @@ ques_pre <- function(lc_t1, lc_t2, admin_) {
 
   # Compute summaries for each planning unit
   pu_names <- crosstab_result %>% pull(names(admin_)) %>% unique()
-  pu_level <- purrr::map(pu_names, ~ lcc_summary_by_pu(crosstab_tbl = crosstab_result, pu_column = names(admin_), pu_name = .x, sankey_area_cutoff = 100, n_top_lcc = 10))
+  pu_level <- purrr::map(pu_names, ~ lcc_summary_by_pu(crosstab_tbl = crosstab_result, pu_column = names(admin_), pu_name = .x, sankey_area_cutoff = cutoff_pu, n_top_lcc = 10))
   pu_level <- set_names(pu_level, pu_names)
 
   # Return all results
