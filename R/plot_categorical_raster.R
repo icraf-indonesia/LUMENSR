@@ -9,7 +9,7 @@
 #'
 #' @return A ggplot object.
 #' @importFrom tidyterra scale_fill_hypso_d
-#' @importFrom ggplot2 ggplot theme_bw labs theme scale_fill_manual element_text unit element_blank
+#' @importFrom ggplot2 ggplot theme_bw labs theme scale_fill_manual element_text unit element_blank guides guide_legend
 #' @importFrom tidyterra geom_spatraster scale_fill_hypso_d
 #' @export
 plot_categorical_raster <- function(raster_object) {
@@ -27,6 +27,7 @@ plot_categorical_raster <- function(raster_object) {
     fill_scale +
     theme_bw() +
     labs(title = names(raster_object)) +
+    guides(fill = guide_legend(title.position = "top", ncol=3))+
     theme(axis.title.x = element_blank(),
           axis.title.y = element_blank(),
           panel.grid.major = element_blank(),
@@ -35,7 +36,8 @@ plot_categorical_raster <- function(raster_object) {
           legend.text = element_text(size = 10),
           legend.key.height = unit(0.25, "cm"),
           legend.key.width = unit(0.25, "cm"),
-          legend.position = "bottom")
+          legend.position = "bottom",
+          legend.justification = c(0,0.8))
 
   return(plot_lc)
 }
