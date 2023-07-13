@@ -7,7 +7,7 @@ toc: true
 number-sections: true
 editor: visual
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 execute:
   cache: false
 ---
@@ -15,20 +15,21 @@ execute:
 ```{r include=FALSE}
 library(magrittr)
 library(LUMENSR)
-library(terra)
+
+lookup_tbl <- lc_lookup_klhk_sequence %>% abbreviate_by_column(col_names = "PL20")
 
 lc_t1_ <- LUMENSR_example("NTT_LC90.tif") %>%
   terra::rast() %>%
   add_legend_to_categorical_raster(
     raster_file = .,
-    lookup_table = lc_lookup_klhk_sequence
+    lookup_table = lookup_tbl
   )
 ## Load and annotate land cover data for period T2
 lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
   terra::rast() %>%
   add_legend_to_categorical_raster(
     raster_file = .,
-    lookup_table = lc_lookup_klhk_sequence
+    lookup_table = lookup_tbl
   )
 # Load planning unit data
 admin_z <- LUMENSR_example("ntt_admin_spatraster.tif") %>%
