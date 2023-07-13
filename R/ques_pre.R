@@ -4,7 +4,7 @@
 #' @param lc_t2 A spatRaster object representing land cover data for period T2.
 #' @param admin_ A spatRaster object representing planning unit data.
 #' @return A list of results containing input data visualizations, landscape level results, and planning unit level results.
-#' @importFrom terra rast
+#' @importFrom terra rast cats
 #' @importFrom dplyr select group_by_at summarise pull
 #' @importFrom purrr map
 #' @importFrom rlang set_names
