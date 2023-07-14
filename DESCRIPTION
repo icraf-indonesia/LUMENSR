@@ -25,7 +25,6 @@ Imports:
     viridis,
     cowplot,
     rlang,
-    rmarkdown,
     methods
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
