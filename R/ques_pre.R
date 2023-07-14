@@ -10,7 +10,6 @@
 #' @importFrom dplyr select group_by_at summarise pull
 #' @importFrom purrr map
 #' @importFrom rlang set_names
-#' @importFrom rmarkdown paged_table
 #' @importFrom methods is
 #' @export
 #' @examples
@@ -64,8 +63,8 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
   # Calculate and tabulate land cover composition
   lc_freq_table <- calc_lc_freq(raster_list = list(lc_t1, lc_t2)) %>%
     abbreviate_by_column( "Jenis tutupan lahan", remove_vowels = FALSE)
-  lc_composition_tbl <- lc_freq_table %>%
-    rmarkdown::paged_table(options = list(cols.min.print = 3))
+  lc_composition_tbl <- lc_freq_table #%>%
+    #rmarkdown::paged_table(options = list(cols.min.print = 3))
 
   # Plot land cover composition
   lc_composition_barplot <- lc_freq_table %>%
@@ -116,7 +115,7 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
   luc_top_10 <- crosstab_landscape %>% calc_top_lcc(n_rows = 10)
 
   # Tabulate and plot 10 dominant land use changes
-  luc_top_10_tbl <- luc_top_10 %>% rmarkdown::paged_table()
+  luc_top_10_tbl <- luc_top_10 #%>% rmarkdown::paged_table()
   luc_top_10_barplot <- luc_top_10 %>% plot_lcc_freq_bar(col_T1 = names(lc_t1) , col_T2 = names(lc_t2), Freq = "Freq")
 
   # Store results at landscape level
