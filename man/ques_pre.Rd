@@ -4,24 +4,37 @@
 \alias{ques_pre}
 \title{Pre-QUES Land cover change analysis}
 \usage{
-ques_pre(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 100)
+ques_pre(
+  lc_t1,
+  lc_t2,
+  admin_,
+  cutoff_landscape = 5000,
+  cutoff_pu = 500,
+  convert_to_Ha = TRUE
+)
 }
 \arguments{
 \item{lc_t1}{A spatRaster object representing land cover data for period T1.}
 
 \item{lc_t2}{A spatRaster object representing land cover data for period T2.}
 
-\item{admin_}{A spatRaster object representing planning unit data.}
+\item{admin_}{A spatRaster object representing planning unit data. Can also be a sf multipolygon object,
+in which case it will be rasterized.}
 
 \item{cutoff_landscape}{minimum number of pixel/ area to be displayed in sankey plot at landscape level}
 
 \item{cutoff_pu}{minimum number of pixel/ area to be displayed in sankey plot at planing unit level}
+
+\item{convert_to_Ha}{Logical flag indicating whether to convert pixel count to hectares based on the resolution of the \code{lc_t1} raster.}
 }
 \value{
 A list of results containing input data visualizations, landscape level results, and planning unit level results.
 }
 \description{
 This function preprocesses land cover data for visualization, calculation, and summarization.
+It checks the consistency of input data, creates visualizations of input data, calculates land cover frequency,
+creates a crosstabulation of land cover changes, and summarizes results at both the landscape and planning unit level.
+The function also converts pixels to hectares if \code{convert_to_Ha} is set to TRUE.
 }
 \examples{
 \dontrun{

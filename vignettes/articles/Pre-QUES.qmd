@@ -39,7 +39,7 @@ lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
   )
 
 # Load the planning unit data. Note that 'ntt_admin' must be defined somewhere earlier in the code.
-admin_z <- ntt_admin
+admin_z <- ntt_admin %>% rasterise_multipolygon()
 
 # Define the area cutoffs for landscape and planning unit level analysis
 cutoff_landscape <- 5000
@@ -48,7 +48,7 @@ cutoff_pu <- 500
 # Execute the 'ques_pre' function using the loaded land cover data for two periods, the planning unit data, 
 # and the defined cutoffs. This function will preprocess land cover data for visualization, calculation, 
 # and summarization and return a list of results.
-ques_pre_output <- ques_pre(lc_t1_, lc_t2_, admin_z, cutoff_landscape = cutoff_landscape, cutoff_pu = cutoff_pu)
+ques_pre_output <- ques_pre(lc_t1_, lc_t2_, admin_z, cutoff_landscape = cutoff_landscape, cutoff_pu = cutoff_pu, convert_to_Ha = TRUE)
 ```
 
 # Pendahuluan

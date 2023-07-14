@@ -7,7 +7,8 @@
 create_sankey(freq_table, area_cutoff = 10000, change_only = FALSE)
 }
 \arguments{
-\item{freq_table}{A frequency table containing land cover T1, T2, T3, etc.. (character) and a Frequency column (numeric).}
+\item{freq_table}{A frequency table containing land cover T1, T2, T3, etc.. (character)
+and a Frequency column (numeric). If a column named "Ha" exists, it will be used instead of "Freq".}
 
 \item{area_cutoff}{Minimum number of pixels of land use land cover frequency to include.}
 
@@ -17,7 +18,9 @@ create_sankey(freq_table, area_cutoff = 10000, change_only = FALSE)
 A Sankey plot.
 }
 \description{
-This function takes a frequency table (crosstab) as input and creates a Sankey diagram
+This function takes a frequency table (crosstab) as input and creates a Sankey diagram.
+If a column named "Ha" exists in the frequency table, it will be used for filtering and sorting,
+otherwise it will fall back to using the "Freq" column.
 }
 \examples{
 create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = FALSE)

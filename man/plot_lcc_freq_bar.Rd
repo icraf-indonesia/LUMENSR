@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_lcc_freq_bar.R
 \name{plot_lcc_freq_bar}
 \alias{plot_lcc_freq_bar}
-\title{Plot Frequency of Land Cover Change as a Bar Chart}
+\title{Plot Frequency or Area of Land Cover Change as a Bar Chart}
 \usage{
 plot_lcc_freq_bar(lcc_table, col_T1 = NULL, col_T2 = NULL, Freq = NULL)
 }
@@ -13,13 +13,16 @@ plot_lcc_freq_bar(lcc_table, col_T1 = NULL, col_T2 = NULL, Freq = NULL)
 
 \item{col_T2}{Second column of characters. If NULL, the function will assign the second column containing characters.}
 
-\item{Freq}{Numeric column representing frequencies. If NULL, the function will assign the first column containing numeric values.}
+\item{Freq}{Numeric column representing frequencies or areas. If NULL, the function will assign "Ha" if present,
+otherwise the first numeric column.}
 }
 \value{
-A ggplot object showing the frequency of land cover changes as a bar chart.
+A ggplot object showing the frequency or area of land cover changes as a bar chart.
 }
 \description{
-This function takes in a data frame and plots the frequency of land cover changes as a bar chart.
+This function takes in a data frame and plots the frequency or area of land cover changes as a bar chart.
+It automatically detects if a column named "Ha" exists, and if so, it plots data using "Ha" as a priority
+over "Freq". If "Ha" does not exist, it defaults back to using "Freq".
 }
 \examples{
 \dontrun{

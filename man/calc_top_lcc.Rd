@@ -7,16 +7,18 @@
 calc_top_lcc(crosstab_result, n_rows)
 }
 \arguments{
-\item{crosstab_result}{A data frame of  a frequency table crosstab_result must have a column named "Freq", representing the number of pixels / area for a given land cover change
-(crosstab) of two or more land cover maps,}
+\item{crosstab_result}{A data frame of a frequency table (crosstab) of two or more land cover maps.
+crosstab_result must have a column named "Freq", representing the number of pixels / area for a given land cover change.
+If a column named "Ha" exists, it will be used instead of "Freq".}
 
 \item{n_rows}{The number of rows to select.}
 }
 \value{
-A data frame containing the top n rows (top n changes.
+A data frame containing the top n rows (top n changes).
 }
 \description{
 This function filters rows that have more than one distinct value
 across all columns except the last one, and then selects the top n rows
-based on the value of the last column.
+based on the value of the last column. If a column named "Ha" exists in the data frame,
+it will be used for sorting the rows, otherwise, it will fall back to the "Freq" column.
 }
