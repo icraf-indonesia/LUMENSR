@@ -28,7 +28,8 @@ lc_t1_ <- LUMENSR_example("NTT_LC90.tif") %>%
   add_legend_to_categorical_raster(
     raster_file = .,
     lookup_table = lookup_tbl
-  )
+  ) %>% 
+  assign_time_period(year_ = "1990")
 
 # Similarly, load the land cover data for period T2 (2020) and add the legend
 lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
@@ -36,7 +37,8 @@ lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
   add_legend_to_categorical_raster(
     raster_file = .,
     lookup_table = lookup_tbl
-  )
+  ) %>% 
+  assign_time_period(year_ = "2020")
 
 # Load the planning unit data. Note that 'ntt_admin' must be defined somewhere earlier in the code.
 admin_z <- ntt_admin %>% rasterise_multipolygon()

@@ -30,7 +30,7 @@ assign_time_period <- function(raster_layer, year_) {
   }
 
   # Assign time period
-  time(raster_layer) <- as.Date(paste0(year_, "-01-01"))
+  time(raster_layer, tstep="years") <- as.Date(paste0(year_, "-01-01"))
 
   return(raster_layer)
 }

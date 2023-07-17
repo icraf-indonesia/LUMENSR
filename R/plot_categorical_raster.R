@@ -26,7 +26,7 @@ plot_categorical_raster <- function(raster_object) {
     geom_spatraster(data = raster_object) +
     fill_scale +
     theme_bw() +
-    labs(title = names(raster_object)) +
+    labs(title = time(raster_object), fill = NULL) +
     guides(fill = guide_legend(title.position = "top", ncol=3))+
     theme(axis.title.x = element_blank(),
           axis.title.y = element_blank(),
