@@ -65,3 +65,4 @@ Navigate to the following link for a well-commented example Quarto script. Downl
 ```r
 quarto::quarto_render("Pre-QUES.qmd")
 ```
+Please explore [this page](https://icraf-indonesia.github.io/LUMENSR/articles/Pre-QUES.html) to view a pre-generated Pre-QuES report.
