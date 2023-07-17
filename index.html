@@ -71,16 +71,61 @@
 </h1>
 </div>
 <p><strong>This is an experiment to package the core functions of LUMENS as an R package.</strong> By packaging the functions, LUMENS developers could benefit from improved code organization, version control, and testing capabilities. The proposed exercise will primarily rely on the <a href="https://github.com/r-lib/devtools" class="external-link">devtools</a>.</p>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<p>You can install the current version of <code>LUMENSR</code> from <a href="https://github.com/" class="external-link">GitHub</a>:</p>
+<p><code>LUMENSR</code> is a tool under experimental development, currently offering the <strong>Pre-QuES</strong> module. This module facilitates the analysis of land use changes by comparing land cover maps from two distinct time periods. The comparison provides valuable insights into how land use in a specific region has transformed over time.</p>
+<p><strong>To get started see:</strong> - <a href="https://icraf-indonesia.github.io/LUMENSR/articles/Pre-QUES.html">Pre-QuES Report example</a>: an example of LUMENSR report from the <strong>Pre-QuES</strong> module, process land use land cover data into meaningful information on land cover change patterns and composition. - <a href="https://icraf-indonesia.github.io/LUMENSR/reference/index.html">Function reference</a>: an overview of all LUMENSR functions</p>
+</div>
+<div class="section level1">
+<h1 id="installation">Installation:<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
+<p>As LUMENSR is currently under experimental development, install the latest development version from <a href="https://github.com/icraf-indonesia/LUMENSR" class="external-link">GitHub</a> using the following commands:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"icraf-indonesia/LUMENSR"</span><span class="op">)</span></span></code></pre></div>
-<p>Packaging LUMENS functions as an R package would allow developers to selectively load only the functions they need, reducing the memory footprint and improving the speed of their analyses. The package would also come with built-in testing frameworks via <a href="https://github.com/r-lib/testthat" class="external-link">testthat</a>, allowing developers to write tests for their functions and catch bugs early on in the development process.</p>
-<p>In addition, packaging LUMENS functions as an R package would make it easier for developers to write detailed documentation for their functions, reducing the time required for onboarding and support. It would also allow for greater modularity and organization, as developers could selectively update and improve specific functions without having to modify the entire codebase.</p>
+<p>After installation, load the package with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://icraf-indonesia.github.io/LUMENSR/">LUMENSR</a></span><span class="op">)</span></span></code></pre></div>
+<p>Once installed, you can use this package in the R console, within <a href="https://quarto.org/" class="external-link">quarto documents</a> and within <a href="http://shiny.rstudio.com/" class="external-link">Shiny</a> applications. You may need to download the <a href="https://quarto.org/docs/get-started/" class="external-link">quarto CLI</a>.</p>
 </div>
+<div class="section level1">
+<h1 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h1>
+<p>We appreciate your feedback and contributions. Please report any problems encountered while using LUMENSR as “issues” on <a href="https://github.com/icraf-indonesia/LUMENSR/issues" class="external-link">our GitHub repository</a>. Your input will help us improve this package!</p>
+</div>
+<div class="section level1">
+<h1 id="a-minimal-working-example">A minimal working example<a class="anchor" aria-label="anchor" href="#a-minimal-working-example"></a>
+</h1>
+<p>Here’s a simple example of how to use LUMENSR:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Load the LUMENSR package</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://icraf-indonesia.github.io/LUMENSR/">LUMENSR</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load the example raster files and convert them into a terra::rast object</span></span>
+<span><span class="co"># Add a legend to the raster using a lookup table</span></span>
+<span><span class="va">NTT_LC90</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/LUMENSR_example.html">LUMENSR_example</a></span><span class="op">(</span><span class="st">"NTT_LC90.tif"</span><span class="op">)</span></span>
+<span><span class="va">NTT_LC90_rast</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">NTT_LC90</span><span class="op">)</span></span>
+<span><span class="va">NTT_LC90_legend</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/add_legend_to_categorical_raster.html">add_legend_to_categorical_raster</a></span><span class="op">(</span>raster_file <span class="op">=</span> <span class="va">NTT_LC90_rast</span>, lookup_table <span class="op">=</span> <span class="va">lc_lookup_klhk_sequence</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">NTT_LC20</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/LUMENSR_example.html">LUMENSR_example</a></span><span class="op">(</span><span class="st">"NTT_LC20.tif"</span><span class="op">)</span></span>
+<span><span class="va">NTT_LC20_rast</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">NTT_LC20</span><span class="op">)</span></span>
+<span><span class="va">NTT_LC20_legend</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/add_legend_to_categorical_raster.html">add_legend_to_categorical_raster</a></span><span class="op">(</span>raster_file <span class="op">=</span> <span class="va">NTT_LC20_rast</span>, lookup_table <span class="op">=</span> <span class="va">lc_lookup_klhk_sequence</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create a frequency table from the list of raster files</span></span>
+<span><span class="va">raster_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">NTT_LC90_legend</span>, <span class="va">NTT_LC20_legend</span><span class="op">)</span></span>
+<span><span class="va">crosstab_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_crosstab.html">create_crosstab</a></span><span class="op">(</span><span class="va">raster_list</span><span class="op">)</span></span>
+<span><span class="va">crosstab_result_abbreviated</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/abbreviate_by_column.html">abbreviate_by_column</a></span><span class="op">(</span><span class="va">crosstab_result</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NTT_LC90"</span>, <span class="st">"NTT_LC20"</span><span class="op">)</span>, remove_vowels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create a Sankey diagram from the frequency table</span></span>
+<span><span class="fu"><a href="reference/create_sankey.html">create_sankey</a></span><span class="op">(</span><span class="va">crosstab_result_abbreviated</span>, area_cutoff <span class="op">=</span> <span class="fl">10000</span>, change_only <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="https://github.com/icraf-indonesia/LUMENSR/assets/14798903/b01d5d42-fa5d-44a5-ae29-eb80f5401bb3" alt=""><p class="caption">image</p>
+</div>
+</div>
+<div class="section level1">
+<h1 id="interested-in-preparing-and-producing-a-pre-ques-report">Interested in preparing and producing a Pre-QUES report?<a class="anchor" aria-label="anchor" href="#interested-in-preparing-and-producing-a-pre-ques-report"></a>
+</h1>
+<p>Navigate to the following link for a well-commented example Quarto script. Download the <a href="https://github.com/icraf-indonesia/LUMENSR/tree/main/vignettes/articles" class="external-link"><code>qmd</code> files</a> and render them using:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">quarto</span><span class="fu">::</span><span class="fu">quarto_render</span><span class="op">(</span><span class="st">"Pre-QUES.qmd"</span><span class="op">)</span></span></code></pre></div>
 </div>
 
   </main><aside class="col-md-3"><div class="license">
