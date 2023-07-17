@@ -83,5 +83,19 @@ calc_lc_freq <- function(raster_list) {
   freq_df <- dplyr::arrange(freq_df, dplyr::desc(freq_df[[ncol(freq_df)]]))
   freq_df <- dplyr::rename(freq_df, `Jenis tutupan lahan` = value)
 
+  # Check if all SpatRaster objects have a time attribute
+  all_times_present <- all(sapply(raster_list, function(x) !is.null(time(x))))
+  if (all_times_present) {
+    # Loop over raster_list
+    for (i in seq_along(raster_list)) {
+      # Get the time attribute as a string
+      time_i <- as.character(time(raster_list[[i]]))
+      # Rename the corresponding column of freq_df
+      names(freq_df)[i+1] <- time_i
+    }
+    return(freq_df)
+  } else {
+    return("Not all SpatRaster objects in the list have a time attribute")
+  }
   return(freq_df)
 }
