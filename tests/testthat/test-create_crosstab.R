@@ -1,27 +1,36 @@
-library(testthat)
-library(magrittr)
-library(purrr)
-
 # Test that the function returns a data frame
 test_that("create_crosstab returns a data frame", {
-  # Load some test data, for example:
-  subset_legend <- LUMENSR::lc_lookup_klhk
-  raster_files <- c("kalbar_LC11.tif", "kalbar_LC20.tif") %>%
-    map(LUMENSR_example) %>%
-    map(rast)
+  # Prepare a lookup table by abbreviating column 'PL20' in the predefined table 'lc_lookup_klhk_sequence'
+  lookup_tbl <- lc_lookup_klhk_sequence %>% abbreviate_by_column(col_names = "PL20")
 
-  # Loop through raster files
-  raster_list <- map(raster_files,
-                     ~add_legend_to_categorical_raster(raster_file = .x,
-                                                       lookup_table = subset_legend))
+  lc_t1_ <- LUMENSR_example("NTT_LC90.tif") %>%
+    terra::rast() %>%
+    add_legend_to_categorical_raster(
+      raster_file = .,
+      lookup_table = lookup_tbl
+    ) %>%
+    assign_time_period(year_ = "1990")
+
+  # Similarly, load the land cover data for period T2 (2020) and add the legend
+  lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
+    terra::rast() %>%
+    add_legend_to_categorical_raster(
+      raster_file = .,
+      lookup_table = lookup_tbl
+    ) %>%
+    assign_time_period(year_ = "2020")
+
+  admin_z <- ntt_admin %>%
+    rasterise_multipolygon()
 
   # Turn raster files into a frequency table
-  crosstab_result <- create_crosstab(raster_list)
+  crosstab_result <- create_crosstab(land_cover = c(lc_t1_, lc_t2_), zone = admin_z)
 
   # Check the result
-  expect_s3_class(crosstab_result, "data.frame")
+  expect_type(crosstab_result, "list")
+  expect_s3_class(crosstab_result[["crosstab_long"]], "data.frame")
 
   # Test that the function removes rows with zero frequencies
-  expect_true(all(crosstab_result$Freq != 0))
+  expect_true(all(crosstab_result[["crosstab_long"]] != 0))
 })
 
