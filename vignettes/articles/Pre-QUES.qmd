@@ -49,8 +49,9 @@ cutoff_landscape <- 5000
 cutoff_pu <- 500
 
 # Define period
-time_1 <- (time(lc_t1_))
-time_2 <- (time(lc_t2_))
+# Define period
+time_1 <- terra::time(lc_t1_)
+time_2 <- terra::time(lc_t2_)
 # Execute the 'ques_pre' function using the loaded land cover data for two periods, the planning unit data, 
 # and the defined cutoffs. This function will preprocess land cover data for visualization, calculation, 
 # and summarization and return a list of results.
@@ -87,9 +88,7 @@ Berikut adalah komponen data yang digunakan dalam analisis perubahan lahan:
 
 -   **Tabel Acuan Kelas Unit Perencanaan**: Ini membantu kita memahami klasifikasi dan karakteristik dari unit-unit perencanaan yang berbeda.
 
-## Peta Penggunaan Lahan T1
-
-<!-- Tahun `r  time_2` -->
+## Peta Penggunaan Lahan Tahun `r time_1`
 
 ::: panel-tabset
 ## Peta
@@ -107,9 +106,7 @@ ques_pre_output[["input_dataviz"]][["tbl_lookup_lc_t1"]]
 ```
 :::
 
-## Peta Penggunaan Lahan T2
-
-<!-- Tahun `r  time_2`  -->
+## Peta Penggunaan Lahan Tahun `r time_2`
 
 ::: panel-tabset
 ## Peta
