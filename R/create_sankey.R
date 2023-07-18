@@ -11,16 +11,17 @@
 #' @param change_only Logical flag, if TRUE exclude persistent land cover.
 #' @return A Sankey plot.
 #' @importFrom dplyr mutate_if rowwise filter ungroup mutate across cur_column n_distinct c_across
+#' @importFrom rlang sym !!
 #' @importFrom networkD3 sankeyNetwork
 #' @export
 #' @examples
 #' \dontrun{
 #'   synthetic_data <- data.frame(
-#'     Landcover_T1 = rep(c("Forest", "Urban", "Agriculture", "Water"), each = 4),
-#'     Landcover_T2 = rep(c("Forest", "Urban", "Agriculture", "Water"), 4),
+#'     "1990" = rep(c("Forest", "Urban", "Agriculture", "Water"), each = 4),
+#'     "2020" = rep(c("Forest", "Urban", "Agriculture", "Water"), 4),
 #'     Freq = sample(1:100, 16)
 #'   ) %>%
-#'     dplyr::arrange(Landcover_T1)
+#'     dplyr::arrange("1990")
 #'
 #'   create_sankey(freq_table = synthetic_data, area_cutoff = 0, change_only = FALSE)
 #' }
@@ -53,7 +54,7 @@ create_sankey <- function(freq_table, area_cutoff = 10000, change_only = FALSE) 
       filter((!!sym(value_col)) > area_cutoff)
   } else {
     df_filtered <- freq_table %>%
-      filter((!!sym(value_col)) > area_cutoff)
+      dplyr::filter((!!sym(value_col)) > area_cutoff)
   }
 
   # Error handling: if dataframe is empty after filtering
@@ -61,12 +62,20 @@ create_sankey <- function(freq_table, area_cutoff = 10000, change_only = FALSE) 
     stop("No data left after filtering, please check your inputs.")
   }
 
-  # Apply the suffixes to the selected columns
-  df_filtered <- df_filtered %>%
-    mutate(across(-length(df_filtered), ~paste(., paste0("_T", which(names(df_filtered) == cur_column())), sep = "")))
+  # Get column names (years) without the 'X' prefix and 'Freq'
+  colnames_ <- sub("^X", "", names(df_filtered)[-length(names(df_filtered))])
 
-  sankey_data <- df_filtered %>%
-    prepare_sankey(col_order = setdiff(colnames(df_filtered), value_col), value_col = value_col)
+  # Use lapply to paste each value with the corresponding year
+  df_modified <- df_filtered
+  df_modified[-length(names(df_modified))] <- lapply(seq_along(colnames_), function(i)
+    paste(df_filtered[[i]], "-", colnames_[i], sep = ""))
+
+  # # Apply the suffixes to the selected columns
+  # df_filtered <- df_filtered %>%
+  #   mutate(across(-length(df_filtered), ~paste(., paste0("_T", which(names(df_filtered) == cur_column())), sep = "")))
+
+  sankey_data <- df_modified %>%
+    prepare_sankey(col_order = setdiff(colnames(df_modified), value_col), value_col = value_col)
 
   # Add a 'group' column to the 'links' and 'nodes' data frames
   sankey_data$links <- sankey_data$links %>% mutate(group = sankey_data$nodes$name[source + 1])

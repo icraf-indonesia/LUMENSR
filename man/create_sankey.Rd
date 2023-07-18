@@ -25,11 +25,11 @@ otherwise it will fall back to using the "Freq" column.
 \examples{
 \dontrun{
   synthetic_data <- data.frame(
-    Landcover_T1 = rep(c("Forest", "Urban", "Agriculture", "Water"), each = 4),
-    Landcover_T2 = rep(c("Forest", "Urban", "Agriculture", "Water"), 4),
+    "1990" = rep(c("Forest", "Urban", "Agriculture", "Water"), each = 4),
+    "2020" = rep(c("Forest", "Urban", "Agriculture", "Water"), 4),
     Freq = sample(1:100, 16)
   ) \%>\%
-    dplyr::arrange(Landcover_T1)
+    dplyr::arrange("1990")
 
   create_sankey(freq_table = synthetic_data, area_cutoff = 0, change_only = FALSE)
 }
