@@ -8,7 +8,7 @@
 #'
 #' @return A dataframe of frequency tables.
 #'
-#' @importFrom terra compareGeom freq levels
+#' @importFrom terra compareGeom freq levels time
 #' @importFrom dplyr left_join select arrange desc rename
 #' @importFrom purrr map
 #' @export
