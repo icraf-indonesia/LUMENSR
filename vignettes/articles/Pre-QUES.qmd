@@ -10,6 +10,7 @@ editor_options:
   chunk_output_type: inline
 execute:
   cache: false
+engine: knitr
 ---
 
 ```{r include=FALSE}
@@ -20,7 +21,7 @@ library(LUMENSR)
 # Prepare a lookup table by abbreviating column 'PL20' in the predefined table 'lc_lookup_klhk_sequence'
 lookup_tbl <- lc_lookup_klhk_sequence %>% abbreviate_by_column(col_names = "PL20")
 
-# Load the land cover data for period T1 (1990) from the provided example data set in LUMENSR package
+# Load the land cover data for period 1990 from the provided example data set in LUMENSR package
 # Convert the loaded data to a raster using terra::rast()
 # Add a legend to the categorical raster using the lookup table created earlier
 lc_t1_ <- LUMENSR_example("NTT_LC90.tif") %>%
@@ -31,7 +32,7 @@ lc_t1_ <- LUMENSR_example("NTT_LC90.tif") %>%
   ) %>% 
   assign_time_period(year_ = "1990")
 
-# Similarly, load the land cover data for period T2 (2020) and add the legend
+# Similarly, load the land cover data for period 2020 and add the legend
 lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
   terra::rast() %>%
   add_legend_to_categorical_raster(
@@ -47,6 +48,9 @@ admin_z <- ntt_admin %>% rasterise_multipolygon()
 cutoff_landscape <- 5000
 cutoff_pu <- 500
 
+# Define period
+time_1 <- (time(lc_t1_))
+time_2 <- (time(lc_t2_))
 # Execute the 'ques_pre' function using the loaded land cover data for two periods, the planning unit data, 
 # and the defined cutoffs. This function will preprocess land cover data for visualization, calculation, 
 # and summarization and return a list of results.
@@ -84,6 +88,9 @@ Berikut adalah komponen data yang digunakan dalam analisis perubahan lahan:
 -   **Tabel Acuan Kelas Unit Perencanaan**: Ini membantu kita memahami klasifikasi dan karakteristik dari unit-unit perencanaan yang berbeda.
 
 ## Peta Penggunaan Lahan T1
+
+<!-- Tahun `r  time_2` -->
+
 ::: panel-tabset
 ## Peta
 
@@ -101,6 +108,9 @@ ques_pre_output[["input_dataviz"]][["tbl_lookup_lc_t1"]]
 :::
 
 ## Peta Penggunaan Lahan T2
+
+<!-- Tahun `r  time_2`  -->
+
 ::: panel-tabset
 ## Peta
 
@@ -118,6 +128,7 @@ ques_pre_output[["input_dataviz"]][["tbl_lookup_lc_t2"]]
 :::
 
 ## Peta Unit Perencanaan Daerah
+
 ::: panel-tabset
 ## Peta
 
@@ -137,6 +148,7 @@ ques_pre_output[["input_dataviz"]][["tbl_lookup_admin"]]
 # Hasil analisis pada tingkat bentang lahan
 
 ## Komposisi tutupan lahan
+
 ::: panel-tabset
 ## Tabel
 
@@ -160,18 +172,20 @@ ques_pre_output[["input_dataviz"]][["lc_composition_barplot"]]
 ques_pre_output[["landscape_level"]][["sankey_landscape"]]
 ```
 
-~\*Hanya perubahan diatas  `r cutoff_landscape` pixel yang ditampilkan.~
+^\*Hanya perubahan diatas \ `r cutoff_landscape` pixel yang ditampilkan.^
 
 ## Potret perubahan tutupan lahan
-~\*Tanpa\ mempertimbangkan\ tutupan\ lahan\ yang\ tidak\ berubah/\ tetap.~
+
+~\*Tanpa mempertimbangkan tutupan lahan yang tidak berubah/ tetap.~
 
 ::: panel-tabset
-
 ## Perubahan tutupan lahan
+
 ```{r}
 #| echo: false
 ques_pre_output[["landscape_level"]][["sankey_landscape_chg_only"]]
 ```
+
 ~\*Hanya perubahan diatas `r cutoff_landscape` pixel yang ditampilkan.~
 
 ## Tabel 10 jenis perubahan tutupan lahan teratas
@@ -190,7 +204,9 @@ ques_pre_output[["landscape_level"]][["luc_top_10_barplot"]]
 :::
 
 # Hasil analisis pada tingkat unit perencanaan
+
 ~\*Hanya perubahan diatas `r cutoff_pu` pixel yang ditampilkan.~
+
 ```{r}
 #| echo: false
 render_child <- function(results_list, i) {
@@ -211,4 +227,3 @@ for (i in names(ques_pre_output[["pu_level"]])) {
   render_child(results_list = ques_pre_output[["pu_level"]], i = i)
 }
 ```
-
