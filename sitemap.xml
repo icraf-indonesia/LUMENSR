@@ -10,12 +10,6 @@
     <loc>https://icraf-indonesia.github.io/LUMENSR/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://icraf-indonesia.github.io/LUMENSR/articles/Pre-QUES.html</loc>
-  </url>
-  <url>
-    <loc>https://icraf-indonesia.github.io/LUMENSR/articles/index.html</loc>
-  </url>
-  <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/authors.html</loc>
   </url>
   <url>
@@ -40,6 +34,9 @@
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/add_legend_to_categorical_raster.html</loc>
   </url>
   <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/assign_time_period.html</loc>
+  </url>
+  <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/calc_lc_freq.html</loc>
   </url>
   <url>
@@ -53,9 +50,6 @@
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/create_sankey.html</loc>
-  </url>
-  <url>
-    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/crosstab_result.html</loc>
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/harmonise_raster.html</loc>
