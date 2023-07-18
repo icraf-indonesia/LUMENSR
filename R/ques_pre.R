@@ -65,7 +65,6 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
   ## Plot land cover T2
   plot_lc_t2 <- plot_categorical_raster(lc_t2)
 
-
   # Calculate and tabulate land cover composition
   lc_freq_table <- calc_lc_freq(raster_list = list(lc_t1, lc_t2)) %>%
     abbreviate_by_column( "Jenis tutupan lahan", remove_vowels = FALSE)
@@ -89,11 +88,8 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
     lc_composition_tbl = lc_composition_tbl,
     lc_composition_barplot = lc_composition_barplot
   )
-
   # Create crosstabulation
-  raster_list <- list(lc_t1, lc_t2, admin_)
-  crosstab_result <- create_crosstab(raster_list) %>%
-    abbreviate_by_column( c(names(lc_t1), names(lc_t2)), remove_vowels = FALSE)
+  crosstab_result <- create_crosstab(land_cover = c(lc_t1, lc_t2), zone = admin_)[["crosstab_long"]]
 
   # Get spatResolution
   if( convert_to_Ha == TRUE) {
@@ -117,7 +113,6 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
   } else {
     crosstab_landscape <- summarise(grouped_df, Freq = sum(Freq), .groups = "drop")
   }
-
   # Create Sankey diagrams at landscape level
   ## Sankey diagram showing all changes
   sankey_landscape <- crosstab_landscape %>%
@@ -132,7 +127,7 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
 
   # Tabulate and plot 10 dominant land use changes
   luc_top_10_barplot <- luc_top_10 %>%
-    plot_lcc_freq_bar(col_T1 = names(lc_t1), col_T2 = names(lc_t2),
+    plot_lcc_freq_bar(col_T1 = as.character(time(lc_t1)), col_T2 = as.character(time(lc_t2)),
                       Freq = if ("Ha" %in% names(luc_top_10)) "Ha" else "Freq")
 
 
