@@ -36,3 +36,4 @@ inst/doc
 /doc/
 /Meta/
 .DS_Store
+vignettes/articles/Pre-QUES.Rmd

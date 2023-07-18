@@ -2,7 +2,7 @@
 #'
 #' @param raster_layer A SpatRaster object
 #' @param year_ A string representing a year
-#'
+#' @importFrom terra time
 #' @return The original SpatRaster object, with an assigned time period
 #' @export
 #'
@@ -12,11 +12,8 @@
 #' # Create example SpatRaster
 #' r <- rast(nrow=10, ncol=10)
 #' r[] <- 1:ncell(r)
-#' s <- stack(r, r*2, r^2)
 #' # Assign a time period
-#' s <- assign_time_period(s, "2023")
-#'
-#' @importFrom terra SpatRaster
+#' assign_time_period(r, "2023")
 
 assign_time_period <- function(raster_layer, year_) {
   # Check if raster_layer is of class 'SpatRaster'
@@ -30,7 +27,7 @@ assign_time_period <- function(raster_layer, year_) {
   }
 
   # Assign time period
-  time(raster_layer, tstep="years") <- as.Date(paste0(year_, "-01-01"))
+  terra::time(raster_layer, tstep="years") <- as.Date(paste0(year_, "-01-01"))
 
   return(raster_layer)
 }

@@ -7,7 +7,7 @@
 create_sankey(freq_table, area_cutoff = 10000, change_only = FALSE)
 }
 \arguments{
-\item{freq_table}{A frequency table containing land cover T1, T2, T3, etc.. (character)
+\item{freq_table}{A frequency table containing land cover T1, T2, T3, etc..
 and a Frequency column (numeric). If a column named "Ha" exists, it will be used instead of "Freq".}
 
 \item{area_cutoff}{Minimum number of pixels of land use land cover frequency to include.}
@@ -23,7 +23,16 @@ If a column named "Ha" exists in the frequency table, it will be used for filter
 otherwise it will fall back to using the "Freq" column.
 }
 \examples{
-create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = FALSE)
+\dontrun{
+  synthetic_data <- data.frame(
+    Landcover_T1 = rep(c("Forest", "Urban", "Agriculture", "Water"), each = 4),
+    Landcover_T2 = rep(c("Forest", "Urban", "Agriculture", "Water"), 4),
+    Freq = sample(1:100, 16)
+  ) \%>\%
+    dplyr::arrange(Landcover_T1)
+
+  create_sankey(freq_table = synthetic_data, area_cutoff = 0, change_only = FALSE)
+}
 }
 \author{
 Dony Indiarto

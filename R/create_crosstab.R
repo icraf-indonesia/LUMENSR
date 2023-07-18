@@ -4,6 +4,7 @@
 #' (crosstab) of the stack. The frequency table is filtered to remove rows where the frequency is zero.
 #'
 #' @param land_cover A list of 'SpatRaster' objects.
+#' @param zone A SpatRaster' object of planning unit/zone
 #'
 #' @return A data frame representing the crosstab of the input rasters.
 #'

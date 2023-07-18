@@ -4,10 +4,12 @@
 \alias{create_crosstab}
 \title{Create Crosstab From Raster List}
 \usage{
-create_crosstab(raster_list)
+create_crosstab(land_cover, zone)
 }
 \arguments{
-\item{raster_list}{A list of 'SpatRaster' objects.}
+\item{land_cover}{A list of 'SpatRaster' objects.}
+
+\item{zone}{A SpatRaster' object of planning unit/zone}
 }
 \value{
 A data frame representing the crosstab of the input rasters.
@@ -27,12 +29,12 @@ This function takes a list of raster files, creates a stack, and returns a frequ
     map(rast)
 
   # Loop through raster files
-  raster_list <- map(raster_files,
+  land_cover <- map(raster_files,
                             ~apply_lookup_table(raster_file = .x,
                                                 lookup_lc = subset_legend))
 
   # Turn raster files into a frequency table
-  crosstab_result <- create_crosstab(raster_list)
+  crosstab_result <- create_crosstab(land_cover)
 }
 
 }

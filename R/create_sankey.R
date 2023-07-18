@@ -5,7 +5,7 @@
 #' otherwise it will fall back to using the "Freq" column.
 #'
 #' @author Dony Indiarto
-#' @param freq_table A frequency table containing land cover T1, T2, T3, etc.. (character)
+#' @param freq_table A frequency table containing land cover T1, T2, T3, etc..
 #' and a Frequency column (numeric). If a column named "Ha" exists, it will be used instead of "Freq".
 #' @param area_cutoff Minimum number of pixels of land use land cover frequency to include.
 #' @param change_only Logical flag, if TRUE exclude persistent land cover.
@@ -14,7 +14,16 @@
 #' @importFrom networkD3 sankeyNetwork
 #' @export
 #' @examples
-#' create_sankey(freq_table = crosstab_result, area_cutoff = 10000, change_only = FALSE)
+#' \dontrun{
+#'   synthetic_data <- data.frame(
+#'     Landcover_T1 = rep(c("Forest", "Urban", "Agriculture", "Water"), each = 4),
+#'     Landcover_T2 = rep(c("Forest", "Urban", "Agriculture", "Water"), 4),
+#'     Freq = sample(1:100, 16)
+#'   ) %>%
+#'     dplyr::arrange(Landcover_T1)
+#'
+#'   create_sankey(freq_table = synthetic_data, area_cutoff = 0, change_only = FALSE)
+#' }
 create_sankey <- function(freq_table, area_cutoff = 10000, change_only = FALSE) {
 
   # Check if "Freq" column exists and is numeric
