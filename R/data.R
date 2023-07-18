@@ -134,29 +134,6 @@
 #' head(lc_lookup_klhk_sequence)
 "lc_lookup_klhk_sequence"
 
-
-
-#' Cross Tabulation of Land Cover Classes
-#'
-#' @description
-#' A data frame containing the result of a cross tabulation between two land cover classes
-#' from Kalimantan Barat, Indonesia. The data frame contains the names of each class and
-#' their frequency.
-#'
-#' @format
-#' A data frame with 281 rows and 3 columns:
-#' \describe{
-#'   \item{kalbar_LC11}{The land cover class for the year 2011. This is a factor with 20 levels.}
-#'   \item{kalbar_LC20}{The land cover class for the year 2020. This is a factor with 19 levels.}
-#'   \item{Freq}{The frequency count of each cross tabulation between `kalbar_LC11` and `kalbar_LC20`.}
-#' }
-#' @source The data is a result of a cross tabulation from a land cover change analysis in Kalimantan Barat, Indonesia.
-#'
-#' @examples
-#' data(crosstab_result)
-#' head(crosstab_result)
-"crosstab_result"
-
 #' District boundaries of East Nusa Tenggara in spatraster format
 #'
 #' @description
