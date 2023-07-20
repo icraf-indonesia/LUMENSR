@@ -5,7 +5,7 @@
 #' @param raster_file A categorical raster file (an object of class `SpatRaster`)
 #' @param lookup_table A corresponding lookup table of descriptions for each class category
 #' @return A raster file that contains descriptions for each class category
-#' @importFrom terra levels
+#' @importFrom terra levels freq
 #' @importFrom stats setNames
 #' @export
 #'
@@ -29,9 +29,8 @@ add_legend_to_categorical_raster <- function(raster_file, lookup_table) {
   if (!is.numeric(first_column) && any(is.na(as.numeric(first_column)))) {
     stop("The first column of lookup_table should be numeric or convertible to numeric")
   }
-
   # Filter lookup_table to only include values present in raster_file
-  lookup_table <- lookup_table[lookup_table$Value %in% terra::freq(raster_file)[["value"]],]
+  lookup_table <- lookup_table[lookup_table[[1]] %in% terra::freq(raster_file)[["value"]],]
 
   # Convert lookup_table into a dataframe
   lookup_table <- data.frame(lookup_table)
