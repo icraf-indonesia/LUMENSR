@@ -145,3 +145,31 @@
 #'   \item{Kabupaten}{District names of East Nusa Tenggara}
 #' }
 "ntt_admin_lookup"
+
+#' PreQUES Land Use Change Analysis Report
+#'
+#' @description
+#' `PreQUES_report.qmd` is a R Markdown document that generates a report for analyzing land use change.
+#' It follows the Quick Ecosystem Service Assessment (Ques) methodology and is used to identify and evaluate the impact of
+#' land use change on various ecosystem services.
+#'
+#' @format
+#' A R Markdown (qmd) file that can be rendered into a variety of formats including HTML, PDF, and Word.
+#'
+#' @source
+#' The analysis methodology is based on the Quantification of Environmental Services module.
+#"PreQUES_report.qmd"
+
+#' Analysis Per Planning Unit Child Document
+#'
+#' @description
+#' `quespre_by_pu.qmd` is a knitr child document used in the generation of land use change analysis reports.
+#' This child document is used to perform analyses on a per planning unit basis, thus providing more granular results.
+#'
+#' @format
+#' A R Markdown (qmd) child file that is incorporated into a main R Markdown file via the `child` parameter in a code chunk.
+#'
+#' @source
+#' This child document is a part of the Quantification of Environmental Services module.
+#"quespre_by_pu.qmd"
+
