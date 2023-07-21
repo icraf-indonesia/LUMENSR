@@ -44,10 +44,10 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
   ## Plot planning unit
   if (!is(admin_, "SpatRaster")) {
     stopifnot(is(admin_, "sf")) # Ensure admin_ is either SpatRaster or sf (multipolygon)
-    plot_admin <- plot_planning_unit(admin_)
+    plot_admin <- plot_planning_unit(admin_) #%>% ggplot_to_image(image_width = 20, image_height = 14)
     admin_ <- rasterise_multipolygon(admin_) # convert admin_ to a spatraster
   } else {
-    plot_admin <- plot_categorical_raster(admin_)
+    plot_admin <- plot_categorical_raster(admin_) %>% ggplot_to_image(image_width = 20, image_height = 14)
   }
 
   # Guardrails to check the input types
@@ -61,9 +61,9 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
 
   # Plot land cover for both periods and the planning unit
   ## Plot land cover T1
-  plot_lc_t1 <- plot_categorical_raster(lc_t1)
+  plot_lc_t1 <- plot_categorical_raster(lc_t1) #%>% ggplot_to_image(image_width = 20, image_height = 14)
   ## Plot land cover T2
-  plot_lc_t2 <- plot_categorical_raster(lc_t2)
+  plot_lc_t2 <- plot_categorical_raster(lc_t2) #%>% ggplot_to_image(image_width = 20, image_height = 14)
 
   # Calculate and tabulate land cover composition
   lc_freq_table <- calc_lc_freq(raster_list = list(lc_t1, lc_t2)) %>%
