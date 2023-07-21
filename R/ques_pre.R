@@ -47,7 +47,9 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
     plot_admin <- plot_planning_unit(admin_) #%>% ggplot_to_image(image_width = 20, image_height = 14)
     admin_ <- rasterise_multipolygon(admin_) # convert admin_ to a spatraster
   } else {
-    plot_admin <- plot_categorical_raster(admin_) %>% ggplot_to_image(image_width = 20, image_height = 14)
+
+    plot_admin <- plot_categorical_raster(admin_) #%>% ggplot_to_image(image_width = 20, image_height = 14)
+
   }
 
   # Guardrails to check the input types
