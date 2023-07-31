@@ -55,11 +55,10 @@ create_crosstab <- function(land_cover, zone) {
 
   # Rename layers based on year
   names(land_cover) <- as.character(time(land_cover))
-
   # Create a frequency table using crosstab and convert to a data frame
   # Check if 'zone' object exists
   # Check if 'zone' object exists
-  if (exists("zone")) {
+  if (!missing(zone)) {
 
     # Check if 'zone' and 'land_cover' have the same projection, extent and resolution
     if (compareGeom(land_cover, zone ,stopOnError = TRUE)) {
