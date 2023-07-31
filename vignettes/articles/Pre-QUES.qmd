@@ -169,7 +169,7 @@ ques_pre_output[["input_dataviz"]][["lc_composition_barplot"]]
 ques_pre_output[["landscape_level"]][["sankey_landscape"]]
 ```
 
-^\*Hanya perubahan diatas \ `r cutoff_landscape` pixel yang ditampilkan.^
+^\*Hanya perubahan diatas  `r cutoff_landscape` pixel yang ditampilkan.^
 
 ## Potret perubahan tutupan lahan
 
