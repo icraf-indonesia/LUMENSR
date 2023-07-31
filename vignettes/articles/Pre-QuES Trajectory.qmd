@@ -1,0 +1,138 @@
+---
+title: "PreQuES-Land Use Change Trajectory Analysis"
+format: 
+   html:
+     df-print: kable
+toc: true
+number-sections: true
+editor: visual
+editor_options: 
+  chunk_output_type: inline
+execute:
+  cache: false
+engine: knitr
+---
+```{r eval=FALSE, include=FALSE}
+# key raster inputs: lc_t1_, lc_t2_, admin_
+# key table inputs: lookup_traj_reclass, lookup_trajectory_complete
+# key column inputs : trajectory and def
+
+# key raster output: map_trajectory, map_deforest_degrad
+```
+
+
+```{r Load land cover data include=FALSE}
+# Prepare a lookup table by abbreviating column 'PL20' in the predefined table 'lc_lookup_klhk_sequence'
+lookup_tbl <- lc_lookup_klhk_sequence %>% abbreviate_by_column(col_names = "PL20")
+
+# Load the land cover data for period 1990 from the provided example data set in LUMENSR package
+# Convert the loaded data to a raster using terra::rast()
+# Add a legend to the categorical raster using the lookup table created earlier
+lc_t1_ <- LUMENSR_example("NTT_LC90.tif") %>%
+  terra::rast() %>%
+  add_legend_to_categorical_raster(
+    raster_file = .,
+    lookup_table = lookup_tbl
+  ) %>% 
+  assign_time_period(year_ = "1990")
+
+# Similarly, load the land cover data for period 2020 and add the legend
+lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
+  terra::rast() %>%
+  add_legend_to_categorical_raster(
+    raster_file = .,
+    lookup_table = lookup_tbl
+  ) %>% 
+  assign_time_period(year_ = "2020")
+```
+
+```{r Prepare trajectory lookup, include=FALSE}
+
+# Create lut_reclass using the defined function create_lut_reclass()
+lut_reclass <-lookup_traj_reclass |> select(traj_id, trajectory) |> distinct()
+
+# Generate combinations of traj_id from lut_trajectory for both ID_1 and ID_2
+combinations <- lut_trajectory$traj_id %>% 
+  expand.grid(ID_1 = ., ID_2 = .) %>% 
+  
+  # Perform a left_join to bring in the trajectories from lut_trajectory as CLASS_1
+  # Rename the resulting trajectory column to CLASS_1
+  left_join(lut_reclass, by = c("ID_1" = "traj_id")) %>% 
+  rename(CLASS_1 = trajectory) %>% 
+  
+  # Perform a left_join to bring in the trajectories from lut_trajectory as CLASS_2
+  # Rename the resulting trajectory column to CLASS_2
+  left_join(lut_reclass, by = c("ID_2" = "traj_id")) %>% 
+  rename(CLASS_2 = trajectory) %>% 
+  
+  # Create a new ID_traj column by concatenating ID_1 and ID_2
+  mutate(ID_traj = paste(ID_1, ID_2, sep="_"))
+```
+
+```{r Prepare trajectory lookup #2, include=FALSE}
+# Create traj_lookup using the defined function create_traj_lookup()
+# Afterwards, modify the ID column so it is a character vector
+traj_lookup <- create_traj_lookup() |>
+  mutate(ID = as.character(ID))
+
+lookup_trajectory_complete <- combinations |> 
+  left_join(traj_lookup, by = c("ID_traj"="ID")) |> 
+  mutate_all(replace_na, replace = "Other")
+```
+
+```{r Reclassify and generate crosstab}
+# Create a lookup table for trajectory with unique ID
+lut_trajectory <- lookup_traj_reclass |>
+  select(Value, traj_id, trajectory)
+
+# Create a reclassification matrix
+reclass_mat <- left_join(lookup_tbl, lut_trajectory, by="Value") |>
+  select(Value, traj_id) |> as.matrix()
+
+# Reclassify the raster
+lc_t1_reclass <- terra::classify(lc_t1_, reclass_mat) |> as.factor()
+#lc_t1_reclass <- lc_t1_reclass |> add_legend_to_categorical_raster(lookup_table = lut_trajectory ) 
+
+lc_t2_reclass <- terra::classify(lc_t2_, reclass_mat) |> as.factor()
+#lc_t2_reclass <- lc_t2_reclass |> add_legend_to_categorical_raster(lookup_table = lut_trajectory ) 
+
+concats_result <- concats(lc_t1_reclass,lc_t2_reclass)
+```
+
+```{r trajectory map}
+# Extract the first level from the "concats_result" and convert it to a data frame.
+# Rename the columns as "ID" and "ID_traj".
+lookup_concats <- levels(concats_result)[[1]] |> as_data_frame() |>  dplyr::rename("ID"=1, "ID_traj"=2)
+
+# Create a lookup table for trajectories by subsetting "combinations" for "ID_traj" and "trajectory".
+lookup_traj <- combinations[c("ID_traj", "trajectory")]
+
+# Perform a left join operation on "lookup_concats" and "lookup_traj" using "ID_traj" as the key.
+# Remove columns "ID" and "ID_traj" from the result.
+lookup_traj <- left_join(lookup_concats,lookup_traj, by= "ID_traj") |> 
+  dplyr::select(-c("ID","ID_traj"))
+
+# Add categorical information to "concats_result" based on the "lookup_traj".
+map_trajectory <- addCats(concats_result, lookup_traj)
+
+```
+
+```{r deforest/degrad map}
+# Create a lookup table from unique levels of 'concats_result'
+# The result is converted to a dataframe and columns are renamed to 'ID' and 'ID_traj'
+lookup_concats <- levels(concats_result)[[1]] %>% 
+  as_data_frame() %>%  
+  dplyr::rename("ID" = 1, "ID_traj" = 2)
+
+# Extract 'ID_traj' and 'def' columns from the 'combinations' dataframe
+lookup_def <- combinations[c("ID_traj", "def")]
+
+# Join 'lookup_concats' and 'lookup_def' on 'ID_traj' 
+# Remove the 'ID' and 'ID_traj' columns after joining
+lookup_def <- lookup_def %>% 
+  left_join(lookup_concats, by = "ID_traj") %>% 
+  dplyr::select(-c("ID","ID_traj"))
+
+# Add a categorization to 'concats_result' based on the 'lookup_def' mapping
+map_deforest_degrad <- addCats(concats_result, lookup_def)
+```
