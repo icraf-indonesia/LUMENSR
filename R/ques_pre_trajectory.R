@@ -15,8 +15,11 @@
 #' @importFrom dplyr group_by summarise mutate arrange select rename
 #' @importFrom tidyr drop_na
 #' @importFrom stringr str_detect
+#' @export
 #' @examples
+#' \dontrun{
 #' ques_pre_trajectory(lc_t1_, lc_t2_, admin_, lookup_traj_reclass, lookup_trajectory_complete)
+#' }
 ques_pre_trajectory <- function(lc_t1_, lc_t2_, admin_, lookup_traj_reclass, lookup_trajectory_complete, trajectory_column_name = "trajectory", convert_to_Ha = TRUE){
 
   # Calculate the trajectory map
