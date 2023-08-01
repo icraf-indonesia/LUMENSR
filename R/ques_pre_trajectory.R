@@ -52,6 +52,7 @@ ques_pre_trajectory <- function(lc_t1_, lc_t2_, admin_, lookup_traj_reclass, loo
   # Store results at landscape level
   landscape_level <- list(
     luc_trajectory_map = luc_trajectory_map,
+    crosstab_traj  = crosstab_traj,
     table_traj_area = table_traj_area,
     barplot_traj = barplot_traj
   )
