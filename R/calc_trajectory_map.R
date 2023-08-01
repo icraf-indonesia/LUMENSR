@@ -15,16 +15,19 @@
 #'
 #' @examples
 #' \dontrun{
-#' # assuming we have two raster objects "lc_t1", "lc_t2", a reclassification table "lookup_traj_reclass",
+#' # assuming we have two raster objects "lc_t1", "lc_t2",
+#' #a reclassification table "lookup_traj_reclass",
 #' # and a lookup table "lookup_trajectory_complete"
-#' my_trajectory_map <- calc_trajectory_map(lc_t1_, lc_t2_, lookup_traj_reclass, lookup_trajectory_complete, trajectory_column_name = "trajectory")
+#' my_trajectory_map <- calc_trajectory_map(lc_t1_, lc_t2_, lookup_traj_reclass,
+#' lookup_trajectory_complete,
+#' trajectory_column_name = "trajectory")
 #' }
 #'
 #' @export
 #' @importFrom terra classify levels concats addCats
 #' @importFrom dplyr select_if select left_join
 #' @importFrom tibble tibble
-#'
+
 calc_trajectory_map <-
   function(lc_t1_,
            lc_t2_,
