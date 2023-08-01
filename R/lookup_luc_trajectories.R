@@ -9,8 +9,10 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' lut_class <- create_lut_reclass()
 #' head(lut_reclass)
+#' }
 create_lut_reclass <- function() {
   lut_reclass <- tibble(
     ID = 1:8,
@@ -27,6 +29,41 @@ create_lut_reclass <- function() {
   )
   return(lut_reclass)
 }
+
+#' Generate Combinations of Trajectory IDs
+#'
+#' This function generates combinations of trajectory IDs from a lookup table and creates a new ID column.
+#'
+#' @param df A data frame containing trajectory IDs and classes.
+#' @return A data frame with combinations of trajectory IDs and classes.
+#' @importFrom dplyr expand.grid left_join rename mutate distinct
+#' @examples
+#' \dontrun{
+#' lut_class <- create_lut_reclass()
+#' generate_combinations(new_traj_class)
+#' }
+generate_combinations <- function(df) {
+
+  # Generate combinations of traj_id from lut_trajectory for both ID_1 and ID_2
+  combinations <- df[[1]] %>%
+    expand.grid(ID_1 = ., ID_2 = .) %>%
+
+    # Perform a left_join to bring in the trajectories from lut_trajectory as CLASS_1
+    # Rename the resulting trajectory column to CLASS_1
+    left_join(df, by = c("ID_1" = "ID")) %>%
+    rename(CLASS_1 = class) %>%
+
+    # Perform a left_join to bring in the trajectories from lut_trajectory as CLASS_2
+    # Rename the resulting trajectory column to CLASS_2
+    left_join(df, by = c("ID_2" = "ID")) %>%
+    rename(CLASS_2 = class) %>%
+
+    # Create a new ID_traj column by concatenating ID_1 and ID_2
+    mutate(ID_traj = paste(ID_1, ID_2, sep="_")) |> distinct()
+
+  return(combinations)
+}
+
 
 
 #' Create lookup table for land cover change trajectories
