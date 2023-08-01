@@ -26,14 +26,14 @@ Imports:
     cowplot,
     rlang,
     methods,
-    magick
+    magick,
+    tibble
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Suggests: 
     knitr,
-    testthat (>= 3.0.0),
-    tibble
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Depends: 
     R (>= 3.5.0)
