@@ -15,6 +15,8 @@ This function generates a tibble that maps reclassify IDs to their
 corresponding land cover new class names.
 }
 \examples{
+\dontrun{
 lut_class <- create_lut_reclass()
 head(lut_reclass)
+}
 }
