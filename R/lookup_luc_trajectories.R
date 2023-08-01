@@ -36,7 +36,7 @@ create_lut_reclass <- function() {
 #'
 #' @param df A data frame containing trajectory IDs and classes.
 #' @return A data frame with combinations of trajectory IDs and classes.
-#' @importFrom dplyr expand.grid left_join rename mutate distinct
+#' @importFrom dplyr left_join rename mutate distinct
 #' @examples
 #' \dontrun{
 #' lut_class <- create_lut_reclass()
