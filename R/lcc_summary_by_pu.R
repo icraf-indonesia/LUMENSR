@@ -39,3 +39,34 @@ lcc_summary_by_pu <- function(crosstab_tbl, pu_column, pu_name, sankey_area_cuto
   return(list(sankey_pu = sankey_pu, luc_top_pu = luc_top_pu))
 }
 
+#' Land Cover Change Trajectory by Planning Unit
+#'
+#' This function filters a cross-tabulation table based on a specified planning unit and generates a bar plot of the land cover change trajectory.
+#'
+#' @param crosstab_tbl A data frame containing cross-tabulation data.
+#' @param pu_column A character string specifying the column name of the planning unit in the data frame.
+#' @param pu_name A character string specifying the name of the planning unit to filter by.
+#' @return A list containing the filtered cross-tabulation table and the land cover change trajectory bar plot.
+#' @importFrom dplyr filter select
+#' @importFrom rlang sym
+#' @export
+lcc_trajectory_by_pu <- function(crosstab_tbl, pu_column, pu_name){
+  # Error checking
+  if (!inherits(crosstab_tbl, "data.frame")) stop("crosstab_tbl must be a data frame.")
+  if (!is.character(pu_column)) stop("pu_column must be a character string.")
+
+
+  # Check if the required columns exist in the data frame
+  if (!pu_column %in% names(crosstab_tbl)) stop(paste("The data frame does not contain the column:", pu_column))
+  if (!"Freq" %in% names(crosstab_tbl)) stop("The data frame does not contain the column: Freq")
+
+  # Filter the crosstab table based on planning unit and remove the planning unit column
+  traj_tbl_pu <- crosstab_tbl %>%
+    dplyr::filter(!!sym(pu_column) %in% pu_name) %>%
+    dplyr::select(-!!sym(pu_column))
+
+  plot_traj_pu <- plot_bar_trajectory(traj_tbl_pu)
+
+  # Return a list containing the summary table and the  land cover change trajectory
+  return(list(traj_tbl_pu = traj_tbl_pu, plot_traj_pu = plot_traj_pu))
+}
