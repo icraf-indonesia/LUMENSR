@@ -46,10 +46,19 @@
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/calc_top_lcc.html</loc>
   </url>
   <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/calc_trajectory_map.html</loc>
+  </url>
+  <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/create_crosstab.html</loc>
   </url>
   <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/create_lut_reclass.html</loc>
+  </url>
+  <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/create_sankey.html</loc>
+  </url>
+  <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/create_traj_lookup.html</loc>
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/ggplot_to_image.html</loc>
@@ -68,6 +77,9 @@
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/lcc_summary_by_pu.html</loc>
+  </url>
+  <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/lookup_traj_reclass.html</loc>
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/ntt_admin.html</loc>
@@ -101,6 +113,9 @@
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/rasterise_multipolygon.html</loc>
+  </url>
+  <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/reclass_raster_to_categories.html</loc>
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/vis_map_temperature.html</loc>
