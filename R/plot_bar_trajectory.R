@@ -8,11 +8,11 @@
 #' @return A ggplot2 object representing the bar plot.
 #' @importFrom ggplot2 ggplot aes geom_bar coord_flip theme_minimal theme labs element_text
 #' @importFrom stringr str_detect
+#' @export
 #' @examples
 #' \dontrun{
 #' plot_bar_trajectory(table_traj_area)
 #' }
-#' export
 plot_bar_trajectory <- function(df) {
   # Get the column names
   cat_col <- names(df)[1]
