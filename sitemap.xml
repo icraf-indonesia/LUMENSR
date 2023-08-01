@@ -61,6 +61,9 @@
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/create_traj_lookup.html</loc>
   </url>
   <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/generate_combinations.html</loc>
+  </url>
+  <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/ggplot_to_image.html</loc>
   </url>
   <url>
@@ -79,6 +82,9 @@
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/lcc_summary_by_pu.html</loc>
   </url>
   <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/lcc_trajectory_by_pu.html</loc>
+  </url>
+  <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/lookup_traj_reclass.html</loc>
   </url>
   <url>
@@ -89,6 +95,9 @@
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/plot_bar_trajectory.html</loc>
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/plot_categorical_raster.html</loc>
@@ -110,6 +119,9 @@
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/ques_pre.html</loc>
+  </url>
+  <url>
+    <loc>https://icraf-indonesia.github.io/LUMENSR/reference/ques_pre_trajectory.html</loc>
   </url>
   <url>
     <loc>https://icraf-indonesia.github.io/LUMENSR/reference/rasterise_multipolygon.html</loc>

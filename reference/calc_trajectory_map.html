@@ -92,9 +92,12 @@ and then adding categorical information based on a provided lookup table.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co"># assuming we have two raster objects "lc_t1", "lc_t2", a reclassification table "lookup_traj_reclass",</span></span></span>
+<span class="r-in"><span><span class="co"># assuming we have two raster objects "lc_t1", "lc_t2",</span></span></span>
+<span class="r-in"><span><span class="co">#a reclassification table "lookup_traj_reclass",</span></span></span>
 <span class="r-in"><span><span class="co"># and a lookup table "lookup_trajectory_complete"</span></span></span>
-<span class="r-in"><span><span class="va">my_trajectory_map</span> <span class="op">&lt;-</span> <span class="fu">calc_trajectory_map</span><span class="op">(</span><span class="va">lc_t1_</span>, <span class="va">lc_t2_</span>, <span class="va">lookup_traj_reclass</span>, <span class="va">lookup_trajectory_complete</span>, trajectory_column_name <span class="op">=</span> <span class="st">"trajectory"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">my_trajectory_map</span> <span class="op">&lt;-</span> <span class="fu">calc_trajectory_map</span><span class="op">(</span><span class="va">lc_t1_</span>, <span class="va">lc_t2_</span>, <span class="va">lookup_traj_reclass</span>,</span></span>
+<span class="r-in"><span><span class="va">lookup_trajectory_complete</span>,</span></span>
+<span class="r-in"><span>trajectory_column_name <span class="op">=</span> <span class="st">"trajectory"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
