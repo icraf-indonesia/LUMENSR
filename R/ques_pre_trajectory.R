@@ -1,4 +1,4 @@
-#' Preprocess Trajectory Data and Create Bar Plot
+#' Calculate land use and land cover change trajectory
 #'
 #' This function calculates the trajectory map, creates a cross-tabulation of land cover and administrative zones,
 #' and plots a bar chart of the trajectory data.
@@ -52,10 +52,14 @@ ques_pre_trajectory <- function(lc_t1_, lc_t2_, admin_, lookup_traj_reclass, loo
   # Store results at landscape level
   landscape_level <- list(
     luc_trajectory_map = luc_trajectory_map,
-    crosstab_traj  = crosstab_traj,
+    #crosstab_traj  = crosstab_traj,
     table_traj_area = table_traj_area,
     barplot_traj = barplot_traj
   )
+  # Compute summaries for each planning unit
+  pu_names <- crosstab_traj |> pull(names(admin_)) |> unique()
+  pu_level <- purrr::map(pu_names, ~ lcc_trajectory_by_pu(crosstab_tbl = crosstab_traj, pu_column = names(admin_), pu_name = .x))
+  pu_level <- set_names(pu_level, pu_names)
 
-  return(landscape_level)
+  return(list(landscape_level = landscape_level, pu_level = pu_level))
 }
