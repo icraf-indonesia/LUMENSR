@@ -12,7 +12,10 @@ execute:
   cache: false
 engine: knitr
 ---
-```{r eval=FALSE, include=FALSE}
+
+```{r}
+#| echo: false
+#| eval: false
 # key raster inputs: lc_t1_, lc_t2_, admin_
 # key table inputs: lookup_traj_reclass, lookup_trajectory_complete
 # key column inputs : trajectory and def
@@ -20,8 +23,14 @@ engine: knitr
 # key raster output: map_trajectory, map_deforest_degrad
 ```
 
+```{r Load land cover data}
+#| echo: false
+#| warning: false
 
-```{r Load land cover data include=FALSE}
+library(LUMENSR)
+library(magrittr)
+library(terra)
+
 # Prepare a lookup table by abbreviating column 'PL20' in the predefined table 'lc_lookup_klhk_sequence'
 lookup_tbl <- lc_lookup_klhk_sequence %>% abbreviate_by_column(col_names = "PL20")
 
@@ -49,11 +58,90 @@ lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
 admin_z <- ntt_admin %>% rasterise_multipolygon()
 ```
 
-
 ```{r trajectory map}
-traj_analysis_output <- ques_pre_trajectory(lc_t1_ = lc_t1_, lc_t2_ = lc_t2_, admin_ = admin_z, lookup_traj_reclass = lookup_traj_reclass, lookup_trajectory_complete = lookup_trajectory_complete, trajectory_column_name = "trajectory", convert_to_Ha = TRUE)
+#| echo: false
+#| warning: false
+traj_analysis_output <-
+  ques_pre_trajectory(
+    lc_t1_ = lc_t1_,
+    lc_t2_ = lc_t2_,
+    admin_ = admin_z,
+    lookup_traj_reclass = lookup_traj_reclass,
+    lookup_trajectory_complete = lookup_trajectory_complete,
+    trajectory_column_name = "trajectory",
+    convert_to_Ha = TRUE
+  )
 ```
 
 ```{r deforest/degrad map}
-def_analysis_output <- ques_pre_trajectory(lc_t1_ = lc_t1_, lc_t2_ = lc_t2_, admin_ = admin_z, lookup_traj_reclass = lookup_traj_reclass, lookup_trajectory_complete = lookup_trajectory_complete, trajectory_column_name = "def", convert_to_Ha = TRUE)
+#| echo: false
+#| warning: false
+def_analysis_output <-
+  ques_pre_trajectory(
+    lc_t1_ = lc_t1_,
+    lc_t2_ = lc_t2_,
+    admin_ = admin_z,
+    lookup_traj_reclass = lookup_traj_reclass,
+    lookup_trajectory_complete = lookup_trajectory_complete,
+    trajectory_column_name = "def",
+    convert_to_Ha = TRUE
+  )
 ```
+
+# Analisis alur penggunaan lahan (FAO)
+
+## Hasil analisis alur penggunaan lahan pada tingkat bentang lahan
+
+### Peta kelompok perubahan penutupan lahan
+
+```{r}
+#| echo: false
+traj_analysis_output$landscape_level$luc_trajectory_map |> plot_categorical_raster()
+```
+
+### Intisari kelompok perubahan penutupan lahan
+
+::: panel-tabset
+### Tabel
+
+```{r}
+#| echo: false
+traj_analysis_output$landscape_level$table_traj_area
+```
+
+### Grafik
+
+```{r}
+#| echo: false
+traj_analysis_output$landscape_level$barplot_traj
+```
+:::
+
+# Analisis alur penggunaan lahan (Deforestasi dan Degradasi)
+
+## Hasil analisis alur penggunaan lahan pada tingkat bentang lahan
+
+### Peta kelompok perubahan penutupan lahan
+
+```{r}
+#| echo: false
+def_analysis_output$landscape_level$luc_trajectory_map |> plot_categorical_raster()
+```
+
+### Intisari kelompok perubahan penutupan lahan
+
+::: panel-tabset
+### Tabel
+
+```{r}
+#| echo: false
+def_analysis_output$landscape_level$table_traj_area
+```
+
+### Grafik
+
+```{r}
+#| echo: false
+def_analysis_output$landscape_level$barplot_traj
+```
+:::
