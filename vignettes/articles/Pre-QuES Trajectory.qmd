@@ -96,26 +96,50 @@ def_analysis_output <-
 
 ```{r}
 #| echo: false
+#| warning: false
 traj_analysis_output$landscape_level$luc_trajectory_map |> plot_categorical_raster()
 ```
 
 ### Intisari kelompok perubahan penutupan lahan
 
 ::: panel-tabset
-### Tabel
+#### Tabel
 
 ```{r}
 #| echo: false
 traj_analysis_output$landscape_level$table_traj_area
 ```
 
-### Grafik
+#### Grafik
 
 ```{r}
 #| echo: false
 traj_analysis_output$landscape_level$barplot_traj
 ```
 :::
+
+## Hasil analisis pada tingkat unit perencanaan
+```{r}
+#| echo: false
+render_child <- function(results_list, i) {
+  res = knitr::knit_child(
+   text = xfun::read_utf8("quespretraj_by_pu.qmd"),
+   envir = rlang::env(results_list = results_list, i = i),
+   quiet = TRUE
+  )
+  cat(res, sep = '\n')
+  cat("\n")
+}
+```
+
+```{r}
+#| results: "asis"
+#| echo: false
+for (i in names(traj_analysis_output[["pu_level"]])) {
+  render_child(results_list = traj_analysis_output[["pu_level"]], i = i)
+}
+```
+
 
 # Analisis alur penggunaan lahan (Deforestasi dan Degradasi)
 
@@ -125,23 +149,34 @@ traj_analysis_output$landscape_level$barplot_traj
 
 ```{r}
 #| echo: false
+#| warning: false
 def_analysis_output$landscape_level$luc_trajectory_map |> plot_categorical_raster()
 ```
 
 ### Intisari kelompok perubahan penutupan lahan
 
 ::: panel-tabset
-### Tabel
+#### Tabel
 
 ```{r}
 #| echo: false
 def_analysis_output$landscape_level$table_traj_area
 ```
 
-### Grafik
+#### Grafik
 
 ```{r}
 #| echo: false
 def_analysis_output$landscape_level$barplot_traj
 ```
 :::
+
+## Hasil analisis pada tingkat unit perencanaan
+
+```{r}
+#| results: "asis"
+#| echo: false
+for (i in names(def_analysis_output[["pu_level"]])) {
+  render_child(results_list = def_analysis_output[["pu_level"]], i = i)
+}
+```
