@@ -13,10 +13,9 @@
 #' @importFrom tidyterra geom_spatraster scale_fill_hypso_d
 #' @export
 plot_categorical_raster <- function(raster_object) {
-
   # Check if raster_object has a color_pallete column and it contains hex color codes
   if ("color_pallette" %in% names(cats(raster_object)[[1]]) && all(grepl("^#[0-9A-Fa-f]{6}$", cats(raster_object)$color_pallete))) {
-    fill_scale <- scale_fill_manual(values = cats(raster_object)[[1]]$color_pallette)
+    fill_scale <- scale_fill_manual(values = cats(raster_object)[[1]]$color_pallette, na.value = "white")
   } else {
     fill_scale <- scale_fill_hypso_d()
   }
