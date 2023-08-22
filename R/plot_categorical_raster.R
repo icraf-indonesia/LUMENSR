@@ -19,13 +19,17 @@ plot_categorical_raster <- function(raster_object) {
   } else {
     fill_scale <- scale_fill_hypso_d()
   }
-
+    if(!is.na(time(raster_object))) {
+      plot_title <- time(raster_object)
+    } else {
+      plot_title <- names(raster_object)
+    }
   # Generate the plot
   plot_lc <- ggplot() +
     geom_spatraster(data = raster_object) +
     fill_scale +
     theme_bw() +
-    labs(title = time(raster_object), fill = NULL) +
+    labs(title = plot_title, fill = NULL) +
     guides(fill = guide_legend(title.position = "top", ncol=3))+
     theme(axis.title.x = element_blank(),
           axis.title.y = element_blank(),
