@@ -24,9 +24,11 @@ reclass_raster_to_categories <- function(raster_map, reclass_table){
   # Retrieve unique IDs from the raster and rename column to 'Value'
   ID_check <- terra::droplevels(raster_map) |> terra::cats() |> pluck(1) |> select(1)
 
+  colnames(reclass_table)[1] <- colnames(ID_check)
+
   # Join the reclassification table with the ID_check,
   # keep only the numeric columns and convert to matrix
-  reclass_mat <- left_join(ID_check, reclass_table, by="Value") %>% select_if(is.numeric) %>% as.matrix()
+  reclass_mat <- left_join(ID_check, reclass_table, by=colnames(ID_check)) %>% select_if(is.numeric) %>% as.matrix()
 
   # Reclassify the raster using the reclassification matrix and convert to factor
   raster_map_reclass <- classify(raster_map, reclass_mat) %>% as.factor()
