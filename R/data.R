@@ -199,5 +199,51 @@
 #' @docType data
 "lookup_traj_reclass"
 
+#' Lookup Table for Reclassified Trajectories
+#'
+#' @description
+#' This lookup table maps land cover codes to their respective descriptions and
+#' trajectory classes. The original land cover values have been replaced with a sequence
+#' of numbers from 1 to 23.
+#'
+#' @format
+#' A data frame with 23 rows and 4 columns:
+#' \describe{
+#'   \item{Value}{Reclassified land cover codes ranging from 1 to 23}
+#'   \item{PL20}{Descriptions for each corresponding land cover code in Bahasa Indonesia}
+#'   \item{traj_id}{Trajectory ID for each land cover code}
+#'   \item{trajectory}{English descriptions for each corresponding trajectory ID}
+#' }
+#'
+#' @source
+#' The data was adapted from the Indonesian Ministry of Environment and
+#' Forestry (KLHK).
+#'
+#' @name lookup_traj_reclass
+#' @docType data
+"lookup_traj_reclass"
+
+#' Lookup Table for Major Land Use Types
+#'
+#' @description
+#' This lookup table represents major land use types that are part of the land use change
+#' trajectory analysis. It is used to reclassify a land cover map, mapping specific trajectory IDs
+#' to their respective descriptions.
+#'
+#' @format
+#' A tibble with 8 rows and 2 columns:
+#' \describe{
+#'   \item{traj_id}{Trajectory ID for each major land use type, ranging from 1 to 8}
+#'   \item{trajectory}{English descriptions corresponding to each trajectory ID, representing different land use types}
+#' }
+#'
+#' @source
+#' The table may be part of a larger data set or analysis within your organization or project. Include additional source information as needed.
+#'
+#' @name driluc_traj_lookup
+#' @docType data
+"driluc_traj_lookup"
+
+
 
 
