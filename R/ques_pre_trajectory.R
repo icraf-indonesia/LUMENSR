@@ -21,7 +21,6 @@
 #' ques_pre_trajectory(lc_t1_, lc_t2_, admin_, lookup_traj_reclass, lookup_trajectory_complete)
 #' }
 ques_pre_trajectory <- function(lc_t1_, lc_t2_, admin_, lookup_traj_reclass, lookup_trajectory_complete, trajectory_column_name = "trajectory", convert_to_Ha = TRUE){
-
   # Calculate the trajectory map
   luc_trajectory_map <-
     calc_trajectory_map(
@@ -40,7 +39,8 @@ ques_pre_trajectory <- function(lc_t1_, lc_t2_, admin_, lookup_traj_reclass, loo
   table_traj_area <- luc_trajectory_map |>
     terra::freq() |>
     dplyr::group_by(value) |>
-    summarise(count=sum(count)) |> rename("Trajectory" = 1, "Pixel"= 2)
+    summarise(count=sum(count)) |>
+    rename("Trajectory" = 1, "Pixel"= 2)
 
   # Convert pixel counts to hectares if convert_to_Ha is TRUE
   if(convert_to_Ha == TRUE) {
