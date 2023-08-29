@@ -27,6 +27,7 @@ params:
 # key column inputs : trajectory and def
 # key raster output: map_trajectory, map_deforest_degrad
 library(terra)
+library(dplyr)
 library(LUMENSR)
 
 traj_analysis_output <- 
@@ -51,7 +52,7 @@ traj_map <- rast(params$dir_traj_map_)
 # Perform a join operation between the categories of the trajectory map and the color lookup table
 # The function color_landuse_trajectories() is presumed to return the color lookup table for trajectories
 lookup_traj <-
-  cats(traj_map)[[1]] %>%  # Extract categories from the raster object 'traj_map'
+  cats(traj_map)[[1]] |>  # Extract categories from the raster object 'traj_map'
   left_join(color_landuse_trajectories(),  # Join with the color lookup table
             by = "trajectory")  # Specify the common column 'trajectory' for the join operation
 
