@@ -24,7 +24,7 @@
 #' }
 #'
 #' @export
-#' @importFrom terra classify levels concats addCats
+#' @importFrom terra classify levels concats addCats as.factor
 #' @importFrom dplyr select_if select left_join
 #' @importFrom tibble tibble
 
@@ -56,13 +56,27 @@ calc_trajectory_map <-
     # Perform a left join operation on "lookup_concats" and "lookup_traj" using "ID_traj" as the key.
     # Remove columns "ID" and "ID_traj" from the result.
     lookup_traj <-
-      left_join(lookup_concats, lookup_traj, by = "ID_traj") %>%
+      dplyr::left_join(lookup_concats, lookup_traj, by = "ID_traj") %>%
       dplyr::select(-c("ID", "ID_traj"))
 
     # Add categorical information to "concats_result" based on the "lookup_traj".
     map_trajectory <- addCats(concats_result, lookup_traj)
 
+    lookup_traj_short <- lookup_traj %>% unique %>% mutate(ID = row_number(), .before = 1)
+
     names(map_trajectory) <- trajectory_column_name
+
+    reclass_mat <- cats(map_trajectory)[[1]] %>%
+      dplyr::select(ID,!!trajectory_column_name) %>%
+      left_join(lookup_traj_short, by = trajectory_column_name) %>%
+      dplyr::select(-!!trajectory_column_name) %>%
+      as.matrix()
+
+    map_trajectory <-
+      terra::classify(map_trajectory, reclass_mat) %>%
+      terra::as.factor()
+
+    levels(map_trajectory)<- lookup_traj_short
 
     return(map_trajectory)
   }
