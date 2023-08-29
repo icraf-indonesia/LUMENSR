@@ -18,10 +18,10 @@ params:
   dir_ques_pre_def: "NA"
 ---
 
-```{r}
 
+```{r}
+#| warning: false
 #| echo: false
-#| eval: false
 # key raster inputs: lc_t1_, lc_t2_, admin_
 # key table inputs: lookup_traj_reclass, lookup_trajectory_complete
 # key column inputs : trajectory and def
@@ -45,9 +45,23 @@ def_analysis_output <-
 ```{r}
 #| echo: false
 #| warning: false
+# Load the raster data for trajectory mapping from a given directory path
 traj_map <- rast(params$dir_traj_map_)
+
+# Perform a join operation between the categories of the trajectory map and the color lookup table
+# The function color_landuse_trajectories() is presumed to return the color lookup table for trajectories
+lookup_traj <-
+  cats(traj_map)[[1]] %>%  # Extract categories from the raster object 'traj_map'
+  left_join(color_landuse_trajectories(),  # Join with the color lookup table
+            by = "trajectory")  # Specify the common column 'trajectory' for the join operation
+
+# Assign the joined color codes back to the levels of the raster object
+levels(traj_map) <- lookup_traj
+
+# Plot the categorical raster using a presumed function 'plot_categorical_raster()'
 traj_map |> 
-  plot_categorical_raster()
+  plot_categorical_raster()  # Plot the raster data
+
 ```
 
 ### Intisari kelompok perubahan penutupan lahan
@@ -101,6 +115,14 @@ for (i in names(traj_analysis_output[["pu_level"]])) {
 #| echo: false
 #| warning: false
 def_map <- rast(params$dir_def_map_)
+lookup_def <-
+  cats(def_map)[[1]] %>%  # Extract categories from the raster object 'traj_map'
+  left_join(color_forest_trajectories(),  # Join with the color lookup table
+            by = "def")  # Specify the common column 'trajectory' for the join operation
+
+# Assign the joined color codes back to the levels of the raster object
+levels(def_map) <- lookup_def
+
 def_map |> 
   plot_categorical_raster()
 ```
