@@ -16,7 +16,7 @@ color_forest_trajectories <- function() {
       "Reforestation",
       "Other"
     ),
-    hex_color = c("#006400", "#FFD700", "#FF4500", "#90EE90" , "#808080")
+    color_palette = c("#006400", "#FFD700", "#FF4500", "#90EE90" , "#808080")
   )
 
   # Return the color lookup table
@@ -46,7 +46,7 @@ color_landuse_trajectories <- function() {
       "Recovery to agroforest",
       "Loss to infrastructure"
     ),
-    hex_color = c(
+    color_palette = c(
       "#228B22",  # Green for stable natural forest
       "#ADFF2F",  # Light Green for forest recovery
       "#FF8424",  # Goldenrod for logged-over forest loss
