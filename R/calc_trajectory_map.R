@@ -62,7 +62,7 @@ calc_trajectory_map <-
     # Add categorical information to "concats_result" based on the "lookup_traj".
     map_trajectory <- addCats(concats_result, lookup_traj)
 
-    lookup_traj_short <- lookup_traj %>% unique %>% mutate(ID = row_number(), .before = 1)
+    lookup_traj_short <- lookup_traj %>% unique %>% mutate(ID = dplyr::row_number(), .before = 1)
 
     names(map_trajectory) <- trajectory_column_name
 
