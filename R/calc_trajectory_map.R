@@ -25,7 +25,7 @@
 #'
 #' @export
 #' @importFrom terra classify levels concats addCats as.factor
-#' @importFrom dplyr select_if select left_join
+#' @importFrom dplyr select_if select left_join row_number mutate
 #' @importFrom tibble tibble
 
 calc_trajectory_map <-
