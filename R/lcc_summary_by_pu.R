@@ -9,6 +9,7 @@
 #' @param n_top_lcc An integer representing the number of top land cover changes to be displayed. Default is 10.
 #' @return A list containing the Sankey plot (`sankey_pu`) and a data frame of the top land cover changes (`luc_top_pu`).
 #' @importFrom dplyr filter select
+#' @importFrom utils head
 #' @importFrom rlang sym
 #' @export
 lcc_summary_by_pu <- function(crosstab_tbl, pu_column, pu_name, sankey_area_cutoff, n_top_lcc = 10){
@@ -23,16 +24,29 @@ lcc_summary_by_pu <- function(crosstab_tbl, pu_column, pu_name, sankey_area_cuto
   if (!"Freq" %in% names(crosstab_tbl)) stop("The data frame does not contain the column: Freq")
 
   # Filter the crosstab table based on planning unit and remove the planning unit column
-  filter_crosstab <- crosstab_tbl %>%
-    dplyr::filter(!!sym(pu_column) %in% pu_name) %>%
+  filter_crosstab <- crosstab_tbl |>
+    dplyr::filter(!!sym(pu_column) %in% pu_name) |>
     dplyr::select(-!!sym(pu_column))
 
-  # Create a Sankey plot based on the filtered crosstab table
-  sankey_pu <- filter_crosstab %>%
-    create_sankey(area_cutoff = sankey_area_cutoff, change_only = FALSE)
+  # Calculate the maximum area from 'Freq' or 'Ha' column
+  max_area <- max(filter_crosstab$Freq, filter_crosstab$Ha)
+  # Check if sankey_area_cutoff is larger than max_area
+  if (sankey_area_cutoff > max_area) {
+    warning("The value of sankey_area_cutoff is larger than any area in the dataset. Setting it to the top 10 changes")
+    # Create a Sankey plot based on the filtered crosstab table
+    sankey_pu <- filter_crosstab |>
+      head(n = 10) |>
+      create_sankey(area_cutoff = 0, change_only = FALSE)
+  } else {
+    # Create a Sankey plot based on the filtered crosstab table
+    sankey_pu <- filter_crosstab |>
+      create_sankey(area_cutoff = sankey_area_cutoff, change_only = FALSE)
+  }
+
+
 
   # Calculate the top land cover changes based on the filtered crosstab table
-  luc_top_pu <- filter_crosstab %>%
+  luc_top_pu <- filter_crosstab |>
     calc_top_lcc(n_rows = n_top_lcc)
 
   # Return a list containing the Sankey plot and the top land cover changes
