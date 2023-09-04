@@ -91,12 +91,16 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
     lc_composition_barplot = lc_composition_barplot
   )
   # Create crosstabulation
-  crosstab_result <- create_crosstab(land_cover = c(lc_t1, lc_t2), zone = admin_)[["crosstab_long"]]
+  crosstab_matrix_landscape <- create_crosstab(land_cover = c(lc_t1, lc_t2))[["crosstab_square"]] |>
+    as.data.frame.matrix()
 
+  crosstab_result <- create_crosstab(land_cover = c(lc_t1, lc_t2), zone = admin_)[["crosstab_long"]]
   # Get spatResolution
   if( convert_to_Ha == TRUE) {
     SpatRes <- calc_res_conv_factor_to_ha(raster_input = lc_t1)
+
     crosstab_result <- mutate(crosstab_result, Ha = Freq*SpatRes)
+    crosstab_matrix_landscape <- crosstab_result
   }
 
   # Summarize crosstabulation at landscape level
@@ -132,13 +136,13 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
     plot_lcc_freq_bar(col_T1 = as.character(time(lc_t1)), col_T2 = as.character(time(lc_t2)),
                       Freq = if ("Ha" %in% names(luc_top_10)) "Ha" else "Freq")
 
-
   # Store results at landscape level
   landscape_level <- list(
     sankey_landscape= sankey_landscape,
     sankey_landscape_chg_only = sankey_landscape_chg_only,
     luc_top_10_tbl = luc_top_10,
-    luc_top_10_barplot = luc_top_10_barplot
+    luc_top_10_barplot = luc_top_10_barplot,
+    crosstab_landscape = crosstab_matrix_landscape
   )
 
   # Compute summaries for each planning unit
