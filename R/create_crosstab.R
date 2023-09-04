@@ -72,7 +72,7 @@ create_crosstab <- function(land_cover, zone) {
     }
   } else {
 
-    crosstab_square <- terra::crosstab(land_cover)
+    crosstab_square <- terra::crosstab(land_cover, useNA = TRUE, digits = 3)
 
   }
 
