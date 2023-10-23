@@ -11,6 +11,7 @@
 #' @importFrom dplyr filter select
 #' @importFrom utils head
 #' @importFrom rlang sym
+#' @importFrom stats xtabs
 #' @export
 lcc_summary_by_pu <- function(crosstab_tbl, pu_column, pu_name, sankey_area_cutoff, n_top_lcc = 10){
   # Error checking
@@ -27,6 +28,14 @@ lcc_summary_by_pu <- function(crosstab_tbl, pu_column, pu_name, sankey_area_cuto
   filter_crosstab <- crosstab_tbl |>
     dplyr::filter(!!sym(pu_column) %in% pu_name) |>
     dplyr::select(-!!sym(pu_column))
+
+
+
+  filter_crosstab |>
+    group_by_at(c(1,2)) |>
+    summarise(Freq = sum(Freq), Ha = sum(Ha)) |>
+    ungroup() |>
+    tidyr::pivot_wider(names_from = 1, id_cols = 2, values_from = "Ha")
 
   # Calculate the maximum area from 'Freq' or 'Ha' column
   max_area <- max(filter_crosstab$Freq, filter_crosstab$Ha)
@@ -49,8 +58,11 @@ lcc_summary_by_pu <- function(crosstab_tbl, pu_column, pu_name, sankey_area_cuto
   luc_top_pu <- filter_crosstab |>
     calc_top_lcc(n_rows = n_top_lcc)
 
+  crosstab_xtab <- filter_crosstab |> dplyr::select(1,2,3)
+
+  crosstab_pu <- xtabs(Freq ~ ., data = crosstab_xtab)
   # Return a list containing the Sankey plot and the top land cover changes
-  return(list(sankey_pu = sankey_pu, luc_top_pu = luc_top_pu))
+  return(list(sankey_pu = sankey_pu, luc_top_pu = luc_top_pu, crosstab_pu = crosstab_pu))
 }
 
 #' Land Cover Change Trajectory by Planning Unit
