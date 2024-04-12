@@ -12,6 +12,7 @@
 #' @importFrom dplyr arrange desc
 #' @importFrom purrr is_vector
 #' @importFrom magrittr %>%
+#' @importFrom tidyr drop_na
 #'
 #' @examples
 #' \dontrun{
@@ -35,7 +36,6 @@
 #' @export
 #'
 create_crosstab <- function(land_cover, zone) {
-
   # Check if land_cover is a list of 'SpatRaster' objects
   if (!all(sapply(land_cover, function(x) class(x) == "SpatRaster"))) {
     stop("land_cover must be a list of 'SpatRaster' objects.")
@@ -71,14 +71,14 @@ create_crosstab <- function(land_cover, zone) {
       stop("Zone exists but does not have the same projection, extent, and resolution as land_cover.")
     }
   } else {
-
     crosstab_square <- terra::crosstab(land_cover, useNA = TRUE, digits = 3)
 
   }
 
   crosstab_long <- crosstab_square %>%
     as.data.frame() %>%
-    dplyr::arrange(desc(Freq)) # order by descending Freq
+    dplyr::arrange(desc(Freq)) %>% # order by descending Freq
+    drop_na()
 
   # Rename columns to remove 'X' at the beginning
   names(crosstab_long) <- gsub("^X", "", names(crosstab_long))
