@@ -19,20 +19,22 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' ## Load and annotate land cover data for period T1
+#' # Load and annotate land cover data for period T1
 #' lc_t1_ <- LUMENSR_example("NTT_LC90.tif") %>%
 #'   terra::rast() %>%
 #'   add_legend_to_categorical_raster(
 #'     raster_file = .,
-#'     lookup_table = lc_lookup_klhk_sequence
-#'   ) |> assign_time_period(year_ = as.character(1990))
-#' ## Load and annotate land cover data for period T2
-#' lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
+#'     lookup_table = lc_lookup_klhk_sequence,
+#'     year = 1990)
+#'
+#' # Load and annotate land cover data for period T2
+# lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
 #'   terra::rast() %>%
 #'   add_legend_to_categorical_raster(
 #'     raster_file = .,
-#'     lookup_table = lc_lookup_klhk_sequence
-#'   ) |> assign_time_period(year_ = as.character(2020))
+#'     lookup_table = lc_lookup_klhk_sequence,
+#'    year = 2020)
+#'
 #' # Load planning unit data
 #' admin_z <- LUMENSR_example("ntt_admin_spatraster.tif") %>%
 #'   terra::rast()
@@ -117,9 +119,9 @@ ques_pre <- function(lc_t1, lc_t2, admin_, cutoff_landscape = 5000, cutoff_pu = 
 
   # Summarizing the grouped data
   if ("Ha" %in% names(grouped_df)) {
-    crosstab_landscape <- summarise(grouped_df, Freq = sum(Freq), Ha = sum(Ha), .groups = "drop")
+    crosstab_landscape <- summarise(grouped_df, Freq = sum(.data[["Freq"]]), Ha = sum(.data[["Ha"]]), .groups = "drop")
   } else {
-    crosstab_landscape <- summarise(grouped_df, Freq = sum(Freq), .groups = "drop")
+    crosstab_landscape <- summarise(grouped_df, Freq = sum(.data[["Freq"]]), .groups = "drop")
   }
   # Create Sankey diagrams at landscape level
   ## Sankey diagram showing all changes
