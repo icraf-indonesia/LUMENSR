@@ -37,7 +37,6 @@ We appreciate your feedback and contributions. Please report any problems encoun
 Here's a simple example of how to use LUMENSR:
 ```r
 # Load the LUMENSR package
-# Load the LUMENSR package
 library(LUMENSR)
 
 # Load the example raster files for 1990 and 2020 and convert them into a terra::rast object
