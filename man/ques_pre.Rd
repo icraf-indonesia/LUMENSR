@@ -38,20 +38,21 @@ The function also converts pixels to hectares if \code{convert_to_Ha} is set to 
 }
 \examples{
 \dontrun{
-## Load and annotate land cover data for period T1
+# Load and annotate land cover data for period T1
 lc_t1_ <- LUMENSR_example("NTT_LC90.tif") \%>\%
   terra::rast() \%>\%
   add_legend_to_categorical_raster(
     raster_file = .,
-    lookup_table = lc_lookup_klhk_sequence
-  )
-## Load and annotate land cover data for period T2
-lc_t2_ <- LUMENSR_example("NTT_LC20.tif") \%>\%
+    lookup_table = lc_lookup_klhk_sequence,
+    year = 1990)
+
+# Load and annotate land cover data for period T2
   terra::rast() \%>\%
   add_legend_to_categorical_raster(
     raster_file = .,
-    lookup_table = lc_lookup_klhk_sequence
-  )
+    lookup_table = lc_lookup_klhk_sequence,
+   year = 2020)
+
 # Load planning unit data
 admin_z <- LUMENSR_example("ntt_admin_spatraster.tif") \%>\%
   terra::rast()
