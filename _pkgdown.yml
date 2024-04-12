@@ -1,4 +1,10 @@
 url: https://icraf-indonesia.github.io/LUMENSR/
 template:
   bootstrap: 5
-
+navbar:
+ components:
+   articles:
+    text: Articles
+    menu:
+    - text: Pre-QuES Report Example
+      href: articles/Pre-QUES.html
