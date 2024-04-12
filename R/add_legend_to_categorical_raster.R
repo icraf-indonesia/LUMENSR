@@ -7,7 +7,7 @@
 #' @param year An optional year to be associated with the raster file
 #'
 #' @return A raster file that contains descriptions for each class category
-#' @importFrom terra levels freq time
+#' @importFrom terra levels freq time names
 #' @importFrom stats setNames
 #' @export
 #'
