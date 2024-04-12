@@ -4,12 +4,14 @@
 \alias{add_legend_to_categorical_raster}
 \title{Add legend to categorical raster}
 \usage{
-add_legend_to_categorical_raster(raster_file, lookup_table)
+add_legend_to_categorical_raster(raster_file, lookup_table, year = NULL)
 }
 \arguments{
 \item{raster_file}{A categorical raster file (an object of class \code{SpatRaster})}
 
 \item{lookup_table}{A corresponding lookup table of descriptions for each class category}
+
+\item{year}{An optional year to be associated with the raster file}
 }
 \value{
 A raster file that contains descriptions for each class category
@@ -19,6 +21,6 @@ This function adds a legend to a categorical raster file, often containing infor
 }
 \examples{
 \dontrun{
-add_legend_to_categorical_raster(raster_file = kalbar_11, lookup_table = lc_lookup_klhk) \%>\% plot()
+add_legend_to_categorical_raster(raster_file = kalbar_11, lookup_table = lc_lookup_klhk, year = 2011) \%>\% plot()
 }
 }
