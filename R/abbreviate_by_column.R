@@ -20,7 +20,6 @@
 #' )
 #' abbreviate_by_column(df, c("col1", "col2"), remove_vowels=TRUE)
 abbreviate_by_column <- function(df, col_names = NULL, remove_vowels= FALSE) {
-
   # Check if df is a data frame
   if(!is.data.frame(df)) {
     stop("df must be a data frame")
@@ -42,13 +41,13 @@ abbreviate_by_column <- function(df, col_names = NULL, remove_vowels= FALSE) {
   }
 
   # Define the abbreviation function
-  abbreviate_string <- function(input_string, remove_vowels = FALSE) {
+  abbreviate_string <- function(input_string, drop_vowels = remove_vowels) {
 
     # Remove characters after the slash, if any
     string <- textclean::replace_non_ascii(input_string)
     string <- strsplit(string," / ")[[1]][1]
 
-    if(remove_vowels == TRUE){
+    if(isTRUE(drop_vowels)){
       # Replace spaces with underscores
       string <- gsub(" ", "_", string)
 
