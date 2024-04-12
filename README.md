@@ -73,7 +73,8 @@ create_sankey(crosstab_result_abbreviated,
               change_only = FALSE)
 
 ```
-![image](https://github.com/icraf-indonesia/LUMENSR/assets/14798903/b01d5d42-fa5d-44a5-ae29-eb80f5401bb3)
+<img width="938" alt="image" src="https://github.com/icraf-indonesia/LUMENSR/assets/14798903/61f46fae-6c4c-4959-8df6-71711cb89bc1">
+
 
 
 # Interested in preparing and producing a Pre-QUES report?
