@@ -10,6 +10,7 @@
 #' @importFrom magick image_graph
 #' @importFrom utils capture.output
 #' @importFrom grDevices dev.off
+#' @importFrom graphics par
 #' @export
 #' @return A magick image object of the ggplot2 plot.
 #'

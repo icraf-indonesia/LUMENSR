@@ -13,7 +13,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' add_legend_to_categorical_raster(raster_file = kalbar_11, lookup_table = lc_lookup_klhk, year = 2011) %>% plot()
+#' add_legend_to_categorical_raster(raster_file = kalbar_11,
+#'               lookup_table = lc_lookup_klhk,
+#'               year = 2011) %>%
+#'               plot()
 #' }
 
 add_legend_to_categorical_raster <- function(raster_file, lookup_table, year = NULL) {

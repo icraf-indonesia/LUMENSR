@@ -199,29 +199,6 @@
 #' @docType data
 "lookup_traj_reclass"
 
-#' Lookup Table for Reclassified Trajectories
-#'
-#' @description
-#' This lookup table maps land cover codes to their respective descriptions and
-#' trajectory classes. The original land cover values have been replaced with a sequence
-#' of numbers from 1 to 23.
-#'
-#' @format
-#' A data frame with 23 rows and 4 columns:
-#' \describe{
-#'   \item{Value}{Reclassified land cover codes ranging from 1 to 23}
-#'   \item{PL20}{Descriptions for each corresponding land cover code in Bahasa Indonesia}
-#'   \item{traj_id}{Trajectory ID for each land cover code}
-#'   \item{trajectory}{English descriptions for each corresponding trajectory ID}
-#' }
-#'
-#' @source
-#' The data was adapted from the Indonesian Ministry of Environment and
-#' Forestry (KLHK).
-#'
-#' @name lookup_traj_reclass
-#' @docType data
-"lookup_traj_reclass"
 
 #' Lookup Table for Major Land Use Types
 #'
@@ -244,6 +221,111 @@
 #' @docType data
 "driluc_traj_lookup"
 
+#' Lookup Table for Land Cover Trajectories
+#'
+#' @description
+#' The `lut_trajectory` tibble contains a lookup table that maps trajectory IDs to their
+#' corresponding land cover trajectory descriptions. This lookup table is used to assign
+#' meaningful labels to the land cover change trajectories identified in the analysis.
+#'
+#' @format
+#' A tibble with 8 rows and 2 columns:
+#' \describe{
+#'   \item{traj_id}{The unique identifier for each land cover trajectory (integer).}
+#'   \item{trajectory}{The description of the land cover trajectory corresponding to each
+#'   `traj_id` (character).}
+#' }
+#'
+#' @details
+#' The land cover trajectories represented in this lookup table are:
+#' \enumerate{
+#'   \item Undisturbed forest: Areas that have remained as undisturbed forest throughout
+#'   the analysis period.
+#'   \item Logged-over forest: Forest areas that have been subject to logging activities.
+#'   \item Monoculture tree-based plantation: Plantations that consist of a single tree
+#'   species, typically grown for commercial purposes.
+#'   \item Shrub, grass, and cleared land: Areas covered by shrubs, grasslands, or land
+#'   that has been cleared of its previous vegetation.
+#'   \item Agriculture/annual crop: Land used for agricultural purposes, particularly for
+#'   growing annual crops.
+#'   \item Mixed tree-based plantation: Plantations that consist of multiple tree species,
+#'   often with a mix of commercial and native species.
+#'   \item Others: Land cover types that do not fall into any of the other defined
+#'   categories.
+#'   \item Settlement and built-up area: Areas that have been developed for human
+#'   settlement, including urban and rural built-up areas.
+#' }
+#'
+#' This lookup table is typically used in conjunction with the land cover change analysis
+#' functions in the LUMENSR package. It helps in assigning meaningful labels to the
+#' identified land cover trajectories, making the results more interpretable.
+#'
+#' @source LUMENSR package
+#'
+#' @name lut_trajectory
+#' @docType data
+"lut_trajectory"
 
-
-
+#' Lookup Table for Land Cover Change Trajectories
+#'
+#' @description
+#' The `lookup_trajectory_complete` data frame provides a comprehensive lookup table for
+#' land cover change trajectories. It maps the combinations of initial and final land
+#' cover classes to specific trajectory IDs and defines the corresponding trajectory
+#' descriptions.
+#'
+#' @format
+#' A data frame with 64 rows and 7 columns:
+#' \describe{
+#'   \item{ID_1}{Numeric identifier for the initial land cover class.}
+#'   \item{ID_2}{Numeric identifier for the final land cover class.}
+#'   \item{CLASS_1}{Description of the initial land cover class.}
+#'   \item{CLASS_2}{Description of the final land cover class.}
+#'   \item{ID_traj}{Unique identifier for each land cover change trajectory, formed by
+#'   combining ID_1 and ID_2 with an underscore.}
+#'   \item{trajectory}{Detailed description of each land cover change trajectory.}
+#'   \item{def}{Simplified definition or category of each land cover change trajectory.}
+#' }
+#'
+#' @details
+#' The `lookup_trajectory_complete` data frame provides a mapping of land
+#' cover change trajectories. It considers all possible combinations of initial and final
+#' land cover classes and assigns a unique trajectory ID to each combination. The data
+#' frame also includes detailed descriptions and simplified definitions for each
+#' trajectory.
+#'
+#' The land cover classes considered in this lookup table are:
+#' \enumerate{
+#'   \item Undisturbed forest
+#'   \item Logged-over forest
+#'   \item Monoculture tree-based plantation
+#'   \item Shrub, grass, and cleared land
+#'   \item Agriculture/annual crop
+#'   \item Mixed tree-based plantation
+#'   \item Others
+#'   \item Settlement and built-up area
+#' }
+#'
+#' The `ID_traj` column is formed by concatenating the `ID_1` and `ID_2` values with an
+#' underscore, providing a unique identifier for each land cover change trajectory.
+#'
+#' The `trajectory` column provides a detailed description of each land cover change
+#' trajectory, indicating the specific transition from the initial land cover class to
+#' the final land cover class.
+#'
+#' The `def` column provides a simplified definition or category for each land cover
+#' change trajectory, such as "Stable forest," "Reforestation," "Deforestation," or
+#' "Other."
+#'
+#' @source LUMENSR package
+#'
+#' @examples
+#' # View the first few rows of the lookup table
+#' head(lookup_trajectory_complete)
+#'
+#' # Filter the lookup table for a specific initial land cover class
+#' subset(lookup_trajectory_complete, ID_1 == 1)
+#'
+#' @name lookup_trajectory_complete
+#' @docType data
+"lookup_trajectory_complete"

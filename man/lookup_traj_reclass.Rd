@@ -16,14 +16,6 @@ A data frame with 23 rows and 4 columns:
 \item{traj_id}{Trajectory ID for each land cover code}
 \item{trajectory}{English descriptions for each corresponding trajectory ID}
 }
-
-A data frame with 23 rows and 4 columns:
-\describe{
-\item{Value}{Reclassified land cover codes ranging from 1 to 23}
-\item{PL20}{Descriptions for each corresponding land cover code in Bahasa Indonesia}
-\item{traj_id}{Trajectory ID for each land cover code}
-\item{trajectory}{English descriptions for each corresponding trajectory ID}
-}
 }
 \source{
 The analysis methodology is based on the Quantification of Environmental Services module.
@@ -34,13 +26,8 @@ Lookup Table for Reclassified Trajectories
 
 The data was adapted from the Indonesian Ministry of Environment and
 Forestry (KLHK).
-
-The data was adapted from the Indonesian Ministry of Environment and
-Forestry (KLHK).
 }
 \usage{
-lookup_traj_reclass
-
 lookup_traj_reclass
 }
 \description{
@@ -50,10 +37,6 @@ land use change on various ecosystem services.
 
 \code{quespre_by_pu.qmd} is a knitr child document used in the generation of land use change analysis reports.
 This child document is used to perform analyses on a per planning unit basis, thus providing more granular results.
-
-This lookup table maps land cover codes to their respective descriptions and
-trajectory classes. The original land cover values have been replaced with a sequence
-of numbers from 1 to 23.
 
 This lookup table maps land cover codes to their respective descriptions and
 trajectory classes. The original land cover values have been replaced with a sequence
