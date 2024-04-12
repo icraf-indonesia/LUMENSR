@@ -37,25 +37,41 @@ We appreciate your feedback and contributions. Please report any problems encoun
 Here's a simple example of how to use LUMENSR:
 ```r
 # Load the LUMENSR package
+# Load the LUMENSR package
 library(LUMENSR)
 
-# Load the example raster files and convert them into a terra::rast object
-# Add a legend to the raster using a lookup table
-NTT_LC90 <- LUMENSR_example("NTT_LC90.tif")
-NTT_LC90_rast <- terra::rast(NTT_LC90)
-NTT_LC90_legend <- add_legend_to_categorical_raster(raster_file = NTT_LC90_rast, lookup_table = lc_lookup_klhk_sequence)
+# Load the example raster files for 1990 and 2020 and convert them into a terra::rast object
+lc_t1 <- terra::rast(LUMENSR_example("NTT_LC90.tif"))
+t1 <- 1990
+lc_t2 <- terra::rast(LUMENSR_example("NTT_LC20.tif"))
+t2 <- 2020
 
-NTT_LC20 <- LUMENSR_example("NTT_LC20.tif")
-NTT_LC20_rast <- terra::rast(NTT_LC20)
-NTT_LC20_legend <- add_legend_to_categorical_raster(raster_file = NTT_LC20_rast, lookup_table = lc_lookup_klhk_sequence)
+# Add a legend to the raster files using a lookup table
+lc_t1_attr <- add_legend_to_categorical_raster(raster_file = lc_t1,
+                                               lookup_table = lc_lookup_klhk_sequence,
+                                               year = t1)
+lc_t2_attr <- add_legend_to_categorical_raster(raster_file = lc_t2,
+                                               lookup_table = lc_lookup_klhk_sequence,
+                                               year = t2)
 
-# Create a frequency table from the list of raster files
-raster_list <- list(NTT_LC90_legend, NTT_LC20_legend)
-crosstab_result <- create_crosstab(raster_list)
-crosstab_result_abbreviated <- abbreviate_by_column(crosstab_result, c("NTT_LC90", "NTT_LC20"), remove_vowels = FALSE)
+# Create a frequency table (crosstab) from the list of raster files
+crosstab_result <- create_crosstab(c(lc_t1_attr, lc_t2_attr))
 
-# Create a Sankey diagram from the frequency table
-create_sankey(crosstab_result_abbreviated, area_cutoff = 10000, change_only = FALSE)
+# Abbreviate the column names in the frequency table
+crosstab_result_abbreviated <-
+  abbreviate_by_column(
+    df = crosstab_result$crosstab_long,
+    col_names = as.character(c(t1, t2)),
+    remove_vowels = FALSE
+  )
+
+# Create a Sankey diagram from the abbreviated frequency table
+# Set area_cutoff to 10000 to exclude small land cover changes
+# Set change_only to FALSE to include all land cover categories
+create_sankey(crosstab_result_abbreviated,
+              area_cutoff = 10000, 
+              change_only = FALSE)
+
 ```
 ![image](https://github.com/icraf-indonesia/LUMENSR/assets/14798903/b01d5d42-fa5d-44a5-ae29-eb80f5401bb3)
 
