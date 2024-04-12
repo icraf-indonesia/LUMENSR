@@ -15,47 +15,58 @@ engine: knitr
 
 ```{r include=FALSE}
 # Load required libraries
-library(magrittr)
 library(LUMENSR)
 
 # Prepare a lookup table by abbreviating column 'PL20' in the predefined table 'lc_lookup_klhk_sequence'
+# This step simplifies the legend labels for better visualization
 lookup_tbl <- lc_lookup_klhk_sequence %>% abbreviate_by_column(col_names = "PL20")
+
+# Define the area of interest for the analysis
+aoi <- "Nusa Tenggara Timur"
 
 # Load the land cover data for period 1990 from the provided example data set in LUMENSR package
 # Convert the loaded data to a raster using terra::rast()
 # Add a legend to the categorical raster using the lookup table created earlier
+t1 <- 1990
 lc_t1_ <- LUMENSR_example("NTT_LC90.tif") %>%
   terra::rast() %>%
   add_legend_to_categorical_raster(
     raster_file = .,
-    lookup_table = lookup_tbl
-  ) %>% 
-  assign_time_period(year_ = "1990")
+    lookup_table = lookup_tbl,
+    year = t1
+  )
 
-# Similarly, load the land cover data for period 2020 and add the legend
+# Similarly, load the land cover data for period 2020, convert it to a raster, and add the legend
+t2 <- 2020
 lc_t2_ <- LUMENSR_example("NTT_LC20.tif") %>%
   terra::rast() %>%
   add_legend_to_categorical_raster(
     raster_file = .,
-    lookup_table = lookup_tbl
-  ) %>% 
-  assign_time_period(year_ = "2020")
+    lookup_table = lookup_tbl,
+    year = t2
+  )
 
-# Load the planning unit data. Note that 'ntt_admin' must be defined somewhere earlier in the code.
+# Load the planning unit data and convert it to a raster
+# Note: 'ntt_admin' must be defined somewhere earlier in the code
 admin_z <- ntt_admin %>% rasterise_multipolygon()
 
 # Define the area cutoffs for landscape and planning unit level analysis
+# These cutoffs determine the minimum area required for a patch to be considered in the analysis
 cutoff_landscape <- 5000
 cutoff_pu <- 500
 
-# Define period
-# Define period
+# Extract the time information from the land cover rasters
 time_1 <- terra::time(lc_t1_)
 time_2 <- terra::time(lc_t2_)
-# Execute the 'ques_pre' function using the loaded land cover data for two periods, the planning unit data, 
-# and the defined cutoffs. This function will preprocess land cover data for visualization, calculation, 
-# and summarization and return a list of results.
-ques_pre_output <- ques_pre(lc_t1_, lc_t2_, admin_z, cutoff_landscape = cutoff_landscape, cutoff_pu = cutoff_pu, convert_to_Ha = TRUE)
+
+# Execute the 'ques_pre' function using the loaded land cover data for two periods, the planning unit data,
+# and the defined cutoffs. This function will preprocess land cover data for visualization, calculation,
+# and summarization and return a list of results. The 'convert_to_Ha' argument specifies whether to convert
+# the area measurements to hectares.
+ques_pre_output <- ques_pre(lc_t1_, lc_t2_, admin_z, 
+                            cutoff_landscape = cutoff_landscape, 
+                            cutoff_pu = cutoff_pu, 
+                            convert_to_Ha = TRUE)
 ```
 
 # Pendahuluan
